@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="mow-favicon.svg" type="image/svg+xml">
+<title>Directory — MOW NSW Members Portal (reference build)</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="styles.css?v=26">
+</head>
+<body data-active="connect.html" data-title="Member directory" data-crumb="Connect / Directory"
+      data-sub="Find member services near you, see them on the map, visit their website, and get in touch through the portal.">
+
+<div class="modal-overlay hide" id="infoModal">
+  <div class="modal">
+    <button class="close" data-modal-close aria-label="Close">&times;</button>
+    <div class="info-modal-body" id="infoModalBody"></div>
+  </div>
+</div>
+
+<div class="modal-overlay hide" id="contactModal">
+  <div class="modal">
+    <button class="close" data-modal-close aria-label="Close">&times;</button>
+    <div class="info-modal-body" id="contactModalBody"></div>
+  </div>
+</div>
+
+<div class="shell">
+
+  <div class="breadcrumb" style="margin-bottom:14px"><a href="connect.html">&larr; Back to Connect</a></div>
+  <p class="im-note" style="margin-bottom:16px">Reference build — service locations, distances and websites below are illustrative sample data, not a live member register. The map uses OpenStreetMap and needs an internet connection to load tiles.</p>
+
+  <div class="finder">
+    <div class="finder-panel">
+      <div class="field">
+        <label>Location</label>
+        <input type="text" id="locInput" placeholder="Suburb or town (e.g. Parramatta)">
+      </div>
+      <div class="field">
+        <label>Within</label>
+        <div class="radio-row" id="distRow">
+          <span class="pill-opt on" data-dist="0">Any distance</span>
+          <span class="pill-opt" data-dist="50">50 km</span>
+          <span class="pill-opt" data-dist="100">100 km</span>
+          <span class="pill-opt" data-dist="250">250 km</span>
+        </div>
+      </div>
+      <div class="field">
+        <label>Service type</label>
+        <div class="check-row" id="typeRow">
+          <span class="pill-opt" data-type="Meals">Meals</span>
+          <span class="pill-opt" data-type="Social support">Social support</span>
+          <span class="pill-opt" data-type="CHSP">CHSP</span>
+        </div>
+      </div>
+      <div class="finder-count" id="finderCount"></div>
+      <div class="result-list" id="resultList"></div>
+    </div>
+
+    <div id="mapWrap">
+      <div id="map"></div>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="portal.js?v=26"></script>
+<script>
+  (function () {
+    // ---- Sample service data (illustrative, not a real register) ----
+    var SUBURBS = {
+      "liverpool": [-33.92, 150.92], "sydney": [-33.87, 151.21], "parramatta": [-33.81, 151.00],
+      "penrith": [-33.75, 150.69], "newcastle": [-32.93, 151.78], "wollongong": [-34.42, 150.89],
+      "dubbo": [-32.25, 148.60], "wagga": [-35.11, 147.37], "wagga wagga": [-35.11, 147.37],
+      "coffs harbour": [-30.30, 153.11], "coffs": [-30.30, 153.11]
+    };
+    var ORIGIN_DEFAULT = SUBURBS.liverpool;
+
+    var SERVICES = [
+      { name: "Liverpool Meals on Wheels", region: "Sydney metro", lat: -33.92, lng: 150.92, types: ["Meals", "Social support", "CHSP"], site: "#" },
+      { name: "Parramatta Meals on Wheels", region: "Sydney metro", lat: -33.81, lng: 151.00, types: ["Meals", "CHSP"], site: "#" },
+      { name: "Penrith Meals on Wheels", region: "Greater Western Sydney", lat: -33.75, lng: 150.69, types: ["Meals", "Social support"], site: "#" },
+      { name: "Wollongong Meals on Wheels", region: "Illawarra", lat: -34.42, lng: 150.89, types: ["Social support"], site: "#" },
+      { name: "Newcastle Meals on Wheels", region: "Hunter", lat: -32.93, lng: 151.78, types: ["Meals", "CHSP"], site: "#" },
+      { name: "Dubbo Meals on Wheels", region: "Central West", lat: -32.25, lng: 148.60, types: ["Meals", "CHSP"], site: "#" },
+      { name: "Wagga Wagga Meals on Wheels", region: "Riverina", lat: -35.11, lng: 147.37, types: ["Social support", "CHSP"], site: "#" },
+      { name: "Coffs Harbour Meals on Wheels", region: "Mid North Coast", lat: -30.30, lng: 153.11, types: ["Meals", "CHSP"], site: "#" }
+    ];
+
+    var origin = ORIGIN_DEFAULT;
+    var maxDist = 0;      // 0 = any
+    var activeTypes = []; // empty = all
+    var listEl = document.getElementById("resultList");
+    var countEl = document.getElementById("finderCount");
+
+    function haversine(a, b) {
+      var R = 6371, dLat = (b[0] - a[0]) * Math.PI / 180, dLng = (b[1] - a[1]) * Math.PI / 180;
+      var s = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(a[0] * Math.PI / 180) * Math.cos(b[0] * Math.PI / 180) * Math.sin(dLng / 2) * Math.sin(dLng / 2);
+      return Math.round(2 * R * Math.asin(Math.sqrt(s)));
+    }
+    function esc(s) { return (s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+    function initials(n) { return n.split(" ").filter(Boolean).slice(0, 2).map(function (w) { return w[0]; }).join("").toUpperCase(); }
+
+    // ---- Map (Leaflet + OSM), with fallback if the library/tiles don't load ----
+    var map = null, markers = {};
+    if (window.L) {
+      map = L.map("map").setView([-32.5, 150.5], 6);
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 18, attribution: "&copy; OpenStreetMap contributors"
+      }).addTo(map);
+      SERVICES.forEach(function (s) {
+        var m = L.marker([s.lat, s.lng]).addTo(map);
+        m.bindPopup("<strong>" + esc(s.name) + "</strong><br>" + esc(s.region));
+        markers[s.name] = m;
+      });
+    } else {
+      document.getElementById("mapWrap").innerHTML =
+        '<div class="map-fallback">The interactive map couldn\'t load (it needs an internet connection for OpenStreetMap). The service list on the left still works.</div>';
+    }
+
+    function focusService(s) {
+      if (map && markers[s.name]) { map.setView([s.lat, s.lng], 11); markers[s.name].openPopup(); }
+      document.querySelectorAll(".result-card").forEach(function (c) { c.classList.toggle("active", c.getAttribute("data-name") === s.name); });
+    }
+
+    function render() {
+      var rows = SERVICES.map(function (s) { return { s: s, d: haversine(origin, [s.lat, s.lng]) }; });
+      rows = rows.filter(function (r) {
+        var okDist = !maxDist || r.d <= maxDist;
+        var okType = !activeTypes.length || activeTypes.every(function (t) { return r.s.types.indexOf(t) !== -1; });
+        return okDist && okType;
+      });
+      rows.sort(function (a, b) { return a.d - b.d; });
+
+      countEl.textContent = rows.length + " service" + (rows.length === 1 ? "" : "s") + " found";
+      listEl.innerHTML = "";
+      rows.forEach(function (r) {
+        var s = r.s;
+        var card = document.createElement("div");
+        card.className = "result-card";
+        card.setAttribute("data-name", s.name);
+        var tags = s.types.map(function (t) { return '<span class="tag neutral">' + t + "</span>"; }).join("");
+        card.innerHTML =
+          '<div class="rc-name">' + esc(s.name) + "</div>" +
+          '<div class="rc-region">' + esc(s.region) + ' · <span class="rc-dist">' + r.d + " km away</span></div>" +
+          '<div class="rc-tags">' + tags + "</div>" +
+          '<div class="rc-actions">' +
+            '<a href="' + s.site + '" target="_blank" rel="noopener">Visit website</a>' +
+            '<button class="rc-primary" data-contact="' + esc(s.name) + '">Contact via portal</button>' +
+          "</div>";
+        card.addEventListener("click", function (e) { if (!e.target.closest("button,a")) focusService(s); });
+        listEl.appendChild(card);
+      });
+    }
+
+    // ---- Filters ----
+    document.getElementById("distRow").addEventListener("click", function (e) {
+      var p = e.target.closest(".pill-opt"); if (!p) return;
+      this.querySelectorAll(".pill-opt").forEach(function (x) { x.classList.remove("on"); });
+      p.classList.add("on"); maxDist = parseInt(p.getAttribute("data-dist"), 10); render();
+    });
+    document.getElementById("typeRow").addEventListener("click", function (e) {
+      var p = e.target.closest(".pill-opt"); if (!p) return;
+      p.classList.toggle("on");
+      activeTypes = [].slice.call(this.querySelectorAll(".pill-opt.on")).map(function (x) { return x.getAttribute("data-type"); });
+      render();
+    });
+    document.getElementById("locInput").addEventListener("input", function () {
+      var v = this.value.trim().toLowerCase();
+      if (SUBURBS[v]) { origin = SUBURBS[v]; if (map) map.setView(origin, 9); }
+      else if (!v) { origin = ORIGIN_DEFAULT; }
+      render();
+    });
+
+    // ---- Contact-via-portal modal ----
+    var cModal = document.getElementById("contactModal");
+    var cBody = document.getElementById("contactModalBody");
+    listEl.addEventListener("click", function (e) {
+      var btn = e.target.closest("[data-contact]"); if (!btn) return;
+      var who = btn.getAttribute("data-contact");
+      cBody.innerHTML =
+        "<h2>Contact " + esc(who) + "</h2>" +
+        '<p class="im-meta" style="font-size:12px;color:var(--muted);margin:0 0 12px">Message this service through the portal. In this reference build nothing is actually sent.</p>' +
+        '<form id="cForm"><div class="field"><label>To</label><input type="text" value="' + esc(who) + '" readonly></div>' +
+        '<div class="field"><label>Your message</label><textarea style="min-height:100px" placeholder="Introduce your service and what you\'d like to ask" required></textarea></div>' +
+        '<button class="btn-primary" type="submit">Send message</button></form>' +
+        '<div class="announce-thanks hide" id="cThanks">Sent — ' + esc(who) + " will receive your message in their portal inbox.</div>";
+      cModal.classList.remove("hide");
+      document.getElementById("cForm").addEventListener("submit", function (ev) {
+        ev.preventDefault();
+        document.getElementById("cForm").classList.add("hide");
+        document.getElementById("cThanks").classList.remove("hide");
+      });
+    });
+    cModal.querySelectorAll("[data-modal-close]").forEach(function (b) { b.addEventListener("click", function () { cModal.classList.add("hide"); }); });
+    cModal.addEventListener("click", function (e) { if (e.target === cModal) cModal.classList.add("hide"); });
+
+    render();
+  })();
+</script>
+</body>
+</html>

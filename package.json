@@ -1,0 +1,9 @@
+{
+  "name": "mow-nsw-members-portal-reference",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Static HTML/CSS/JS reference build of the MOW NSW Members Portal for Kentico implementation.",
+  "scripts": {
+    "start": "npx serve . -l 8000"
+  }
+}

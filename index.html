@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="mow-favicon.svg" type="image/svg+xml">
+<title>Member Hub — MOW NSW Members Portal (reference build)</title>
+<link rel="stylesheet" href="styles.css?v=26">
+</head>
+<body data-active="index.html" data-title="Welcome back, Jane" data-crumb=""
+      data-sub="Your home for everything you need to run and grow your service, from resources and templates through to sector news and support."
+      data-search="Search resources, templates, guides">
+
+<div class="modal-overlay" id="onboardModal">
+  <div class="modal">
+    <button class="close" id="modalClose" aria-label="Close">&times;</button>
+    <h2>Welcome to the Member Hub</h2>
+    <p>This brings together what used to be scattered across email and PDFs, all in one place. Built for your service and your team.</p>
+    <ul>
+      <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Resources for governance, funding, HR and compliance</li>
+      <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>News so you're never caught off guard by a funding or policy change</li>
+      <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Learning to build skills across your team</li>
+      <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Brand assets and campaign kits for local fundraising and promotion, in Resources</li>
+      <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>A way to connect with other Meals on Wheels services and your Network Support Officer</li>
+    </ul>
+    <button class="btn-primary" id="modalGotIt">Got it, thanks</button>
+  </div>
+</div>
+
+<div class="shell">
+
+  <a class="alert" href="resources.html?open=sah-reporting" style="text-decoration:none" data-hero-aside>
+    <span class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
+    <div class="txt">
+      <div class="t">Action required: Support at Home reporting update</div>
+      <div class="d">Due 18 July 2026 · Resources</div>
+    </div>
+    <span class="cta">View</span>
+  </a>
+
+  <div class="masonry">
+
+    <div class="mcard" id="quickfind">
+      <div class="mcard-head"><span class="mi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg></span><h2>Find it fast</h2></div>
+      <div class="quick-grid">
+        <a class="quick-item" href="resources.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7v13h18V7"/><path d="M3 7l9-4 9 4"/></svg><span>Find a resource</span></a>
+        <a class="quick-item" href="news.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><span>See what's changed</span></a>
+        <a class="quick-item" href="myservice.html#profile"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg><span>Update your data</span></a>
+        <a class="quick-item" href="news.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg><span>Make an announcement</span></a>
+        <a class="quick-item" href="connect.html#discussion"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Start a conversation</span></a>
+        <a class="quick-item" href="support.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z"/><path d="M9.5 9a2.5 2.5 0 0 1 5 0c0 1.5-2.5 2-2.5 3.5"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span>Ask for support</span></a>
+      </div>
+    </div>
+
+    <div class="mcard snapshot">
+      <div class="mcard-head"><span class="mi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18.7 8l-5.3 5.3-4-4L3 15.7"/></svg></span><h2>Sector snapshot</h2></div>
+      <p>The Senate Community Affairs Committee has recommended CHSP be retained separately from Support at Home, with funding extended by three years. Claudia is quoted four times in the report.</p>
+      <div class="stat-row">
+        <div class="stat"><div class="n">130+</div><div class="l">Member services</div></div>
+        <div class="stat"><div class="n">3 yrs</div><div class="l">Funding extension sought</div></div>
+      </div>
+      <a class="link" href="news.html">Read the full advocacy update &rarr;</a>
+    </div>
+
+    <div class="mcard" id="mostused">
+      <div class="mcard-head"><span class="mi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span><h2>Most used resources</h2><span class="count">4</span></div>
+      <a class="row" href="resources.html?open=police-check"><span class="rt">Police check guidance<div class="meta">Resources · v2.1 · Updated Jun 2026</div></span></a>
+      <a class="row" href="resources.html?open=agm-templates"><span class="rt">AGM document templates<div class="meta">Resources · v3.0 · Updated Mar 2026</div></span></a>
+      <a class="row" href="resources.html?open=sah-reporting"><span class="rt">Support at Home overview<div class="meta">Resources · v1.4 · Updated Jul 2026</div></span></a>
+      <a class="row" href="news.html"><span class="rt">Weekly Windup — latest edition<div class="meta">News · Posted 4 Jul 2026</div></span></a>
+    </div>
+
+    <div class="mcard training-card">
+      <div class="mcard-head"><span class="mi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/></svg></span><h2>Upcoming training</h2></div>
+      <div class="thumb"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
+      <div class="tdate">Wed 22 July, 2:00pm</div>
+      <div class="ttitle">APD annual meal review: what's required</div>
+      <div class="tdesc">A 40-minute walkthrough of the new mandatory review under the Aged Care Act 2024.</div>
+      <div style="display:flex;gap:10px">
+        <a class="tcta" href="learning.html#upcoming">Register</a>
+        <a class="tcta" href="learning.html#upcoming">View all</a>
+      </div>
+    </div>
+
+    <div class="mcard" id="whatsnew">
+      <div class="mcard-head"><span class="mi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span><h2>What's new this week</h2></div>
+      <a class="row" href="marketing.html?open=mkt-campaign-cuppa"><span class="rt">Cuppa for a Cause campaign kit now available<div class="meta">Marketing · Posted 1 Jul 2026</div></span><span class="tag ok">New</span></a>
+      <a class="row" href="connect.html?open=consult-nmds"><span class="rt">Have Your Say: National Minimum Data Set consultation<div class="meta">Connect · Closes 12 Jul 2026</div></span><span class="tag warn">Closing soon</span></a>
+      <a class="row" href="resources.html?open=police-check"><span class="rt">Police check guidance updated to v2.1<div class="meta">Resources · Posted 2 Jul 2026</div></span><span class="tag neutral">Updated</span></a>
+    </div>
+
+    <div class="mcard" id="deadlines">
+      <div class="mcard-head"><span class="mi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span><h2>Deadlines</h2></div>
+      <a class="deadline-row" href="resources.html?open=sah-reporting" style="text-decoration:none;color:inherit"><span class="dt">Support at Home reporting</span><span class="dd due">18 Jul 2026</span></a>
+      <a class="deadline-row" href="resources.html?open=grant-acquittal" style="text-decoration:none;color:inherit"><span class="dt">Grant acquittal</span><span class="dd ok">2 Aug 2026</span></a>
+      <a class="deadline-row" href="myservice.html#renewal" style="text-decoration:none;color:inherit"><span class="dt">AGM lodgement</span><span class="dd ok">30 Sep 2026</span></a>
+    </div>
+
+    <div class="mcard">
+      <div class="mcard-head"><span class="mi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span><h2>Your NSO</h2></div>
+      <div class="nso-row"><span class="navatar">SN</span><div><div class="nn">Sarah Nguyen</div><div class="nr">Network Support Officer</div></div></div>
+      <a class="nso-cta" href="support.html">Contact Sarah</a>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  (function () {
+    var modal = document.getElementById("onboardModal");
+    function closeModal() { modal.classList.add("hide"); }
+    document.getElementById("modalClose").addEventListener("click", closeModal);
+    document.getElementById("modalGotIt").addEventListener("click", closeModal);
+    modal.addEventListener("click", function (e) { if (e.target === modal) closeModal(); });
+  })();
+</script>
+<script src="portal.js?v=26"></script>
+
+</body>
+</html>

@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="mow-favicon.svg" type="image/svg+xml">
+<title>Connect — MOW NSW Members Portal (reference build)</title>
+<link rel="stylesheet" href="styles.css?v=26">
+</head>
+<body data-active="connect.html" data-title="Connect" data-crumb="Connect"
+      data-sub="Two-way engagement: find other services, have your say on what MOW NSW advocates for, and join the conversation."
+      data-search="Search consultations, services, threads">
+
+<div class="modal-overlay hide" id="consultModal">
+  <div class="modal modal-wide">
+    <button class="close" data-modal-close aria-label="Close">&times;</button>
+    <div class="consult-layout">
+      <div class="consult-pane-left" id="consultPaperPane"></div>
+      <div class="consult-pane-right">
+        <div class="consult-fields-head">Your response</div>
+        <form id="consultForm"></form>
+        <div class="consult-thanks hide" id="consultThanks">Thanks — your response has been recorded. In the finished build this feeds into MOW NSW's summary for this item.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay hide" id="discussionModal">
+  <div class="modal">
+    <button class="close" data-modal-close aria-label="Close">&times;</button>
+    <div class="info-modal-body" id="discussionModalBody"></div>
+  </div>
+</div>
+
+<div class="shell">
+
+  <div class="tabs" data-cat-tabs>
+    <a class="tab" href="#overview" data-cat="overview">Overview</a>
+    <a class="tab active" href="#haveyoursay" data-cat="haveyoursay">Consultations and surveys</a>
+    <a class="tab" href="#discussion" data-cat="discussion">Discussions</a>
+    <a class="tab" href="#communities" data-cat="communities">Communities of practice</a>
+    <a class="tab" href="#escalated" data-cat="escalated">Escalated Issues</a>
+  </div>
+
+  <div data-cat-section="overview">
+    <div class="section-title"><h2>Overview</h2><span class="desc">Find and connect with other services, and have a say in what MOW NSW advocates for</span></div>
+
+    <div class="section-title" style="margin-top:0"><h2 style="font-size:17px">What's new</h2></div>
+    <div class="mcard" style="max-width:none;margin-bottom:20px">
+      <a class="row" href="connect.html?open=consult-nmds"><span class="rt">National Minimum Data Set consultation<div class="meta">Have Your Say · Five minute survey</div></span><span class="tag warn">Closing soon</span></a>
+      <a class="row" href="#discussion" data-cat="discussion"><span class="rt">Anyone else seen delays with My Aged Care referrals this month?<div class="meta">Priya Nair from Wagga Wagga Meals on Wheels · 2 days ago · 2 replies</div></span><span class="tag neutral">Latest discussion</span></a>
+      <a class="row" href="#escalated" data-cat="escalated"><span class="rt">3 escalated issues in progress<div class="meta">Referral delays, WWCC guidance, fuel cost pressure</div></span><span class="tag warn">In progress</span></a>
+    </div>
+
+    <div class="quick-grid" style="grid-template-columns:repeat(3,1fr); margin-bottom:20px">
+      <a class="quick-item" href="directory.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3L3 6v15l6-3 6 3 6-3V3l-6 3-6-3z"/><path d="M9 3v15M15 6v15"/></svg><span>Member directory</span></a>
+      <a class="quick-item" href="#haveyoursay" data-cat="haveyoursay"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg><span>Consultations and surveys</span></a>
+      <a class="quick-item" href="#discussion" data-cat="discussion"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Discussions</span></a>
+      <a class="quick-item" href="#communities" data-cat="communities"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Communities of practice</span></a>
+      <a class="quick-item" href="#escalated" data-cat="escalated"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span>Escalated Issues</span></a>
+    </div>
+    <div class="dir-teaser">
+      <div class="dt-left">
+        <div class="dt-map"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3L3 6v15l6-3 6 3 6-3V3l-6 3-6-3z"/><path d="M9 3v15M15 6v15"/></svg></div>
+        <div>
+          <h3>Member directory &amp; map</h3>
+          <p>Search 130+ member services by location and distance, see them on an interactive map, visit their website, and get in touch through the portal.</p>
+        </div>
+      </div>
+      <a class="btn-primary" href="directory.html">Open the directory &rarr;</a>
+    </div>
+  </div>
+
+  <div data-cat-section="haveyoursay">
+  <div class="section-title" id="haveyoursay"><h2>Have Your Say</h2><span class="desc">Open consultations and surveys — click one to read the paper, comment inline like a Word review, and respond</span></div>
+  <div class="mcard" style="max-width:none">
+    <div class="row" data-consult data-consult-id="consult-nmds" tabindex="0" role="button">
+      <span class="rt">National Minimum Data Set consultation<div class="meta">Five minute survey · closes 12 Jul 2026</div></span>
+      <span class="tag warn">Closing soon</span>
+      <template class="consult-paper">
+        <h3>National Minimum Data Set consultation</h3>
+        <p class="im-meta">Survey · Closes 12 Jul 2026</p>
+        <p>The Department is proposing a National Minimum Data Set (NMDS) for community aged care, aimed at giving a consistent national picture of who's being supported and what services they receive.</p>
+        <p>The proposal would require services to report a small set of standard client demographic and service-use fields, in addition to existing CHSP and Support at Home reporting. MOW NSW is preparing a sector submission and wants member input before responding.</p>
+        <p>Key questions the consultation is asking:</p>
+        <p>1. Would the proposed fields duplicate data you already report elsewhere?<br>
+        2. What's the practical burden of adding these fields to your current systems?<br>
+        3. Are there fields that would be genuinely useful for your own service planning, not just national reporting?</p>
+        <p>MOW NSW's preliminary view is that the intent is reasonable but the implementation timeline (six weeks from final sign-off) is too tight for smaller services without paid admin staff. Your response below feeds directly into the sector submission.</p>
+        <p class="im-note">Reference build placeholder text, written to demonstrate the scrollable paper layout — not the real consultation wording. Confirm actual content with MOW NSW policy/advocacy before this goes live.</p>
+      </template>
+      <template class="consult-fields">
+        <div class="field"><label>Your name</label><input type="text" placeholder="Full name" value="Jane Smith"></div>
+        <div class="field"><label>Service</label><input type="text" value="Liverpool Meals on Wheels" readonly></div>
+        <div class="field"><label>Would the proposed fields duplicate data you already report?</label><select><option>Choose an answer</option><option>Yes, mostly duplicate</option><option>Partly duplicate</option><option>No, this is new data for us</option></select></div>
+        <div class="field"><label>Your response</label><textarea placeholder="Your comments on the proposal, timeline or specific fields"></textarea></div>
+        <div class="field consult-attach"><label>Attach a file <span style="font-weight:400">(optional)</span></label><input type="file" multiple><div class="hint">Attach a marked-up copy, a data sample or supporting evidence. PDF, Word or Excel, up to 10MB each.</div></div>
+        <button class="btn-primary" type="submit">Submit response</button>
+      </template>
+    </div>
+    <div class="row" data-consult data-consult-id="consult-newsletter" tabindex="0" role="button">
+      <span class="rt">Feedback: proposed changes to the Marketing Updates newsletter<div class="meta">Closes 30 Jul 2026</div></span>
+      <span class="tag neutral">Open</span>
+      <template class="consult-paper">
+        <h3>Proposed changes to the Marketing Updates newsletter</h3>
+        <p class="im-meta">Newsletter feedback · Closes 30 Jul 2026</p>
+        <p>MOW NSW is considering moving the Marketing Updates newsletter from monthly to fortnightly, and splitting it into two streams: a short "need to know" alert email, and a longer monthly digest with campaign kits, brand assets and success stories.</p>
+        <p>The aim is to make the urgent, time-sensitive items (funding deadlines, reform updates) easier to spot without them getting lost in a long monthly email alongside brand and campaign content.</p>
+        <p>What we'd like your feedback on:</p>
+        <p>1. Whether a shorter, more frequent "need to know" email would actually get read, or add to inbox fatigue<br>
+        2. Whether splitting brand/campaign content into a separate monthly digest makes it easier or harder to find<br>
+        3. Any format or channel you'd prefer instead (e.g. an SMS alert for genuinely urgent items only)</p>
+        <p class="im-note">Reference build placeholder text, written to demonstrate the scrollable paper layout — not final newsletter strategy content.</p>
+      </template>
+      <template class="consult-fields">
+        <div class="field"><label>Your name</label><input type="text" placeholder="Full name" value="Jane Smith"></div>
+        <div class="field"><label>Service</label><input type="text" value="Liverpool Meals on Wheels" readonly></div>
+        <div class="field"><label>Preferred format</label><select><option>Choose an answer</option><option>Keep monthly, one email</option><option>Split: fortnightly alert + monthly digest</option><option>Something else (say more below)</option></select></div>
+        <div class="field"><label>Your response</label><textarea placeholder="Your comments on the proposed change"></textarea></div>
+        <div class="field consult-attach"><label>Attach a file <span style="font-weight:400">(optional)</span></label><input type="file" multiple><div class="hint">Attach a marked-up copy or supporting document, up to 10MB each.</div></div>
+        <button class="btn-primary" type="submit">Submit response</button>
+      </template>
+    </div>
+  </div>
+  </div>
+
+  <div data-cat-section="communities">
+  <div class="section-title" id="communities"><h2>Communities of practice</h2></div>
+  <div class="res-grid">
+    <div class="res-card" data-consult data-consult-id="community-vcn" tabindex="0" role="button">
+      <p class="rtitle">Volunteer Coordinators Network</p>
+      <p class="rdesc">A peer group of 40+ volunteer coordinators sharing recruitment and retention approaches.</p>
+      <template class="consult-paper">
+        <h3>Volunteer Coordinators Network</h3>
+        <p class="im-meta">Community of practice · 40+ members</p>
+        <p>A peer group for anyone who recruits, inducts or manages volunteers at their service. Meets online monthly, plus an active discussion thread for quick questions between sessions.</p>
+        <p>Recent topics have included: police check turnaround times, retention strategies for regional services, and how services are handling the new WWCC requirements for under-18 volunteers in some roles.</p>
+        <p>Membership is open to any MOW NSW member service — there's no cost, just an expectation that you contribute as well as ask.</p>
+        <p class="im-note">Reference build placeholder — join requests aren't wired up to a real membership list yet.</p>
+      </template>
+      <template class="consult-fields">
+        <div class="field"><label>Your name</label><input type="text" placeholder="Full name" value="Jane Smith"></div>
+        <div class="field"><label>Service</label><input type="text" value="Liverpool Meals on Wheels" readonly></div>
+        <div class="field"><label>Message (optional)</label><textarea placeholder="Anything you'd like the group coordinator to know"></textarea></div>
+        <button class="btn-primary" type="submit">Request to join</button>
+      </template>
+    </div>
+    <div class="res-card" data-consult data-consult-id="community-rrsf" tabindex="0" role="button">
+      <p class="rtitle">Rural &amp; Regional Services Forum</p>
+      <p class="rdesc">Focused on the specific challenges of delivering meals across large, low-density areas.</p>
+      <template class="consult-paper">
+        <h3>Rural &amp; Regional Services Forum</h3>
+        <p class="im-meta">Community of practice</p>
+        <p>For services covering large, low-density areas where delivery distance, volunteer driver availability and fuel cost are the main operational pressures — rather than the metro-style challenges of higher client density.</p>
+        <p>Recent discussion has covered: shared delivery routes between neighbouring services, regional volunteer driver shortages, and advocacy asks specific to rural funding models.</p>
+        <p class="im-note">Reference build placeholder — join requests aren't wired up to a real membership list yet.</p>
+      </template>
+      <template class="consult-fields">
+        <div class="field"><label>Your name</label><input type="text" placeholder="Full name" value="Jane Smith"></div>
+        <div class="field"><label>Service</label><input type="text" value="Liverpool Meals on Wheels" readonly></div>
+        <div class="field"><label>Message (optional)</label><textarea placeholder="Anything you'd like the group coordinator to know"></textarea></div>
+        <button class="btn-primary" type="submit">Request to join</button>
+      </template>
+    </div>
+  </div>
+  </div>
+
+  <div data-cat-section="discussion">
+  <div class="section-title" id="discussion"><h2>Discussions</h2><span class="desc">Ask peers, share ideas — click a thread to open it. Type @ to tag a member or MOW NSW staff member</span></div>
+  <div style="margin-bottom:14px"><button class="btn-primary" id="newThreadBtn" type="button">+ Start a discussion</button></div>
+  <div class="thread-list" id="threadList"></div>
+  </div>
+
+  <div data-cat-section="escalated">
+    <div class="section-title" id="escalated"><h2>Escalated Issues</h2><span class="desc">Ongoing issues MOW NSW is pursuing on your behalf, and a place to raise a new one</span></div>
+    <div class="two-col-layout">
+    <div class="ec-left">
+    <div class="mcard" style="max-width:none">
+      <div class="row" data-popup="issue-referral-delays" data-commentable data-comment-key="issue-referral-delays" data-comment-label="Member comments — has this affected your service too?" data-comment-placeholder="Share what you're seeing">
+        <span class="rt">My Aged Care referral processing delays<div class="meta">Raised by multiple regional services · Escalated to the department, awaiting response</div></span><span class="tag warn">In progress</span>
+        <template class="popup-content">
+          <h2>My Aged Care referral processing delays</h2>
+          <p class="im-meta">Raised by multiple regional services · In progress</p>
+          <p>Several regional services have reported My Aged Care referrals sitting unactioned for over a fortnight, longer than the department's stated turnaround. MOW NSW has escalated this directly with the My Aged Care liaison team.</p>
+          <p class="im-meta" style="margin-top:6px">Position papers</p>
+          <ul><li>MOW NSW briefing note: "Referral processing delays — regional service impact" (Jul 2026)</li></ul>
+          <p class="im-meta" style="margin-top:6px">Media</p>
+          <ul><li>No media coverage yet — being handled directly with the department</li></ul>
+          <p class="im-meta" style="margin-top:6px">Update from Claudia</p>
+          <p style="background:var(--surface-tint);border-radius:var(--radius-sm);padding:10px 12px">"We've raised this formally and expect a response within two weeks. Keep flagging specific referral reference numbers to your NSO — it strengthens our case." — Claudia, CEO</p>
+          <p class="im-note">Reference build placeholder — illustrative example only.</p>
+        </template>
+      </div>
+      <div class="row" data-popup="issue-wwcc" data-commentable data-comment-key="issue-wwcc" data-comment-label="Member comments" data-comment-placeholder="Add a comment">
+        <span class="rt">WWCC requirements inconsistently applied for under-18 volunteers<div class="meta">Raised via Volunteer Coordinators Network · Seeking clarification from NSW Government</div></span><span class="tag warn">In progress</span>
+        <template class="popup-content">
+          <h2>WWCC requirements inconsistently applied for under-18 volunteers</h2>
+          <p class="im-meta">Raised via Volunteer Coordinators Network · In progress</p>
+          <p>Services are getting different guidance from different regional offices on whether a Working With Children Check is required for under-18 volunteers on delivery runs. MOW NSW is seeking a single, consistent answer from NSW Government.</p>
+          <p class="im-meta" style="margin-top:6px">Position papers</p>
+          <ul><li>Draft position: "Consistent WWCC guidance for youth volunteering" (in preparation)</li></ul>
+          <p class="im-meta" style="margin-top:6px">Media</p>
+          <ul><li>None</li></ul>
+          <p class="im-meta" style="margin-top:6px">Update from Claudia</p>
+          <p style="background:var(--surface-tint);border-radius:var(--radius-sm);padding:10px 12px">"This came up repeatedly in the Volunteer Coordinators Network — we've asked the Office of the Children's Guardian for a single, written answer we can circulate to every service." — Claudia, CEO</p>
+          <p class="im-note">Reference build placeholder — illustrative example only.</p>
+        </template>
+      </div>
+      <div class="row" data-popup="issue-fuel-cost" data-commentable data-comment-key="issue-fuel-cost" data-comment-label="Member comments" data-comment-placeholder="Add a comment">
+        <span class="rt">Fuel cost pressure on rural delivery routes<div class="meta">Raised via Rural &amp; Regional Services Forum · Included in Advocacy priorities</div></span><span class="tag neutral">Monitoring</span>
+        <template class="popup-content">
+          <h2>Fuel cost pressure on rural delivery routes</h2>
+          <p class="im-meta">Raised via Rural &amp; Regional Services Forum · Monitoring</p>
+          <p>Rural and regional services are absorbing rising fuel costs across long, low-density delivery routes. This is now folded into MOW NSW's broader funding-model advocacy rather than being pursued as a standalone issue.</p>
+          <p class="im-meta" style="margin-top:6px">Position papers</p>
+          <ul><li>See Advocacy priorities — "Funding and reporting models for rural and regional services"</li></ul>
+          <p class="im-meta" style="margin-top:6px">Media</p>
+          <ul><li>None yet</li></ul>
+          <p class="im-meta" style="margin-top:6px">Update from Claudia</p>
+          <p style="background:var(--surface-tint);border-radius:var(--radius-sm);padding:10px 12px">"We're building the fuel cost data into our next pre-budget submission — the more real numbers services can share, the stronger that case." — Claudia, CEO</p>
+          <p class="im-note">Reference build placeholder — illustrative example only.</p>
+        </template>
+      </div>
+      <div class="row" data-popup="issue-chsp-outage">
+        <span class="rt">CHSP portal reporting outage, 14–16 June<div class="meta">Raised by several services · Resolved, root cause confirmed with vendor</div></span><span class="tag ok">Resolved</span>
+        <template class="popup-content">
+          <h2>CHSP portal reporting outage, 14–16 June</h2>
+          <p class="im-meta">Raised by several services · Resolved</p>
+          <p>The CHSP reporting portal was unavailable for roughly 48 hours in mid-June. MOW NSW confirmed the root cause with the software vendor and no service was penalised for the resulting late submissions.</p>
+          <p class="im-meta" style="margin-top:6px">Position papers</p>
+          <ul><li>None required — resolved directly with the vendor</li></ul>
+          <p class="im-meta" style="margin-top:6px">Media</p>
+          <ul><li>None</li></ul>
+          <p class="im-meta" style="margin-top:6px">Update from Claudia</p>
+          <p style="background:var(--surface-tint);border-radius:var(--radius-sm);padding:10px 12px">"Confirmed with the department that no service will be penalised for the outage window — if you were affected and haven't heard this, let your NSO know." — Claudia, CEO</p>
+          <p class="im-note">Reference build placeholder — illustrative example only. Resolved issues are closed for comment.</p>
+        </template>
+      </div>
+    </div>
+    <p class="im-note" style="margin-top:14px">Reference build placeholder — see something that should be on this list? Raise it below and your NSO can help escalate it.</p>
+    </div>
+
+    <div class="ec-right">
+      <div class="mcard" style="max-width:none">
+        <div class="mcard-head" style="margin-bottom:10px"><h2 style="font-size:17px;margin:0">Raise an issue — Member Voice</h2></div>
+        <p style="font-size:13px;color:var(--muted);margin:0 0 14px">Tell us what's going on. Issues raised here are reviewed weekly and may be added to the list on the left.</p>
+        <form id="voiceForm">
+          <div class="field"><label>Issue <span class="tag warn" style="padding:2px 7px">Required</span></label><input type="text" id="vIssue" placeholder="Short title, e.g. Delays with My Aged Care referrals" required></div>
+          <div class="field"><label>Description <span class="tag warn" style="padding:2px 7px">Required</span></label><textarea id="vDesc" placeholder="What's happening?" required style="min-height:80px"></textarea></div>
+          <div class="field-row">
+            <div class="field"><label>Category <span class="tag warn" style="padding:2px 7px">Required</span></label>
+              <select id="vCategory" required>
+                <option value="">Choose a category</option>
+                <option>Funding</option><option>Workforce</option><option>Service Delivery</option>
+                <option>Compliance &amp; Regulation</option><option>Aged Care Reform</option><option>Transport</option>
+                <option>Volunteers</option><option>Digital Systems</option><option>Health &amp; Clinical</option>
+                <option>Procurement</option><option>Government Policy</option><option>Media &amp; Public Perception</option><option>Other</option>
+              </select>
+            </div>
+            <div class="field"><label>Impact <span class="tag warn" style="padding:2px 7px">Required</span></label><input type="text" id="vImpact" placeholder="e.g. Delayed client intakes" required></div>
+          </div>
+          <div class="field"><label>Who is affected <span class="tag warn" style="padding:2px 7px">Required</span></label><input type="text" id="vAffected" placeholder="e.g. Regional services, new clients awaiting intake" required></div>
+
+          <div class="field"><label>Suggested solution <span style="font-weight:400">(optional)</span></label><textarea id="vSolution" placeholder="Any practical recommendation you have" style="min-height:60px"></textarea></div>
+          <div class="field"><label>Supporting evidence <span style="font-weight:400">(optional)</span></label><input type="file" id="vEvidence" multiple><div class="hint">Documents, photos, letters or media articles</div></div>
+          <div class="field"><label>Has this been raised elsewhere? <span style="font-weight:400">(optional)</span></label><input type="text" id="vElsewhere" placeholder="e.g. Government department, MP, council, peak body"></div>
+
+          <div class="field-row">
+            <div class="field"><label>Contact person</label><input type="text" value="Jane Smith, Liverpool Meals on Wheels" readonly></div>
+            <div class="field"><label>Email &amp; phone</label><input type="text" value="admin@liverpoolmow.org.au · (02) 9800 1234" readonly></div>
+          </div>
+          <div class="field">
+            <label style="display:flex; align-items:center; gap:8px; font-weight:400"><input type="checkbox" id="vPermContact"> Permission to contact — allow the advocacy team to discuss this further</label>
+            <label style="display:flex; align-items:center; gap:8px; font-weight:400; margin-top:8px"><input type="checkbox" id="vPermAnon"> Permission to use anonymously — allow this as a case study while protecting my identity</label>
+          </div>
+          <button class="btn-primary" type="submit">Submit to Member Voice</button>
+        </form>
+        <div class="suggest-thanks hide" id="voiceThanks">Thanks — that's been logged in Member Voice and may be escalated by the advocacy team. Reference build, nothing is actually sent.</div>
+      </div>
+    </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="portal.js?v=26"></script>
+<script>
+  /* ---------- Consultations (two-pane popup) ---------- */
+  (function () {
+    var modal = document.getElementById("consultModal");
+    var paperPane = document.getElementById("consultPaperPane");
+    var form = document.getElementById("consultForm");
+    var thanks = document.getElementById("consultThanks");
+    var ME = "Liverpool Meals on Wheels";
+    var CKEY = "mow_paper_comments_v1";
+
+    function esc(s) { return (s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+    function loadComments() { try { var s = JSON.parse(localStorage.getItem(CKEY)); if (s) return s; } catch (e) {} return {}; }
+    function saveComments(all) { try { localStorage.setItem(CKEY, JSON.stringify(all)); } catch (e) {} }
+
+    // Word-review-style inline commenting: every paragraph in the paper (bar
+    // the meta/note lines) gets a hoverable "add comment" affordance, backed
+    // by a localStorage thread keyed on the consultation id + paragraph index.
+    function wireComments(consultId) {
+      if (!consultId) return;
+      var allComments = loadComments();
+      var mine = allComments[consultId] || {};
+      var paras = paperPane.querySelectorAll("p:not(.im-meta):not(.im-note)");
+      paras.forEach(function (p, idx) {
+        p.classList.add("consult-para");
+        var thread = mine[idx] || [];
+        var addBtn = document.createElement("button");
+        addBtn.type = "button"; addBtn.className = "cp-add"; addBtn.title = "Add a comment on this paragraph";
+        addBtn.innerHTML = "&#128172;";
+        if (thread.length) {
+          p.classList.add("has-comments");
+          var count = document.createElement("span");
+          count.className = "cp-count"; count.textContent = thread.length;
+          addBtn.appendChild(count);
+        }
+        p.appendChild(addBtn);
+
+        var box = document.createElement("div");
+        box.className = "consult-comments hide";
+        function renderThread() {
+          box.innerHTML = thread.map(function (c) {
+            return '<div class="cc-item"><span class="cc-who">' + esc(c.who) + '</span><span class="cc-when">' + esc(c.when) + '</span><div class="cc-text">' + esc(c.text) + "</div></div>";
+          }).join("") +
+            '<div class="consult-comment-form"><input type="text" placeholder="Add a comment on this paragraph"><button type="button">Comment</button></div>';
+        }
+        renderThread();
+        p.insertAdjacentElement("afterend", box);
+
+        addBtn.addEventListener("click", function () {
+          box.classList.toggle("hide");
+        });
+        box.addEventListener("click", function (e) {
+          var btn = e.target.closest("button");
+          if (!btn) return;
+          var input = box.querySelector("input");
+          var val = input.value.trim();
+          if (!val) return;
+          thread.push({ who: ME, when: "just now", text: val });
+          mine[idx] = thread;
+          allComments[consultId] = mine;
+          saveComments(allComments);
+          p.classList.add("has-comments");
+          var existingCount = addBtn.querySelector(".cp-count");
+          if (existingCount) existingCount.textContent = thread.length;
+          else { var c2 = document.createElement("span"); c2.className = "cp-count"; c2.textContent = thread.length; addBtn.appendChild(c2); }
+          renderThread();
+          box.classList.remove("hide");
+        });
+      });
+    }
+
+    function openConsult(trigger) {
+      var paperTpl = trigger.querySelector("template.consult-paper");
+      var fieldsTpl = trigger.querySelector("template.consult-fields");
+      if (!paperTpl || !fieldsTpl) return;
+      paperPane.innerHTML = "";
+      paperPane.appendChild(paperTpl.content.cloneNode(true));
+      wireComments(trigger.getAttribute("data-consult-id"));
+      form.innerHTML = "";
+      form.appendChild(fieldsTpl.content.cloneNode(true));
+      form.classList.remove("hide");
+      thanks.classList.add("hide");
+      modal.classList.remove("hide");
+    }
+
+    document.querySelectorAll("[data-consult]").forEach(function (trigger) {
+      trigger.addEventListener("click", function () { openConsult(trigger); });
+      trigger.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openConsult(trigger); }
+      });
+    });
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      form.classList.add("hide");
+      thanks.classList.remove("hide");
+    });
+    modal.querySelectorAll("[data-modal-close]").forEach(function (btn) {
+      btn.addEventListener("click", function () { modal.classList.add("hide"); });
+    });
+    modal.addEventListener("click", function (e) { if (e.target === modal) modal.classList.add("hide"); });
+
+    // Deep-link: connect.html?open=consult-nmds opens that consultation on load
+    if (window.__deepOpen) {
+      var target = document.querySelector('[data-consult-id="' + window.__deepOpen + '"]');
+      if (target) openConsult(target);
+    }
+  })();
+
+  /* ---------- Directory search/filter removed — now on directory.html ---------- */
+
+  /* ---------- Member Voice quick-feedback form ---------- */
+  (function () {
+    var form = document.getElementById("voiceForm");
+    if (!form) return;
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      form.classList.add("hide");
+      document.getElementById("voiceThanks").classList.remove("hide");
+    });
+  })();
+
+  /* ---------- Functional discussion thread (localStorage-backed demo) ---------- */
+  (function () {
+    var ME = "Liverpool Meals on Wheels";
+    var KEY = "mow_threads_v2";
+    var listEl = document.getElementById("threadList");
+    var modal = document.getElementById("discussionModal");
+    var modalBody = document.getElementById("discussionModalBody");
+
+    // Members and MOW NSW staff you can @mention across the discussion.
+    var MENTIONABLE = [
+      "Sarah Nguyen (NSO)", "Leesa Carter (MOW NSW)", "Simone Ho (MOW NSW)", "Rezwan Lasker (MOW NSW)",
+      "Wagga Wagga Meals on Wheels", "Coffs Harbour Meals on Wheels", "Parramatta Meals on Wheels", "Penrith Meals on Wheels"
+    ];
+    var REACTIONS = [
+      { key: "like", icon: "👍", label: "Like" },
+      { key: "helpful", icon: "⭐", label: "Helpful" }
+    ];
+
+    var ME_PERSON = "Jane Smith";
+    var seed = [
+      { id: "t1", person: "Priya Nair", author: "Wagga Wagga Meals on Wheels", mine: false,
+        title: "Anyone else seen delays with My Aged Care referrals this month?",
+        body: "We've had three referrals sit for over a fortnight. Wondering if it's just us or a wider system issue.",
+        when: "2 days ago", reactions: { like: 4, helpful: 2 }, myReactions: [],
+        repliesList: [
+          { person: "Tom Baxter", author: "Coffs Harbour Meals on Wheels", body: "Same here — about 10 days on average this month.", when: "2 days ago" },
+          { person: "Sarah Nguyen", author: "MOW NSW (NSO)", body: "Flagging this to the My Aged Care liaison team — will update the thread.", when: "1 day ago" }
+        ] },
+      { id: "t2", person: "Tom Baxter", author: "Coffs Harbour Meals on Wheels", mine: false,
+        title: "Sharing our new volunteer thank-you event idea",
+        body: "We ran a small morning tea with certificates and it went down really well. Happy to share the run sheet.",
+        when: "5 days ago", reactions: { like: 6, helpful: 1 }, myReactions: [],
+        repliesList: [
+          { person: "Anh Le", author: "Parramatta Meals on Wheels", body: "Love this idea, mind sharing the run sheet? Cc @Sarah Nguyen (NSO) so she's aware too — might suit the newsletter.", when: "4 days ago" }
+        ] },
+      { id: "t3", person: ME_PERSON, author: ME, mine: true,
+        title: "Tips for rostering around school holidays?",
+        body: "Half our drivers have grandkids to mind over the holidays. How does everyone keep runs covered?",
+        when: "1 week ago", reactions: { like: 2, helpful: 0 }, myReactions: [],
+        repliesList: [
+          { person: "Priya Nair", author: "Wagga Wagga Meals on Wheels", body: "We stagger shifts and lean on retirees who don't have school pickups.", when: "6 days ago" }
+        ] }
+    ];
+
+    function load() {
+      try { var s = JSON.parse(localStorage.getItem(KEY)); if (Array.isArray(s)) return s; } catch (e) {}
+      return seed.slice();
+    }
+    function save(list) { try { localStorage.setItem(KEY, JSON.stringify(list)); } catch (e) {} }
+    var threads = load();
+    var openReplies = {};
+
+    function esc(s) { return (s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+    function initials(name) { return name.split(" ").filter(Boolean).slice(0, 2).map(function (w) { return w[0]; }).join("").toUpperCase(); }
+    function withMentions(text) {
+      var out = esc(text);
+      MENTIONABLE.forEach(function (m) {
+        var re = new RegExp("@" + m.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "g");
+        out = out.replace(re, '<span class="mention">@' + esc(m) + "</span>");
+      });
+      return out;
+    }
+
+    function reactionBar(t) {
+      return '<div class="tp-reactions">' + REACTIONS.map(function (r) {
+        var on = (t.myReactions || []).indexOf(r.key) !== -1;
+        var count = (t.reactions && t.reactions[r.key]) || 0;
+        return '<button type="button" class="reaction-btn' + (on ? " on" : "") + '" data-react="' + t.id + '" data-rkey="' + r.key + '">' + r.icon + " " + r.label + (count ? ' <span class="rc-count">' + count + "</span>" : "") + "</button>";
+      }).join("") + "</div>";
+    }
+
+    function replyBlock(t) {
+      var list = t.repliesList || [];
+      var open = !!openReplies[t.id];
+      var itemsHtml = list.map(function (r) {
+        return '<div class="thread-reply"><div class="tr-head"><span class="tr-avatar">' + initials(r.author) + '</span><span class="tr-author">' + esc(r.author) + '</span><span class="tr-when">' + esc(r.when) + '</span></div><div class="tr-body">' + withMentions(r.body) + "</div></div>";
+      }).join("");
+      var toggleLabel = list.length ? (open ? "Hide replies" : "Show " + list.length + " repl" + (list.length === 1 ? "y" : "ies")) : "";
+      return (list.length ? '<button type="button" class="tp-toggle-replies" data-toggle="' + t.id + '">' + toggleLabel + "</button>" : "") +
+        '<div class="thread-reply-list' + (open ? "" : " hide") + '" data-replylist="' + t.id + '">' + itemsHtml + "</div>";
+    }
+
+    function personLine(p, a, mine) {
+      return esc(p) + ' <span class="tp-org">from ' + esc(a) + "</span>" + (mine ? ' <span class="tp-mine-flag">You</span>' : "");
+    }
+
+    function render() {
+      listEl.innerHTML = "";
+      threads.forEach(function (t) {
+        var el = document.createElement("div");
+        el.className = "thread-post";
+        var actions = t.mine
+          ? '<button class="tp-btn" data-edit="' + t.id + '">Edit</button><button class="tp-btn danger" data-del="' + t.id + '">Delete</button>'
+          : '<button class="tp-btn" data-msg="' + esc(t.author) + '">Message ' + esc(t.author.split(" ")[0]) + '</button>';
+        el.innerHTML =
+          '<div class="tp-head">' +
+            '<span class="tp-avatar">' + initials(t.person || t.author) + "</span>" +
+            '<div class="tp-who"><div class="tp-author">' + personLine(t.person || t.author, t.author, t.mine) + "</div>" +
+            '<div class="tp-meta">' + esc(t.when) + " · " + (t.repliesList || []).length + " repl" + ((t.repliesList || []).length === 1 ? "y" : "ies") + "</div></div>" +
+          "</div>" +
+          '<div class="tp-title">' + esc(t.title) + "</div>" +
+          '<div class="tp-body">' + withMentions(t.body) + "</div>" +
+          reactionBar(t) +
+          '<div class="tp-actions">' + actions + '<button class="tp-btn" data-reply="' + t.id + '">Reply</button><button class="tp-btn" data-open="' + t.id + '">Open thread</button></div>' +
+          replyBlock(t);
+        el.addEventListener("click", function (e) {
+          if (e.target.closest("button")) return;
+          openThreadView(t.id);
+        });
+        listEl.appendChild(el);
+      });
+    }
+
+    function openModal(html) { modalBody.innerHTML = html; modal.classList.remove("hide"); }
+    function closeModal() { modal.classList.add("hide"); }
+
+    // Full thread popup: title, person/facility, body, reactions, every
+    // reply, and a reply box — opened by clicking anywhere on a thread card
+    // (bar its action buttons) or its "Open thread" button.
+    function openThreadView(id) {
+      var t = threads.find(function (x) { return x.id === id; });
+      if (!t) return;
+      var replies = (t.repliesList || []).map(function (r) {
+        return '<div class="thread-reply"><div class="tr-head"><span class="tr-avatar">' + initials(r.person || r.author) + '</span><span class="tr-author">' + esc(r.person || r.author) + ' <span class="tp-org">from ' + esc(r.author) + '</span></span><span class="tr-when">' + esc(r.when) + '</span></div><div class="tr-body">' + withMentions(r.body) + "</div></div>";
+      }).join("") || '<p class="im-note" style="margin-top:10px">No replies yet.</p>';
+      openModal(
+        "<h2>" + esc(t.title) + "</h2>" +
+        '<p class="im-meta">' + personLine(t.person || t.author, t.author, t.mine) + " · " + esc(t.when) + "</p>" +
+        '<div class="tp-body" style="margin:10px 0">' + withMentions(t.body) + "</div>" +
+        reactionBar(t) +
+        '<div class="ts-suggest-label" style="margin-top:16px">Replies</div>' +
+        '<div class="thread-reply-list" style="margin-left:0;padding-left:0;border-left:none">' + replies + "</div>" +
+        '<form id="threadViewReplyForm" style="margin-top:16px"><div class="field"><label>Add a reply</label><textarea id="threadViewReplyBody" style="min-height:80px" placeholder="Type @ to tag someone" required></textarea></div><button class="btn-primary" type="submit">Post reply</button></form>'
+      );
+      wireMentions(document.getElementById("threadViewReplyBody"));
+      document.getElementById("threadViewReplyForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+        t.repliesList = t.repliesList || [];
+        t.repliesList.push({ person: ME_PERSON, author: ME, body: document.getElementById("threadViewReplyBody").value, when: "just now" });
+        openReplies[t.id] = true;
+        save(threads);
+        render();
+        openThreadView(id);
+      });
+    }
+
+    // Lightweight @mention autocomplete: attach to any textarea, shows a
+    // dropdown of MENTIONABLE names when the user types "@".
+    function wireMentions(textarea) {
+      var wrap = document.createElement("div");
+      wrap.style.position = "relative";
+      textarea.parentNode.insertBefore(wrap, textarea);
+      wrap.appendChild(textarea);
+      var box = document.createElement("div");
+      box.className = "mention-suggest";
+      wrap.appendChild(box);
+
+      function currentToken() {
+        var v = textarea.value.slice(0, textarea.selectionStart);
+        var m = v.match(/@([\w '().-]*)$/);
+        return m ? m[1] : null;
+      }
+      function update() {
+        var token = currentToken();
+        if (token === null) { box.classList.remove("show"); return; }
+        var matches = MENTIONABLE.filter(function (m) { return m.toLowerCase().indexOf(token.toLowerCase()) !== -1; });
+        if (!matches.length) { box.classList.remove("show"); return; }
+        box.innerHTML = matches.map(function (m) {
+          return '<div class="ms-item" data-name="' + esc(m) + '"><span class="ms-avatar">' + initials(m) + "</span>" + esc(m) + "</div>";
+        }).join("");
+        box.style.top = "-4px"; box.style.left = "0"; box.style.transform = "translateY(-100%)";
+        box.classList.add("show");
+      }
+      textarea.addEventListener("input", update);
+      textarea.addEventListener("blur", function () { setTimeout(function () { box.classList.remove("show"); }, 150); });
+      box.addEventListener("mousedown", function (e) {
+        var item = e.target.closest(".ms-item"); if (!item) return;
+        e.preventDefault();
+        var name = item.getAttribute("data-name");
+        var v = textarea.value, pos = textarea.selectionStart;
+        var before = v.slice(0, pos).replace(/@([\w '().-]*)$/, "@" + name + " ");
+        textarea.value = before + v.slice(pos);
+        box.classList.remove("show");
+        textarea.focus();
+      });
+    }
+
+    function composeForm(opts) {
+      opts = opts || {};
+      return '<h2>' + (opts.heading || "Start a discussion") + "</h2>" +
+        '<p class="im-meta" style="font-size:12px;color:var(--muted);margin:0 0 12px">Type @ to tag a member or MOW NSW staff member.</p>' +
+        '<form id="threadForm">' +
+        '<div class="field"><label>Title</label><input type="text" id="tfTitle" value="' + esc(opts.title || "") + '" placeholder="What\'s your question or idea?" required></div>' +
+        '<div class="field"><label>Message</label><textarea id="tfBody" style="min-height:100px" placeholder="Add a bit of detail — type @ to tag someone">' + esc(opts.body || "") + "</textarea></div>" +
+        '<button class="btn-primary" type="submit">' + (opts.submit || "Post") + "</button>" +
+        "</form>";
+    }
+
+    document.getElementById("newThreadBtn").addEventListener("click", function () {
+      openModal(composeForm({ heading: "Start a discussion", submit: "Post" }));
+      wireMentions(document.getElementById("tfBody"));
+      document.getElementById("threadForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+        threads.unshift({
+          id: "t" + Date.now(), person: ME_PERSON, author: ME, mine: true,
+          title: document.getElementById("tfTitle").value,
+          body: document.getElementById("tfBody").value,
+          when: "just now", reactions: { like: 0, helpful: 0 }, myReactions: [], repliesList: []
+        });
+        save(threads); render(); closeModal();
+      });
+    });
+
+    function handleReaction(rid, rkey) {
+      var rt = threads.find(function (x) { return x.id === rid; });
+      if (!rt) return;
+      rt.reactions = rt.reactions || {};
+      rt.myReactions = rt.myReactions || [];
+      var idx = rt.myReactions.indexOf(rkey);
+      if (idx === -1) { rt.myReactions.push(rkey); rt.reactions[rkey] = (rt.reactions[rkey] || 0) + 1; }
+      else { rt.myReactions.splice(idx, 1); rt.reactions[rkey] = Math.max(0, (rt.reactions[rkey] || 0) - 1); }
+      save(threads); render();
+    }
+    // Reactions inside the thread-view popup use the same handler, then
+    // refresh the popup itself so the count updates in place.
+    modal.addEventListener("click", function (e) {
+      var reactBtn = e.target.closest("[data-react]");
+      if (!reactBtn || !modalBody.contains(reactBtn)) return;
+      handleReaction(reactBtn.getAttribute("data-react"), reactBtn.getAttribute("data-rkey"));
+      var openId = modalBody.querySelector("[data-react]") ? modalBody.querySelector("[data-react]").getAttribute("data-react") : null;
+      if (openId) openThreadView(openId);
+    });
+
+    listEl.addEventListener("click", function (e) {
+      var toggleId = e.target.closest("[data-toggle]") ? e.target.closest("[data-toggle]").getAttribute("data-toggle") : null;
+      if (toggleId) {
+        openReplies[toggleId] = !openReplies[toggleId];
+        render();
+        return;
+      }
+      var reactBtn = e.target.closest("[data-react]");
+      if (reactBtn) { handleReaction(reactBtn.getAttribute("data-react"), reactBtn.getAttribute("data-rkey")); return; }
+      var btn = e.target.closest("button");
+      if (!btn) return;
+      var openId = btn.getAttribute("data-open");
+      if (openId) { openThreadView(openId); return; }
+      var editId = btn.getAttribute("data-edit");
+      var delId = btn.getAttribute("data-del");
+      var msgWho = btn.getAttribute("data-msg");
+      var replyId = btn.getAttribute("data-reply");
+
+      if (editId) {
+        var t = threads.find(function (x) { return x.id === editId; });
+        openModal(composeForm({ heading: "Edit your post", title: t.title, body: t.body, submit: "Save changes" }));
+        wireMentions(document.getElementById("tfBody"));
+        document.getElementById("threadForm").addEventListener("submit", function (ev) {
+          ev.preventDefault();
+          t.title = document.getElementById("tfTitle").value;
+          t.body = document.getElementById("tfBody").value;
+          save(threads); render(); closeModal();
+        });
+      } else if (delId) {
+        openModal('<h2>Delete this post?</h2><p>This removes your discussion thread for everyone. This can\'t be undone.</p><div style="display:flex;gap:10px"><button class="btn-primary" id="delConfirm" style="background:var(--danger-text)">Delete</button><button class="btn-secondary" data-modal-close type="button">Cancel</button></div>');
+        modalBody.querySelector('[data-modal-close]').addEventListener("click", closeModal);
+        document.getElementById("delConfirm").addEventListener("click", function () {
+          threads = threads.filter(function (x) { return x.id !== delId; });
+          save(threads); render(); closeModal();
+        });
+      } else if (msgWho) {
+        openModal('<h2>Message ' + esc(msgWho) + '</h2><p class="im-meta" style="font-size:12px;color:var(--muted);margin:0 0 12px">Direct message through the portal. In this reference build nothing is actually sent.</p><form id="dmForm"><div class="field"><label>To</label><input type="text" value="' + esc(msgWho) + '" readonly></div><div class="field"><label>Message</label><textarea style="min-height:100px" placeholder="Say hello, ask a question, share a contact" required></textarea></div><button class="btn-primary" type="submit">Send message</button></form><div class="announce-thanks hide" id="dmThanks">Sent — ' + esc(msgWho) + " will get your message in their portal inbox.</div>");
+        document.getElementById("dmForm").addEventListener("submit", function (ev) {
+          ev.preventDefault();
+          document.getElementById("dmForm").classList.add("hide");
+          document.getElementById("dmThanks").classList.remove("hide");
+        });
+      } else if (replyId) {
+        openModal('<h2>Reply</h2><p class="im-meta" style="font-size:12px;color:var(--muted);margin:0 0 12px">Type @ to tag a member or MOW NSW staff member.</p><form id="replyForm"><div class="field"><label>Your reply</label><textarea id="replyBody" style="min-height:100px" placeholder="Add to the thread — type @ to tag someone" required></textarea></div><button class="btn-primary" type="submit">Post reply</button></form><div class="announce-thanks hide" id="replyThanks">Reply posted to the thread.</div>');
+        wireMentions(document.getElementById("replyBody"));
+        document.getElementById("replyForm").addEventListener("submit", function (ev) {
+          ev.preventDefault();
+          var t = threads.find(function (x) { return x.id === replyId; });
+          if (t) {
+            t.repliesList = t.repliesList || [];
+            t.repliesList.push({ author: ME, body: document.getElementById("replyBody").value, when: "just now" });
+            openReplies[replyId] = true;
+            save(threads);
+          }
+          document.getElementById("replyForm").classList.add("hide");
+          document.getElementById("replyThanks").classList.remove("hide");
+          render();
+        });
+      }
+    });
+
+    modal.querySelectorAll("[data-modal-close]").forEach(function (btn) { btn.addEventListener("click", closeModal); });
+    modal.addEventListener("click", function (e) { if (e.target === modal) closeModal(); });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeModal(); });
+
+    render();
+  })();
+</script>
+</body>
+</html>

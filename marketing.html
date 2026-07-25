@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="mow-favicon.svg" type="image/svg+xml">
+<title>Marketing — MOW NSW Members Portal (reference build)</title>
+<link rel="stylesheet" href="styles.css?v=26">
+</head>
+<body data-active="marketing.html" data-title="Marketing" data-crumb="Marketing"
+      data-sub="Key awareness dates, current campaigns, and the brand assets that go with them."
+      data-search="Search campaign kits, brand assets, key dates">
+
+<div class="shell">
+
+  <div class="tabs" data-cat-tabs>
+    <a class="tab" href="#overview" data-cat="overview">Overview</a>
+    <a class="tab active" href="#calendar" data-cat="calendar">Calendar</a>
+    <a class="tab" href="#campaigns" data-cat="campaigns">Campaigns</a>
+    <a class="tab" href="#brand" data-cat="brand">Brand &amp; Assets</a>
+  </div>
+
+  <div data-cat-section="overview">
+    <div class="section-title"><h2>Overview</h2><span class="desc">Everything for promoting your service, in one place</span></div>
+
+    <div class="section-title" style="margin-top:0"><h2 style="font-size:17px">What's new in Marketing</h2></div>
+    <div class="mcard" style="max-width:none;margin-bottom:20px">
+      <a class="row" href="#calendar" data-cat="calendar"><span class="rt">Next key date: National Meals on Wheels Day<div class="meta">Calendar · Thu 27 August 2026</div></span><span class="tag neutral">Calendar</span></a>
+      <a class="row" href="marketing.html?open=mkt-campaign-cuppa"><span class="rt">Cuppa for a Cause campaign kit<div class="meta">Campaigns · Runs throughout October 2026</div></span><span class="tag ok">New resource</span></a>
+      <a class="row" href="marketing.html?open=brand-logos"><span class="rt">Brand guidelines and logo pack<div class="meta">Brand &amp; Assets · Print and digital logo suites</div></span><span class="tag neutral">v2.0</span></a>
+    </div>
+
+    <div class="section-title" style="margin-top:0"><h2 style="font-size:17px">Browse by group</h2></div>
+    <div class="quick-grid" style="grid-template-columns:repeat(3,1fr)">
+      <a class="quick-item" href="#calendar" data-cat="calendar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span>Calendar — key awareness dates</span></a>
+      <a class="quick-item" href="#campaigns" data-cat="campaigns"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Campaigns — current and upcoming</span></a>
+      <a class="quick-item" href="#brand" data-cat="brand"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg><span>Brand &amp; Assets — logos, templates, media releases</span></a>
+    </div>
+  </div>
+
+  <div data-cat-section="calendar">
+    <div class="section-title" id="calendar"><h2 style="font-size:17px">Calendar of key awareness dates</h2><span class="desc">National and sector dates, plus any of your own</span></div>
+    <div class="mcard" style="max-width:none;margin-bottom:16px">
+      <form id="keyDateForm" style="display:grid;grid-template-columns:1fr 170px auto;gap:10px;align-items:end;margin-bottom:14px">
+        <div class="field" style="margin-bottom:0"><label>Date title</label><input type="text" id="kdTitle" placeholder="e.g. Blacktown open day" required></div>
+        <div class="field" style="margin-bottom:0"><label>Date</label><input type="date" id="kdDate" required></div>
+        <button class="btn-primary" type="submit">Add date</button>
+      </form>
+      <div id="keyDatesList" class="windup-archive"></div>
+    </div>
+    <p class="im-note">Reference build placeholder — dates you add are stored in your browser only, not shared with other members yet.</p>
+  </div>
+
+  <div data-cat-section="campaigns">
+    <div class="section-title" id="campaigns"><h2>Campaigns</h2><span class="desc">MOW NSW brand campaigns — click one for its campaign kit</span></div>
+    <div class="res-grid">
+      <div class="res-card" data-popup="mkt-campaign-nmwd">
+        <div class="rhead"><span class="ri"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></span><span class="tag ok">Campaign</span></div>
+        <p class="rtitle">National Meals on Wheels Day</p>
+        <p class="rdesc">Thu 27 August 2026 — celebrate volunteers, raise the service's local profile.</p>
+        <div class="rtags"><span class="tag neutral">Campaign kit</span></div>
+        <template class="popup-content">
+          <h2>National Meals on Wheels Day</h2>
+          <p class="im-meta">Thu 27 August 2026 · Campaign</p>
+          <p>A national day to celebrate volunteers and raise the profile of Meals on Wheels in your community. Register your local activity with your NSO so MOW NSW can help promote it.</p>
+          <div class="dl-list">
+            <div class="dl-row"><div><div class="dl-name">Poster pack (A3 &amp; A4)</div><div class="dl-desc">Print-ready, brand colours</div></div><a class="btn-secondary dl-btn" href="#">Download</a></div>
+            <div class="dl-row"><div><div class="dl-name">Social tiles</div><div class="dl-desc">Feed and story sizes for the day</div></div><a class="btn-secondary dl-btn" href="#">Download</a></div>
+            <div class="dl-row"><div><div class="dl-name">Host guide</div><div class="dl-desc">A simple run sheet for the day</div></div><a class="btn-secondary dl-btn" href="#">Download</a></div>
+          </div>
+          <p class="im-note">Reference build placeholder — kit files aren't attached in this demo.</p>
+        </template>
+      </div>
+      <div class="res-card" data-popup="mkt-campaign-cuppa">
+        <div class="rhead"><span class="ri"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></span><span class="tag ok">Campaign</span></div>
+        <p class="rtitle">Cuppa for a Cause</p>
+        <p class="rdesc">Throughout October 2026 — fundraising morning tea campaign.</p>
+        <div class="rtags"><span class="tag neutral">Campaign kit</span></div>
+        <template class="popup-content">
+          <h2>Cuppa for a Cause</h2>
+          <p class="im-meta">October 2026 · Campaign</p>
+          <p>This October's morning-tea fundraising campaign. Host a cuppa at your service, invite the local community, and raise funds with a ready-made kit.</p>
+          <div class="dl-list">
+            <div class="dl-row"><div><div class="dl-name">Poster &amp; social tiles</div><div class="dl-desc">Print and digital, ready to use</div></div><a class="btn-secondary dl-btn" href="#">Download</a></div>
+            <div class="dl-row"><div><div class="dl-name">Host guide</div><div class="dl-desc">Simple run sheet for the day</div></div><a class="btn-secondary dl-btn" href="#">Download</a></div>
+            <div class="dl-row"><div><div class="dl-name">Donation tracking sheet</div><div class="dl-desc">Log what's raised locally</div></div><a class="btn-secondary dl-btn" href="#">Download</a></div>
+          </div>
+          <p class="im-note">Reference build placeholder — kit files aren't attached in this demo. Register your date with your NSO.</p>
+        </template>
+      </div>
+    </div>
+  </div>
+
+  <div data-cat-section="brand">
+  <div class="section-title" id="brand"><h2>Brand &amp; Assets</h2><span class="desc">Logos, brand guidelines, flyers, campaign kit templates, media releases, social media tiles</span></div>
+
+  <div class="res-grid">
+    <div class="res-card" data-popup="brand-logos">
+      <div class="rhead"><span class="ri"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg></span><span class="tag neutral">Mixed access</span></div>
+      <p class="rtitle">Brand guidelines and logo pack</p>
+      <p class="rdesc">Full logo suite, colour palette and usage rules for local promotion.</p>
+      <div class="rtags"><span class="tag neutral">Brand</span></div>
+      <div class="rmeta"><span>v2.0</span><span>Updated May 2026</span></div>
+      <template class="popup-content">
+        <a class="im-author" href="support.html" title="Contact Laura"><span class="ia-avatar">LB</span><span class="ia-name">Laura Bui</span><span class="ia-role">Brand &amp; Comms</span><span class="ia-contact">Contact / request &rarr;</span></a>
+        <h2>Brand guidelines and logo pack</h2>
+        <p class="im-meta">v2.0 · Updated May 2026 · Brand</p>
+        <p>The Meals on Wheels™ NSW logo suite, colour palette and usage rules. Pick the logo pack that matches where it's going — <strong>print</strong> or <strong>digital</strong> — then grab the supporting templates below.</p>
+        <div class="dl-list">
+          <div class="dl-row"><div><div class="dl-name">Logo pack — Print</div><div class="dl-desc">EPS + PDF vector files, CMYK colour, full-colour and mono. For anything going to a printer: flyers, banners, vehicle signage. Vectors scale to any size with no pixelation, and CMYK keeps colours accurate on press.</div></div><a class="btn-secondary dl-btn" href="#">Download</a></div>
+          <div class="dl-row"><div><div class="dl-name">Logo pack — Digital</div><div class="dl-desc">PNG + SVG files, RGB colour, transparent background, full-colour and mono. For anything on a screen: your website, email signature, social tiles, slides. Optimised file sizes and a transparent background so it sits on any colour.</div></div><a class="btn-secondary dl-btn" href="#">Download</a></div>
+          <div class="dl-row"><div><div class="dl-name">Letterhead template (Word)</div><div class="dl-desc">Pre-branded page setup, correct clear space built in</div></div><a class="btn-secondary dl-btn" href="#">Download</a></div>
+          <div class="dl-row"><div><div class="dl-name">PowerPoint template</div><div class="dl-desc">Title and content slide layouts in brand colours</div></div><a class="btn-secondary dl-btn" href="#">Download</a></div>
+          <div class="dl-row"><div><div class="dl-name">Email signature template</div><div class="dl-desc">HTML signature matching the brand (uses the Digital logo)</div></div><a class="btn-secondary dl-btn" href="#">Download</a></div>
+        </div>
+        <p class="im-note"><strong>Not sure which?</strong> If it's being printed, use Print (EPS/PDF). If it's viewed on a screen, use Digital (PNG/SVG). Reference build placeholder — files aren't attached yet. Minimum logo size, clear space and colour rules still apply; check with MOW NSW brand/comms before publishing anything.</p>
+      </template>
+    </div>
+    <div class="res-card" data-popup="campaign-kits">
+      <div class="rhead"><span class="ri"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></span><span class="tag ok">New resource</span></div>
+      <p class="rtitle">Campaign kits</p>
+      <p class="rdesc">Posters, social tiles and host guides for seasonal campaigns.</p>
+      <div class="rtags"><span class="tag neutral">Campaigns</span></div>
+      <div class="rmeta"><span>v1.0</span><span>Updated Jul 2026</span></div>
+      <template class="popup-content">
+        <a class="im-author" href="support.html" title="Contact Laura"><span class="ia-avatar">LB</span><span class="ia-name">Laura Bui</span><span class="ia-role">Brand &amp; Comms</span><span class="ia-contact">Contact / request &rarr;</span></a>
+        <h2>Campaign kits</h2>
+        <p class="im-meta">New resource · Campaigns</p>
+        <p>Ready-to-run kits for seasonal fundraising and awareness campaigns, sized and pre-formatted so your service can run something locally without designing from scratch.</p>
+        <ul>
+          <li>Print-ready posters (A3 and A4)</li>
+          <li>Social tiles matched to the campaign theme</li>
+          <li>A short host guide covering timing and suggested local activities</li>
+        </ul>
+        <p class="im-note">See the Campaigns tab for the current live examples.</p>
+      </template>
+    </div>
+    <div class="res-card" data-popup="media-releases">
+      <div class="rhead"><span class="ri"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v12H5.17L4 17.17z"/></svg></span><span class="tag lock">Approval required</span></div>
+      <p class="rtitle">Media releases</p>
+      <p class="rdesc">Templates and pre-approved messaging. Approval required before publishing.</p>
+      <div class="rtags"><span class="tag neutral">Brand</span></div>
+      <div class="rmeta"><span>v1.0</span><span>Updated 2026</span></div>
+      <template class="popup-content">
+        <a class="im-author" href="support.html" title="Contact Laura"><span class="ia-avatar">LB</span><span class="ia-name">Laura Bui</span><span class="ia-role">Brand &amp; Comms</span><span class="ia-contact">Contact / request &rarr;</span></a>
+        <h2>Media releases</h2>
+        <p class="im-meta">Approval required</p>
+        <p>Draft templates and pre-approved sector messaging for local media. Anything you plan to publish using these templates needs sign-off first, since it represents MOW NSW's public position.</p>
+        <ul>
+          <li>Use the templates for structure and approved talking points</li>
+          <li>Submit your draft for approval before publishing or sending to media</li>
+          <li>Contact your Network Support Officer if you're not sure whether something needs sign-off</li>
+        </ul>
+        <p class="im-note">Reference build placeholder — the approval routing workflow isn't built yet.</p>
+      </template>
+    </div>
+    <div class="res-card" data-popup="social-templates">
+      <div class="rhead"><span class="ri"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 6L2 7"/></svg></span><span class="tag neutral">Canva-ready</span></div>
+      <p class="rtitle">Social media templates</p>
+      <p class="rdesc">Ready-made tiles sized for Facebook and Instagram.</p>
+      <div class="rtags"><span class="tag neutral">Brand</span></div>
+      <div class="rmeta"><span>v1.0</span><span>Updated 2026</span></div>
+      <template class="popup-content">
+        <a class="im-author" href="support.html" title="Contact Laura"><span class="ia-avatar">LB</span><span class="ia-name">Laura Bui</span><span class="ia-role">Brand &amp; Comms</span><span class="ia-contact">Contact / request &rarr;</span></a>
+        <h2>Social media templates</h2>
+        <p class="im-meta">Canva-ready</p>
+        <p>Pre-sized tiles and cover images for Facebook and Instagram, built in Canva so your team can swap in local photos and copy without touching the brand layout.</p>
+        <ul>
+          <li>Feed tiles (square) and story tiles (vertical)</li>
+          <li>Facebook cover and profile image sizes</li>
+          <li>Locked brand elements — logo, colours and fonts stay fixed</li>
+        </ul>
+        <p class="im-note">Reference build placeholder — Canva links aren't wired up in this demo.</p>
+      </template>
+    </div>
+    <div class="res-card" data-popup="fundraising-tools">
+      <div class="rhead"><span class="ri"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span><span class="tag neutral">11 files</span></div>
+      <p class="rtitle">Fundraising tools</p>
+      <p class="rdesc">Donation thank-you templates and sponsorship one-pagers.</p>
+      <div class="rtags"><span class="tag neutral">Brand</span></div>
+      <div class="rmeta"><span>v1.0</span><span>Updated 2026</span></div>
+      <template class="popup-content">
+        <a class="im-author" href="support.html" title="Contact Laura"><span class="ia-avatar">LB</span><span class="ia-name">Laura Bui</span><span class="ia-role">Brand &amp; Comms</span><span class="ia-contact">Contact / request &rarr;</span></a>
+        <h2>Fundraising tools</h2>
+        <p class="im-meta">11 files</p>
+        <p>Templates to support local fundraising: acknowledging donors, and pitching sponsorship to local businesses.</p>
+        <ul>
+          <li>Donation thank-you letter and email templates</li>
+          <li>Sponsorship one-pagers for local business asks</li>
+          <li>Tax-deductibility wording — check current ATO guidance before sending</li>
+        </ul>
+        <p class="im-note">Reference build placeholder — confirm current tax/donation wording with MOW NSW before use, don't reuse this demo text as final copy.</p>
+      </template>
+    </div>
+    <div class="res-card" data-popup="storytelling-guide">
+      <div class="rhead"><span class="ri"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></span><span class="tag neutral">Guide</span></div>
+      <p class="rtitle">Storytelling guide</p>
+      <p class="rdesc">How to write and photograph a client or volunteer story for local media.</p>
+      <div class="rtags"><span class="tag neutral">Brand</span></div>
+      <div class="rmeta"><span>v1.0</span><span>Updated 2026</span></div>
+      <template class="popup-content">
+        <a class="im-author" href="support.html" title="Contact Laura"><span class="ia-avatar">LB</span><span class="ia-name">Laura Bui</span><span class="ia-role">Brand &amp; Comms</span><span class="ia-contact">Contact / request &rarr;</span></a>
+        <h2>Storytelling guide</h2>
+        <p class="im-meta">Guide</p>
+        <p>How to capture and write up a genuine client or volunteer story for local media or social — the kind of warm, real imagery and tone the MOW NSW brand favours over generic stock photography.</p>
+        <ul>
+          <li>Getting proper consent before photographing or naming a client or volunteer</li>
+          <li>What makes a story feel authentic rather than staged</li>
+          <li>A simple structure: the person, the need, the difference the service made</li>
+        </ul>
+        <p class="im-note">Reference build placeholder — always confirm consent and privacy requirements before publishing a real client or volunteer story.</p>
+      </template>
+    </div>
+  </div>
+  </div>
+
+</div>
+
+<script src="portal.js?v=26"></script>
+<script>
+  // Marketing calendar: seed dates + anything a member adds (localStorage-backed, browser-only).
+  (function () {
+    var listEl = document.getElementById("keyDatesList");
+    if (!listEl) return;
+    var KEY = "mow_key_dates_v1";
+    var seed = [
+      { title: "National Meals on Wheels Day", date: "2026-08-27", note: "Campaign kit available under Campaigns" },
+      { title: "Cuppa for a Cause", date: "2026-10-01", note: "Fundraising morning tea campaign — runs through October" },
+      { title: "International Volunteer Day", date: "2026-12-05", note: "Good moment to thank local volunteers publicly" },
+      { title: "Seniors Festival (NSW)", date: "2027-03-01", note: "State-wide campaign, good local media angle" }
+    ];
+    function load() {
+      try { var s = JSON.parse(localStorage.getItem(KEY)); if (Array.isArray(s)) return s; } catch (e) {}
+      return [];
+    }
+    function save(added) { try { localStorage.setItem(KEY, JSON.stringify(added)); } catch (e) {} }
+    function esc(s) { return (s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+    function fmt(d) {
+      var dt = new Date(d + "T00:00:00");
+      if (isNaN(dt)) return d;
+      return dt.toLocaleDateString("en-AU", { day: "numeric", month: "long", year: "numeric" });
+    }
+    var added = load();
+
+    function render() {
+      var all = seed.concat(added.map(function (a) { return { title: a.title, date: a.date, note: "Added by your service", mine: true }; }));
+      all.sort(function (a, b) { return a.date < b.date ? -1 : 1; });
+      listEl.innerHTML = all.map(function (d) {
+        return '<div class="windup-row"><span class="wr-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span><span style="flex:1"><span class="wr-title">' + esc(d.title) + (d.mine ? ' <span class="tag neutral" style="margin-left:6px">Yours</span>' : "") + '</span><div class="wr-date">' + fmt(d.date) + " — " + esc(d.note) + "</div></span></div>";
+      }).join("");
+    }
+    render();
+
+    document.getElementById("keyDateForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      var title = document.getElementById("kdTitle").value.trim();
+      var date = document.getElementById("kdDate").value;
+      if (!title || !date) return;
+      added.push({ title: title, date: date });
+      save(added);
+      render();
+      this.reset();
+    });
+  })();
+</script>
+</body>
+</html>
