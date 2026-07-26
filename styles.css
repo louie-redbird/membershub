@@ -180,6 +180,8 @@ h1, h2, h3 { font-family: var(--font-heading); }
 .ts-suggest-tags { display: flex; flex-wrap: wrap; gap: 6px; }
 .ts-suggest-tags .tstag { font-size: 11.5px; font-weight: 600; color: var(--teal); background: #fff; border: 1px solid var(--teal-pale); border-radius: 999px; padding: 5px 11px; text-decoration: none; }
 .ts-suggest-tags .tstag:hover { background: var(--teal); color: #fff; }
+.ts-suggest-all { display: block; text-align: center; font-size: 12.5px; font-weight: 700; color: var(--teal); text-decoration: none; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border); }
+.ts-suggest-all:hover { text-decoration: underline; }
 @media (max-width: 640px) { .ts-suggest-cols { grid-template-columns: repeat(2, 1fr); } }
 
 /* ---- Profile dropdown (under the topbar user badge) ---- */
@@ -440,6 +442,12 @@ h1, h2, h3 { font-family: var(--font-heading); }
 .tag.neutral { background: var(--cream); color: var(--navy); }
 .tag.lock { background: var(--surface-tint); color: var(--muted); border: 1px solid var(--border); }
 
+/* ---- Training module progress bar ---- */
+.module-progress { margin-top: 10px; }
+.module-progress-bar { height: 6px; border-radius: 999px; background: var(--surface-tint); overflow: hidden; }
+.module-progress-fill { height: 100%; background: var(--teal); border-radius: 999px; }
+.module-progress-label { display: block; font-size: 11.5px; color: var(--muted); margin-top: 5px; }
+
 .deadline-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border); }
 .deadline-row:last-child { border-bottom: none; padding-bottom: 0; }
 .deadline-row:first-child { padding-top: 0; }
@@ -672,6 +680,8 @@ h1, h2, h3 { font-family: var(--font-heading); }
 .res-card .rdesc { font-size: 12.5px; color: var(--muted); margin: 0; }
 .res-card .rmeta { display: flex; gap: 12px; margin-top: 12px; font-size: 11px; color: var(--muted); flex-wrap: wrap; }
 .res-card .rtags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.rtags .tag { cursor: pointer; transition: background .15s ease, color .15s ease; }
+.rtags .tag:hover { background: var(--teal); color: #fff; }
 
 /* ---- Forms (Ask for Help, service details) ---- */
 .form-card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
@@ -807,6 +817,8 @@ h1, h2, h3 { font-family: var(--font-heading); }
 .dir-toggle-btn.active { background: var(--navy-deep); color: #fff; }
 .dir-toggle-btn.active:hover { color: #fff; }
 .hero-aside .dir-toggle { background: rgba(255,255,255,0.92); box-shadow: 0 6px 18px rgba(3,31,115,0.18); }
+.dir-toggle-sm { flex-shrink: 0; }
+.dir-toggle-sm .dir-toggle-btn { padding: 5px 12px; font-size: 11.5px; }
 
 /* Individuals directory: fixed 3-column card grid */
 .people-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="mow-favicon.svg" type="image/svg+xml">
 <title>Member Hub — MOW NSW Members Portal</title>
-<link rel="stylesheet" href="styles.css?v=61">
+<link rel="stylesheet" href="styles.css?v=62">
 </head>
 <body data-active="index.html" data-title="Welcome back, Jane" data-crumb=""
       data-sub="Your home for everything you need to run and grow your service, from resources and templates through to sector news and support."
@@ -90,15 +90,15 @@
     <div class="dash-col">
 
       <div class="mcard snapshot" id="deadlines">
-        <div class="mcard-head"><span class="mi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span><h2>3 items need action</h2></div>
+        <div class="mcard-head"><span class="mi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span><h2>4 items need action</h2></div>
         <a class="deadline-row" href="resources.html?open=sah-reporting" style="text-decoration:none;color:inherit"><span class="dt">Support at Home reporting</span><span class="dd due">18 Jul 2026</span></a>
         <a class="deadline-row" href="resources.html?open=grant-acquittal" style="text-decoration:none;color:inherit"><span class="dt">Grant acquittal</span><span class="dd ok">2 Aug 2026</span></a>
         <a class="deadline-row" href="myservice.html#renewal" style="text-decoration:none;color:inherit"><span class="dt">AGM lodgement</span><span class="dd ok">30 Sep 2026</span></a>
+        <a class="deadline-row" href="learning.html?open=mod-onboarding" style="text-decoration:none;color:inherit"><span class="dt">Finish: New member service onboarding</span><span class="dd due">67%</span></a>
         <a class="link" href="engagement.html" style="display:block;margin-top:12px">View all &rarr;</a>
       </div>
 
-      <div id="discussionsWidgetSubscribed"></div>
-      <div id="discussionsWidgetActive"></div>
+      <div id="discussionsWidget"></div>
 
       <div class="mcard">
         <div class="mcard-head"><span class="mi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span><h2>Your NSO</h2></div>
@@ -120,7 +120,7 @@
     modal.addEventListener("click", function (e) { if (e.target === modal) closeModal(); });
   })();
 </script>
-<script src="portal.js?v=61"></script>
+<script src="portal.js?v=62"></script>
 <script>
   (function () {
     function esc(s) { return (s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
@@ -304,8 +304,7 @@
     document.getElementById("qaUpdateData").addEventListener("click", openUpdateData);
     document.getElementById("qaConversation").addEventListener("click", function () { window.openStartConversationPopup(); });
 
-    window.initDiscussionsWidget(document.getElementById("discussionsWidgetSubscribed"), { mode: "subscribed" });
-    window.initDiscussionsWidget(document.getElementById("discussionsWidgetActive"), { mode: "active" });
+    window.initDiscussionsWidget(document.getElementById("discussionsWidget"), { mode: "subscribed", toggle: true });
 
     document.getElementById("nsoAvatar").insertAdjacentHTML("beforeend", window.mowPresence.dotHtml("Sarah Thomas"));
   })();

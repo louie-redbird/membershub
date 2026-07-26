@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="mow-favicon.svg" type="image/svg+xml">
+<title>Search results — MOW NSW Members Portal</title>
+<link rel="stylesheet" href="styles.css?v=62">
+</head>
+<body data-active="archive.html" data-title="Search results" data-crumb="Search results"
+      data-sub="Everything across the portal matching your search or tag — resources, training, marketing and news in one list."
+      data-search="Search resources, training, marketing, news">
+
+<div class="shell">
+
+  <div class="sidebar-layout-2col">
+    <aside class="sidebar-filters">
+      <div class="field"><label>Search</label><input type="text" id="arSearch" placeholder="Title or tag"></div>
+      <div class="field"><label>Type</label><select id="arType"><option value="">All types</option></select></div>
+      <div class="field"><label>Tags</label><div class="sidebar-tag-list" id="arTags"></div></div>
+      <button type="button" class="btn-secondary" id="arClear" style="width:100%;justify-content:center">Clear filters</button>
+    </aside>
+
+    <div class="sidebar-main">
+      <div class="section-title" style="margin-top:0"><h2 id="arHeading">All results</h2><span class="desc" id="arCount"></span></div>
+      <div class="im-note hide" id="arNoResults">No results match those filters. <a href="archive.html" id="arClearInline">Clear filters</a></div>
+      <div class="res-grid" id="arGrid"></div>
+    </div>
+  </div>
+
+</div>
+
+<script src="portal.js?v=62"></script>
+<script>
+  (function () {
+    var CONTENT = window.SITE_CONTENT || [];
+    var params = new URLSearchParams(window.location.search);
+    var activeTags = params.get("tag") ? [params.get("tag")] : [];
+    var searchInput = document.getElementById("arSearch");
+    var typeSel = document.getElementById("arType");
+    var tagWrap = document.getElementById("arTags");
+    var grid = document.getElementById("arGrid");
+    var heading = document.getElementById("arHeading");
+    var countEl = document.getElementById("arCount");
+    var noResults = document.getElementById("arNoResults");
+
+    searchInput.value = params.get("q") || "";
+
+    function esc(s) { return (s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+    function norm(s) { return (s || "").trim().toLowerCase(); }
+    function labelOf(tag) { return tag.split("-").map(function (w) { return w.charAt(0).toUpperCase() + w.slice(1); }).join(" "); }
+
+    // Populate the Type dropdown from whatever's actually in CONTENT.
+    var types = [];
+    CONTENT.forEach(function (c) { if (types.indexOf(c.type) === -1) types.push(c.type); });
+    types.sort();
+    typeSel.innerHTML = '<option value="">All types</option>' + types.map(function (t) { return "<option>" + esc(t) + "</option>"; }).join("");
+
+    function populateTagChips() {
+      var tags = [];
+      CONTENT.forEach(function (c) { c.tags.forEach(function (t) { if (tags.indexOf(t) === -1) tags.push(t); }); });
+      tags.sort();
+      tagWrap.innerHTML = tags.map(function (tag) {
+        return '<button type="button" class="sidebar-tag-chip' + (activeTags.indexOf(tag) !== -1 ? " active" : "") + '" data-tag="' + esc(tag) + '">#' + esc(labelOf(tag)) + "</button>";
+      }).join("");
+    }
+    populateTagChips();
+    tagWrap.addEventListener("click", function (e) {
+      var chip = e.target.closest(".sidebar-tag-chip");
+      if (!chip) return;
+      chip.classList.toggle("active");
+      var tag = chip.getAttribute("data-tag");
+      var idx = activeTags.indexOf(tag);
+      if (idx === -1) activeTags.push(tag); else activeTags.splice(idx, 1);
+      apply();
+    });
+
+    function cardHtml(c) {
+      var tagsHtml = c.tags.map(function (t) { return '<span class="tag neutral">' + esc(labelOf(t)) + "</span>"; }).join("");
+      return '<a class="res-card res-card-link" href="' + c.url + '">' +
+        '<div class="rhead"><span class="tag ok">' + esc(c.type) + "</span></div>" +
+        '<p class="rtitle">' + esc(c.title) + "</p>" +
+        '<div class="rtags">' + tagsHtml + "</div>" +
+      "</a>";
+    }
+
+    function apply() {
+      var q = norm(searchInput.value);
+      var type = norm(typeSel.value);
+      var results = CONTENT.filter(function (c) {
+        var okQ = !q || c.title.toLowerCase().indexOf(q) !== -1 || c.tags.some(function (t) { return t.indexOf(q) !== -1; });
+        var okType = !type || norm(c.type) === type;
+        var okTags = !activeTags.length || activeTags.every(function (t) { return c.tags.indexOf(t) !== -1; });
+        return okQ && okType && okTags;
+      });
+
+      if (activeTags.length === 1 && !q && !type) {
+        heading.textContent = "Tagged #" + labelOf(activeTags[0]);
+      } else if (q) {
+        heading.textContent = 'Results for “' + searchInput.value.trim() + '”';
+      } else {
+        heading.textContent = "All results";
+      }
+      countEl.textContent = results.length + " result" + (results.length === 1 ? "" : "s");
+
+      grid.innerHTML = results.map(cardHtml).join("");
+      noResults.classList.toggle("hide", results.length > 0);
+
+      var qs = [];
+      if (activeTags.length === 1) qs.push("tag=" + encodeURIComponent(activeTags[0]));
+      if (q) qs.push("q=" + encodeURIComponent(searchInput.value.trim()));
+      history.replaceState(null, "", "archive.html" + (qs.length ? "?" + qs.join("&") : ""));
+    }
+
+    searchInput.addEventListener("input", apply);
+    typeSel.addEventListener("change", apply);
+    document.getElementById("arClear").addEventListener("click", function () {
+      searchInput.value = ""; typeSel.value = ""; activeTags = [];
+      tagWrap.querySelectorAll(".sidebar-tag-chip.active").forEach(function (b) { b.classList.remove("active"); });
+      apply();
+    });
+    document.getElementById("arClearInline").addEventListener("click", function (e) { e.preventDefault(); document.getElementById("arClear").click(); });
+
+    apply();
+  })();
+</script>
+</body>
+</html>

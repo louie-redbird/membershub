@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="mow-favicon.svg" type="image/svg+xml">
 <title>Training &amp; Events — MOW NSW Members Portal</title>
-<link rel="stylesheet" href="styles.css?v=61">
+<link rel="stylesheet" href="styles.css?v=62">
 </head>
 <body data-active="learning.html" data-title="Training &amp; Events" data-crumb="Training &amp; Events"
       data-sub="Upcoming and on-demand learning in one place: webinars, recordings, training modules, blogs, podcasts and handbooks."
@@ -18,7 +18,8 @@
     <a class="tab" href="#overview" data-cat="overview">Overview</a>
     <a class="tab active" href="#webinars" data-cat="webinars">Webinars and Events</a>
     <a class="tab" href="#modules" data-cat="modules">Modules</a>
-    <a class="tab" href="#reading" data-cat="reading">Reading</a>
+    <a class="tab" href="#blogs" data-cat="blogs">Blogs</a>
+    <a class="tab" href="#podcasts" data-cat="podcasts">Podcasts</a>
     <a class="tab" href="#handbooks" data-cat="handbooks">Handbooks</a>
   </div>
 
@@ -52,10 +53,11 @@
       </div>
     </div>
     <div class="section-title"><h2>Find learning fast</h2></div>
-    <div class="quick-grid" style="grid-template-columns:repeat(4,1fr)">
+    <div class="quick-grid" style="grid-template-columns:repeat(3,1fr)">
       <a class="quick-item" href="#webinars" data-cat="webinars"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg><span>Webinars and Events</span></a>
       <a class="quick-item" href="#modules" data-cat="modules"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span>Training modules</span></a>
-      <a class="quick-item" href="#reading" data-cat="reading"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><span>Blogs and podcasts</span></a>
+      <a class="quick-item" href="#blogs" data-cat="blogs"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg><span>Blogs</span></a>
+      <a class="quick-item" href="#podcasts" data-cat="podcasts"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg><span>Podcasts</span></a>
       <a class="quick-item" href="#handbooks" data-cat="handbooks"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg><span>Handbooks and toolkits</span></a>
     </div>
   </div>
@@ -292,12 +294,20 @@
         <div class="rhead"><span class="ri"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1 2.7 2.5 6 2.5s6-1.5 6-2.5v-5"/></svg></span><span class="tag neutral">Self-paced</span></div>
         <p class="rtitle">New member service onboarding</p>
         <p class="rdesc">Everything a new service needs in its first months — accounts, obligations, and where to find help.</p>
-        <div class="rtags"><span class="tag neutral">Onboarding</span></div>
+        <div class="rtags"><span class="tag neutral">Onboarding</span><span class="tag warn">Incomplete</span></div>
         <div class="rmeta"><span>Self-paced</span><span>6 short lessons</span></div>
+        <div class="module-progress">
+          <div class="module-progress-bar"><div class="module-progress-fill" style="width:67%"></div></div>
+          <span class="module-progress-label">4 of 6 lessons complete · 67%</span>
+        </div>
         <template class="popup-content">
           <h2>New member service onboarding</h2>
           <p class="im-meta">Self-paced module · Onboarding</p>
           <p>A short self-paced course that walks a new member service through the essentials: setting up your portal accounts, understanding your reporting obligations, and knowing who to call for what.</p>
+          <div class="module-progress" style="margin-bottom:14px">
+            <div class="module-progress-bar"><div class="module-progress-fill" style="width:67%"></div></div>
+            <span class="module-progress-label">4 of 6 lessons complete · 67% — <strong>incomplete</strong></span>
+          </div>
           <ul>
             <li>Your Members Hub accounts and who should have access</li>
             <li>Core reporting obligations and their timing</li>
@@ -329,8 +339,8 @@
     </div>
   </div>
 
-  <div data-cat-section="reading" class="res-section">
-    <div class="section-title" id="reading"><h2>Blogs and podcasts</h2><span class="desc">Short reads and listens from across the sector</span></div>
+  <div data-cat-section="blogs" class="res-section">
+    <div class="section-title" id="blogs"><h2>Blogs</h2><span class="desc">Short reads from across the sector</span></div>
     <div class="res-grid">
       <div class="res-card learn-item" data-popup="five-ways-shifts" data-format="Blog" data-tags="volunteers rostering">
         <div class="rhead"><span class="ri"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg></span><span class="tag neutral">Blog</span></div>
@@ -351,6 +361,12 @@
           <p class="im-note">Illustrative example content only.</p>
         </template>
       </div>
+    </div>
+  </div>
+
+  <div data-cat-section="podcasts" class="res-section">
+    <div class="section-title" id="podcasts"><h2>Podcasts</h2><span class="desc">Listens from across the sector</span></div>
+    <div class="res-grid">
       <div class="res-card learn-item" data-popup="loneliness-line" data-format="Podcast" data-tags="advocacy">
         <div class="rhead"><span class="ri"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg></span><span class="tag neutral">Podcast</span></div>
         <p class="rtitle">The Loneliness Line: our advocacy team</p>
@@ -585,6 +601,6 @@
     clearInline.addEventListener("click", function (e) { e.preventDefault(); clearBtn.click(); });
   })();
 </script>
-<script src="portal.js?v=61"></script>
+<script src="portal.js?v=62"></script>
 </body>
 </html>

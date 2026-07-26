@@ -18,7 +18,12 @@
   // `items` render as a dropdown. `pages` drives which top-level item lights
   // up as active for a given data-active value. ----
   var NAV = [
-    { label: "Resources", href: "resources.html", pages: ["resources.html"] },
+    { label: "Resources", pages: ["resources.html"], items: [
+        ["resources.html#overview", "Overview"],
+        ["resources.html#operate", "Operations"],
+        ["resources.html#comply", "Compliance"],
+        ["resources.html#deliver", "Delivery"]
+    ]},
     { label: "News & Advocacy", pages: ["updates.html", "advocacy.html", "submissions.html"], items: [
         ["updates.html#updates", "All updates"],
         ["updates.html#mownews", "Meals on Wheels news"],
@@ -32,14 +37,15 @@
         ["learning.html#overview", "Overview"],
         ["learning.html#webinars", "Webinars and Events"],
         ["learning.html#modules", "Training modules"],
-        ["learning.html#reading", "Blogs and podcasts"],
+        ["learning.html#blogs", "Blogs"],
+        ["learning.html#podcasts", "Podcasts"],
         ["learning.html#handbooks", "Handbooks and toolkits"]
     ]},
     { label: "Marketing", pages: ["marketing.html"], items: [
         ["marketing.html#overview", "Overview"],
         ["marketing.html#calendar", "Calendar"],
         ["marketing.html#campaigns", "Campaigns"],
-        ["marketing.html#brand", "Brand & Assets"]
+        ["marketing.html#brand", "Branded Assets"]
     ]},
     { label: "Community", pages: ["connect.html", "directory.html", "engagement.html"], items: [
         ["connect.html#overview", "Overview"],
@@ -52,22 +58,58 @@
     ]}
   ];
 
-  // ---- Sample content index for the topbar search's autosuggest. Reference
-  // build only — a real build would query the CMS/search index instead. ----
+  // ---- Sample content index, shared by the topbar search's autosuggest AND
+  // archive.html (the tag/search results page). Reference build only — a
+  // real build would query the CMS/search index instead. Exposed as
+  // window.SITE_CONTENT so archive.html can read it directly. ----
   var CONTENT = [
-    { title: "Police check guidance", url: "resources.html?open=police-check", type: "Resource", tags: ["hr", "volunteers", "compliance", "police check"] },
-    { title: "AGM document templates", url: "resources.html?open=agm-templates", type: "Resource", tags: ["governance", "templates", "agm"] },
-    { title: "Support at Home reporting update", url: "resources.html?open=sah-reporting", type: "Resource", tags: ["compliance", "reform", "support at home"] },
-    { title: "Grant acquittal checklist", url: "resources.html?open=grant-acquittal", type: "Resource", tags: ["finance", "funding", "grants"] },
-    { title: "Brand guidelines and logo pack", url: "marketing.html?open=brand-logos", type: "Marketing", tags: ["brand", "promote", "logo"] },
-    { title: "Cuppa for a Cause campaign kit", url: "marketing.html?open=mkt-campaign-cuppa", type: "Marketing", tags: ["campaigns", "brand", "fundraising"] },
     { title: "Weekly Windup — latest edition", url: "updates.html", type: "News", tags: ["news", "mow", "windup"] },
-    { title: "National Minimum Data Set consultation", url: "connect.html?open=consult-nmds", type: "Consultation", tags: ["advocacy", "have your say", "mds"] },
-    { title: "APD annual meal review: what's required", url: "learning.html#upcoming", type: "Webinar", tags: ["training", "aged care", "dietitian"] },
+    { title: "National Minimum Data Set consultation", url: "connect.html?open=consult-nmds", type: "Consultation", tags: ["advocacy", "have-your-say", "mds"] },
     { title: "Member directory & map", url: "directory.html", type: "Directory", tags: ["community", "directory", "map"] },
-    { title: "Volunteer Coordinators Network", url: "connect.html#communities", type: "Community", tags: ["community", "volunteers", "working group"] },
-    { title: "Your Network Support Officer", url: "support.html", type: "Support", tags: ["support", "contact", "nso"] }
+    { title: "Volunteer Coordinators Network", url: "connect.html#communities", type: "Community", tags: ["community", "volunteers", "working-group"] },
+    { title: "Your Network Support Officer", url: "support.html", type: "Support", tags: ["support", "contact", "nso"] },
+    { title: "Police check guidance", url: "resources.html?open=police-check", type: "Guide", tags: ["hr", "volunteers"] },
+    { title: "AGM document templates", url: "resources.html?open=agm-templates", type: "Template", tags: ["governance"] },
+    { title: "Grant acquittal checklist", url: "resources.html?open=grant-acquittal", type: "Checklist", tags: ["finance", "funding"] },
+    { title: "Insurance and risk register template", url: "resources.html?open=insurance-risk", type: "Template", tags: ["risk", "governance"] },
+    { title: "Volunteer expense reimbursement policy", url: "resources.html?open=volunteer-expenses", type: "Policy", tags: ["hr", "volunteers"] },
+    { title: "Support at Home reporting update", url: "resources.html?open=sah-reporting", type: "Guide", tags: ["chsp", "reform"] },
+    { title: "APD annual meal review guidance", url: "resources.html?open=apd-review", type: "Guide", tags: ["aged-care", "quality"] },
+    { title: "Quality Standards self-assessment tool", url: "resources.html?open=quality-standards", type: "Checklist", tags: ["quality", "reporting"] },
+    { title: "SIRS incident reporting guide", url: "resources.html?open=sirs-guide", type: "Guide", tags: ["sirs", "reporting"] },
+    { title: "Provider obligations checklist", url: "resources.html?open=provider-obligations", type: "Checklist", tags: ["aged-care", "reporting"] },
+    { title: "Client intake and referral form", url: "resources.html?open=client-intake", type: "Form", tags: ["clients", "referrals"] },
+    { title: "Welfare check and incident reporting guide", url: "resources.html?open=welfare-check", type: "Guide", tags: ["safety", "delivery"] },
+    { title: "Nutrition and menu planning guide", url: "resources.html?open=nutrition-guide", type: "Guide", tags: ["nutrition"] },
+    { title: "Referral pathway map", url: "resources.html?open=referral-pathway", type: "Guide", tags: ["referrals"] },
+    { title: "Vehicle and delivery safety checklist", url: "resources.html?open=vehicle-safety", type: "Checklist", tags: ["safety", "delivery"] },
+    { title: "APD annual meal review: what's required", url: "learning.html?open=up-apd-review", type: "Webinar", tags: ["nutrition", "dietitian"] },
+    { title: "Volunteer induction: setting your team up right", url: "learning.html?open=up-volunteer-induction", type: "Webinar", tags: ["volunteers", "induction"] },
+    { title: "Ageing Australia NSW/ACT State Conference", url: "learning.html?open=up-ageing-conference", type: "In-person", tags: ["conference", "sector"] },
+    { title: "Financially Disadvantaged Fund: how to apply", url: "learning.html?open=up-fdf", type: "Webinar", tags: ["funding", "fdf"] },
+    { title: "CHSP Unlocked virtual forum", url: "learning.html?open=rec-chsp-unlocked", type: "Recording", tags: ["chsp", "compliance"] },
+    { title: "Understanding the Aged Care Act 2024", url: "learning.html?open=rec-aged-care-act", type: "Recording", tags: ["compliance", "reform"] },
+    { title: "Grant writing basics for small services", url: "learning.html?open=rec-grant-writing", type: "Recording", tags: ["grants", "finance"] },
+    { title: "Board governance essentials refresher", url: "learning.html?open=rec-governance-refresher", type: "Recording", tags: ["governance"] },
+    { title: "Volunteer recruitment in regional areas", url: "learning.html?open=rec-volunteer-regional", type: "Recording", tags: ["volunteers", "regional"] },
+    { title: "Quality Standards self-assessment walkthrough", url: "learning.html?open=rec-quality-standards", type: "Recording", tags: ["quality", "governance"] },
+    { title: "CHSP acquittal: common mistakes", url: "learning.html?open=rec-chsp-acquittal", type: "Recording", tags: ["chsp", "finance"] },
+    { title: "New member service onboarding", url: "learning.html?open=mod-onboarding", type: "Module", tags: ["onboarding"] },
+    { title: "Board governance essentials", url: "learning.html?open=mod-governance", type: "Module", tags: ["governance"] },
+    { title: "Five ways to make volunteer shifts easier to fill", url: "learning.html?open=five-ways-shifts", type: "Blog", tags: ["volunteers", "rostering"] },
+    { title: "The Loneliness Line: our advocacy team", url: "learning.html?open=loneliness-line", type: "Podcast", tags: ["advocacy"] },
+    { title: "Volunteer coordinator handbook", url: "learning.html?open=vol-handbook", type: "Handbook", tags: ["volunteers", "hr"] },
+    { title: "Welfare check & incident reporting toolkit", url: "learning.html?open=wc-toolkit", type: "Toolkit", tags: ["safety", "volunteers"] },
+    { title: "National Meals on Wheels Day", url: "marketing.html?open=mkt-campaign-nmwd", type: "Campaign", tags: ["campaign", "volunteers", "awareness"] },
+    { title: "Cuppa for a Cause", url: "marketing.html?open=mkt-campaign-cuppa", type: "Campaign", tags: ["campaign", "fundraising"] },
+    { title: "Brand guidelines and logo pack", url: "marketing.html?open=brand-logos", type: "Brand asset", tags: ["brand", "logo", "print", "digital"] },
+    { title: "Campaign kits", url: "marketing.html?open=campaign-kits", type: "Brand asset", tags: ["campaign", "brand", "social", "print"] },
+    { title: "Media releases", url: "marketing.html?open=media-releases", type: "Template", tags: ["brand", "media", "approval"] },
+    { title: "Social media templates", url: "marketing.html?open=social-templates", type: "Brand asset", tags: ["social", "brand", "canva"] },
+    { title: "Fundraising tools", url: "marketing.html?open=fundraising-tools", type: "Template", tags: ["fundraising", "brand"] },
+    { title: "Storytelling guide", url: "marketing.html?open=storytelling-guide", type: "Guide", tags: ["brand", "storytelling", "media"] }
   ];
+  window.SITE_CONTENT = CONTENT;
   var searchIcon = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>';
   var chev = '<svg class="chev" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg>';
   var bellIcon = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>';
@@ -146,7 +188,7 @@
         '<p>The Department is proposing a National Minimum Data Set (NMDS) for community aged care, aimed at giving a consistent national picture of who is being supported and what services they receive.</p>' +
         '<p>MOW NSW is preparing a sector submission and wants member input before responding.</p>' +
         '<div class="npop-quote"><p class="npop-quote-label">Your comment</p><p>"The proposed demographic fields largely duplicate what we already report through CHSP. The bigger issue is the six-week timeline, which is unworkable for services without paid admin staff."</p></div>' +
-        '<p class="im-note">Reference build placeholder text, not the real consultation wording. Confirm actual content with MOW NSW policy/advocacy before this goes live.</p>' +
+        '<p class="im-note">Not the real consultation wording. Confirm actual content with MOW NSW policy/advocacy before this goes live.</p>' +
         npFooter("connect.html?open=consult-nmds", "View the full consultation and respond");
     },
     "n-consult-newsletter": function () {
@@ -159,7 +201,7 @@
           '<li>Whether splitting brand and campaign content into a separate monthly digest makes it easier or harder to find</li>' +
           '<li>Any format or channel you would prefer instead (for example an SMS alert for genuinely urgent items only)</li>' +
         "</ul>" +
-        '<p class="im-note">Reference build placeholder text, not final newsletter strategy content.</p>' +
+        '<p class="im-note">Not final newsletter strategy content.</p>' +
         npFooter("connect.html?open=consult-newsletter", "Give your feedback");
     },
     "n-renewal": function () {
@@ -172,7 +214,7 @@
           '<li>Invoice: issued to your service\'s billing contact</li>' +
           '<li>What to check: your contact details and service profile are current</li>' +
         "</ul>" +
-        '<p class="im-note">Reference build placeholder — no real invoice is raised in this demo.</p>' +
+        '<p class="im-note">No real invoice is raised in this demo.</p>' +
         npFooter("myservice.html#renewal", "Review and confirm renewal");
     }
   };
@@ -553,7 +595,7 @@
           '<div class="field"><label>What do you need help with?</label><select><option>Choose a topic</option><option>Compliance / reporting</option><option>Funding / grants</option><option>HR / volunteers</option><option>Brand, comms & media</option><option>Technical / portal access</option><option>Something else</option></select></div>' +
           '<div class="field"><label>Tell us more</label><textarea style="min-height:90px" placeholder="A few details helps the team get back to you faster"></textarea></div>' +
           '<button class="btn-primary" type="submit">Submit request</button></form>' +
-          '<div class="announce-thanks hide" id="fabAskThanks">Thanks — your request has been logged and routed to the relevant team. Reference build — nothing is actually sent.</div>';
+          '<div class="announce-thanks hide" id="fabAskThanks">Thanks — your request has been logged and routed to the relevant team. Nothing is actually sent.</div>';
         wireBack();
         document.getElementById("fabAskForm").addEventListener("submit", function (e) {
           e.preventDefault();
@@ -679,12 +721,17 @@
             top3.map(function (c) {
               return '<a class="ts-suggest-item" href="' + c.url + '"><div class="tsi-t">' + esc(c.title) + '</div><div class="tsi-m">' + esc(c.type) + "</div></a>";
             }).join("") + "</div>";
+        } else if (term) {
+          html += '<div class="ts-suggest-label">No matches</div>';
         }
         if (tagMatches.length) {
           html += '<div class="ts-suggest-label">Tags</div><div class="ts-suggest-tags">' +
-            tagMatches.map(function (t) { return '<a class="tstag" href="resources.html?tag=' + encodeURIComponent(t) + '">#' + esc(t) + "</a>"; }).join("") + "</div>";
+            tagMatches.map(function (t) { return '<a class="tstag" href="archive.html?tag=' + encodeURIComponent(t) + '">#' + esc(t) + "</a>"; }).join("") + "</div>";
         }
-        suggest.innerHTML = html || '<div class="ts-suggest-label">No matches</div>';
+        if (term) {
+          html += '<a class="ts-suggest-all" href="archive.html?q=' + encodeURIComponent(term) + '">See all ' + matches.length + " result" + (matches.length === 1 ? "" : "s") + " &rarr;</a>";
+        }
+        suggest.innerHTML = html;
       }
 
       function open() {
@@ -705,6 +752,11 @@
       });
       input.addEventListener("focus", function () { renderSuggest(input.value); });
       input.addEventListener("input", function () { renderSuggest(input.value); });
+      input.addEventListener("keydown", function (e) {
+        if (e.key !== "Enter") return;
+        var term = input.value.trim();
+        if (term) window.location.href = "archive.html?q=" + encodeURIComponent(term);
+      });
       row.addEventListener("click", function (e) { e.stopPropagation(); });
       document.addEventListener("click", function () { close(); });
       document.addEventListener("keydown", function (e) { if (e.key === "Escape") close(); });
@@ -863,10 +915,13 @@
     };
   })();
 
-  // ---- Discussions widget: a single-mode "Active" or "Subscribed" card
-  // (no toggle — callers mount one of each, Subscribed first) used on the
+  // ---- Discussions widget: an "Active" or "Subscribed" card used on the
   // dashboard AND inside Connect's Discussions page. One shared renderer so
-  // both stay in sync with mow_threads_v2 and with each other. ----
+  // both stay in sync with mow_threads_v2 and with each other. Two ways to
+  // mount it: call it once per mode (the original pattern — two stacked
+  // cards, no toggle), or pass opts.toggle: true to get ONE card with a
+  // Subscribed/Active pill switch built in (opts.mode sets which starts
+  // active). ----
   window.initDiscussionsWidget = function (containerEl, opts) {
     opts = opts || {};
     var mode = opts.mode || "active";
@@ -882,14 +937,36 @@
       return SEED;
     }
 
+    var toggleHtml = opts.toggle
+      ? '<div class="dir-toggle dir-toggle-sm" style="margin-left:auto" role="tablist" aria-label="Discussions view">' +
+          '<button type="button" class="dir-toggle-btn' + (mode === "subscribed" ? " active" : "") + '" data-mode="subscribed" role="tab" aria-selected="' + (mode === "subscribed") + '">Subscribed</button>' +
+          '<button type="button" class="dir-toggle-btn' + (mode === "active" ? " active" : "") + '" data-mode="active" role="tab" aria-selected="' + (mode === "active") + '">Active</button>' +
+        "</div>"
+      : "";
+
     containerEl.classList.add("mcard", "snapshot");
     containerEl.innerHTML =
       '<div class="mcard-head">' +
         '<span class="mi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>' +
-        "<h2>" + (mode === "subscribed" ? "Subscribed discussions" : "Active discussions") + "</h2>" +
+        "<h2>" + (opts.toggle ? "Discussions" : (mode === "subscribed" ? "Subscribed discussions" : "Active discussions")) + "</h2>" +
+        toggleHtml +
       "</div>" +
       '<div data-disc-list></div>' +
       (opts.hideLink ? "" : '<a class="link" href="connect.html#discussion">Go to Discussions &rarr;</a>');
+
+    if (opts.toggle) {
+      containerEl.querySelectorAll("[data-mode]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          mode = btn.getAttribute("data-mode");
+          containerEl.querySelectorAll("[data-mode]").forEach(function (b) {
+            var on = b === btn;
+            b.classList.toggle("active", on);
+            b.setAttribute("aria-selected", on);
+          });
+          render();
+        });
+      });
+    }
 
     var list = containerEl.querySelector("[data-disc-list]");
     function render() {
@@ -1198,7 +1275,7 @@
     window.openAnnouncePopup = function () {
       window.openInfoPopupHtml(
         "<h2>Post an announcement</h2>" +
-        '<p class="im-meta" style="font-size:12px;color:var(--muted);margin:0 0 14px">Posts to the Meals on Wheels news column for members. In this reference build nothing is actually published.</p>' +
+        '<p class="im-meta" style="font-size:12px;color:var(--muted);margin:0 0 14px">Posts to the Meals on Wheels news column for members. Nothing is actually published.</p>' +
         '<form id="announceForm">' +
           '<div class="field"><label>Headline</label><input type="text" placeholder="Short, clear headline" required></div>' +
           '<div class="field"><label>Audience</label><select><option>All member services</option><option>My region only</option><option>Volunteer coordinators</option></select></div>' +
@@ -1254,7 +1331,7 @@
           "</div>" +
           '<button class="btn-primary" type="submit">Submit to Member Voice</button>' +
         "</form>" +
-        '<div class="suggest-thanks hide" id="voicePopupThanks">Thanks — that\'s been logged in Member Voice and may be escalated by the advocacy team. Reference build, nothing is actually sent.</div>'
+        '<div class="suggest-thanks hide" id="voicePopupThanks">Thanks — that\'s been logged in Member Voice and may be escalated by the advocacy team. Nothing is actually sent.</div>'
       );
       document.getElementById("voicePopupForm").addEventListener("submit", function (e) {
         e.preventDefault();
@@ -2027,5 +2104,24 @@
       description: btn.getAttribute("data-ics-desc") || ""
     });
     document.querySelectorAll(".ics-add-menu").forEach(function (m) { m.classList.add("hide"); });
+  }, true);
+})();
+
+// ---- Clickable topic tags: any .tag inside a card's .rtags list navigates
+// to archive.html filtered to that tag (slugified from the tag's own
+// label, so it works without every card needing a matching data-tag
+// attribute). Capture phase + stopPropagation for the same reason as the
+// .ics-add handlers above — a lot of these tags sit inside a card that's
+// itself a [data-popup] trigger, and only capture reliably runs before
+// that card's own bubble-phase click listener. ----
+(function () {
+  document.addEventListener("click", function (e) {
+    var tag = e.target.closest && e.target.closest(".rtags .tag");
+    if (!tag) return;
+    e.preventDefault();
+    e.stopPropagation();
+    var slug = tag.textContent.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+    if (!slug) return;
+    window.location.href = "archive.html?tag=" + encodeURIComponent(slug);
   }, true);
 })();
