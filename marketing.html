@@ -5,8 +5,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="mow-favicon.svg" type="image/svg+xml">
-<title>Marketing — MOW NSW Members Portal (reference build)</title>
-<link rel="stylesheet" href="styles.css?v=49">
+<title>Marketing — MOW NSW Members Portal</title>
+<link rel="stylesheet" href="styles.css?v=61">
 </head>
 <body data-active="marketing.html" data-title="Marketing" data-crumb="Marketing"
       data-sub="Key awareness dates, current campaigns, and the brand assets that go with them."
@@ -21,41 +21,88 @@
     <a class="tab" href="#brand" data-cat="brand">Brand &amp; Assets</a>
   </div>
 
-  <div data-cat-section="overview">
-    <div class="section-title"><h2>Overview</h2><span class="desc">Everything for promoting your service, in one place</span></div>
+  <div class="sidebar-layout-2col">
+    <aside class="sidebar-filters">
+      <div class="field"><label>Search</label><input type="text" id="mktFilterSearch" placeholder="Campaign, asset or keyword"></div>
+      <div class="field"><label>Type</label><select id="mktFilterType"><option value="">All types</option><option>Campaign</option><option>Brand asset</option><option>Template</option><option>Guide</option></select></div>
+      <div class="field"><label>Tags</label><div class="sidebar-tag-list" id="mktFilterTags"></div></div>
+      <button type="button" class="btn-secondary" id="mktFilterClear" style="width:100%;justify-content:center">Clear filters</button>
+    </aside>
 
-    <div class="section-title" style="margin-top:0"><h2 style="font-size:17px">What's new in Marketing</h2></div>
+    <div class="sidebar-main">
+  <div class="im-note hide" id="mktFilterNoResults" style="margin-bottom:16px">No marketing items match those filters. <a href="#" id="mktFilterClearInline">Clear filters</a></div>
+
+  <div data-cat-section="overview">
+   <div class="mkt-ov-grid">
+    <div class="mkt-ov-main">
+    <!-- Featured: the next key date, styled like Training's next-session banner -->
+    <div class="next-session">
+      <div class="thumb-lg">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      </div>
+      <div class="ns-body">
+        <div class="ns-flag">Next key date · Thu 27 August 2026</div>
+        <div class="lh-title">National Meals on Wheels Day</div>
+        <div class="lh-desc">Celebrate volunteers and raise your service's local profile. The ready-to-run campaign kit — posters, social tiles and a host guide — is waiting under Campaigns.</div>
+        <div class="ns-agenda"><strong>In the kit:</strong> poster pack (A3 &amp; A4) · social tiles · host guide</div>
+        <a class="btn-primary" href="#campaigns" data-cat="campaigns">Open the campaign kit</a>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:20px"><h2 style="font-size:17px">What's new in Marketing</h2><span class="desc">Use the filters on the left to search campaigns and brand assets</span></div>
     <div class="mcard" style="max-width:none;margin-bottom:20px">
       <a class="row" href="#calendar" data-cat="calendar"><span class="rt">Next key date: National Meals on Wheels Day<div class="meta">Calendar · Thu 27 August 2026</div></span><span class="tag neutral">Calendar</span></a>
       <a class="row" href="marketing.html?open=mkt-campaign-cuppa"><span class="rt">Cuppa for a Cause campaign kit<div class="meta">Campaigns · Runs throughout October 2026</div></span><span class="tag ok">New resource</span></a>
       <a class="row" href="marketing.html?open=brand-logos"><span class="rt">Brand guidelines and logo pack<div class="meta">Brand &amp; Assets · Print and digital logo suites</div></span><span class="tag neutral">v2.0</span></a>
     </div>
 
-    <div class="section-title" style="margin-top:0"><h2 style="font-size:17px">Browse by group</h2></div>
+    <div class="section-title"><h2>Find marketing fast</h2></div>
     <div class="quick-grid" style="grid-template-columns:repeat(3,1fr)">
       <a class="quick-item" href="#calendar" data-cat="calendar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span>Calendar — key awareness dates</span></a>
       <a class="quick-item" href="#campaigns" data-cat="campaigns"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Campaigns — current and upcoming</span></a>
       <a class="quick-item" href="#brand" data-cat="brand"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg><span>Brand &amp; Assets — logos, templates, media releases</span></a>
     </div>
+    </div>
+
+    <aside class="mkt-ov-aside">
+      <div class="mcard" style="max-width:none">
+        <div class="mcard-head" style="margin-bottom:12px"><span class="mi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span><h2 style="font-size:16px;margin:0">Upcoming dates</h2></div>
+        <div class="mkt-up-list" id="mktUpcomingList"></div>
+        <a class="btn-secondary" href="#calendar" data-cat="calendar" style="width:100%;justify-content:center">View full calendar &rarr;</a>
+      </div>
+    </aside>
+   </div>
   </div>
 
   <div data-cat-section="calendar">
-    <div class="section-title" id="calendar"><h2 style="font-size:17px">Calendar of key awareness dates</h2><span class="desc">National and sector dates, plus any of your own</span></div>
-    <div class="mcard" style="max-width:none;margin-bottom:16px">
-      <form id="keyDateForm" style="display:grid;grid-template-columns:1fr 170px auto;gap:10px;align-items:end;margin-bottom:14px">
-        <div class="field" style="margin-bottom:0"><label>Date title</label><input type="text" id="kdTitle" placeholder="e.g. Blacktown open day" required></div>
-        <div class="field" style="margin-bottom:0"><label>Date</label><input type="date" id="kdDate" required></div>
-        <button class="btn-primary" type="submit">Add date</button>
-      </form>
-      <div id="keyDatesList" class="windup-archive"></div>
+    <div class="section-title" id="calendar"><h2 style="font-size:17px">Calendar</h2><span class="desc">National and sector dates, plus any of your own</span></div>
+    <div class="cal-wrap">
+      <div class="cal-panel">
+        <div class="cal-head">
+          <button class="cal-nav" id="calPrev" type="button" aria-label="Previous month">&#8249;</button>
+          <div class="cal-month" id="calMonth"></div>
+          <button class="cal-nav" id="calNext" type="button" aria-label="Next month">&#8250;</button>
+        </div>
+        <div class="cal-grid cal-dow-row" id="calDow"></div>
+        <div class="cal-grid" id="calDays"></div>
+        <div class="cal-legend"><span class="cal-dot"></span> National / sector date <span style="width:8px"></span> <span class="cal-legend-mine"></span> Your event</div>
+      </div>
+      <div class="cal-events">
+        <button class="cal-add-card" id="calAddBtn" type="button">
+          <span class="cal-add-icon">+</span>
+          <span class="cal-add-text"><span class="cal-add-title">Add your event</span><span class="cal-add-sub">Paste a Facebook, LinkedIn or website link, or fill it in yourself</span></span>
+        </button>
+        <div class="cal-events-head"><span>All upcoming events</span></div>
+        <div id="calEventsList"></div>
+      </div>
     </div>
-    <p class="im-note">Reference build placeholder — dates you add are stored in your browser only, not shared with other members yet.</p>
+    <p class="im-note">Events you add are stored in your browser only, not shared with other members yet.</p>
   </div>
 
   <div data-cat-section="campaigns">
     <div class="section-title" id="campaigns"><h2>Campaigns</h2><span class="desc">MOW NSW brand campaigns — click one for its campaign kit</span></div>
     <div class="res-grid">
-      <div class="res-card" data-popup="mkt-campaign-nmwd">
+      <div class="res-card mkt-item" data-popup="mkt-campaign-nmwd" data-type="Campaign" data-tags="campaign volunteers awareness">
         <div class="rhead"><span class="ri"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></span><span class="tag ok">Campaign</span></div>
         <p class="rtitle">National Meals on Wheels Day</p>
         <p class="rdesc">Thu 27 August 2026 — celebrate volunteers, raise the service's local profile.</p>
@@ -69,10 +116,10 @@
             <div class="dl-row"><div><div class="dl-name">Social tiles</div><div class="dl-desc">Feed and story sizes for the day</div></div><a class="btn-secondary dl-btn" href="#">Download</a></div>
             <div class="dl-row"><div><div class="dl-name">Host guide</div><div class="dl-desc">A simple run sheet for the day</div></div><a class="btn-secondary dl-btn" href="#">Download</a></div>
           </div>
-          <p class="im-note">Reference build placeholder — kit files aren't attached in this demo.</p>
+          <p class="im-note">Kit files aren't attached in this demo.</p>
         </template>
       </div>
-      <div class="res-card" data-popup="mkt-campaign-cuppa">
+      <div class="res-card mkt-item" data-popup="mkt-campaign-cuppa" data-type="Campaign" data-tags="campaign fundraising">
         <div class="rhead"><span class="ri"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></span><span class="tag ok">Campaign</span></div>
         <p class="rtitle">Cuppa for a Cause</p>
         <p class="rdesc">Throughout October 2026 — fundraising morning tea campaign.</p>
@@ -86,7 +133,7 @@
             <div class="dl-row"><div><div class="dl-name">Host guide</div><div class="dl-desc">Simple run sheet for the day</div></div><a class="btn-secondary dl-btn" href="#">Download</a></div>
             <div class="dl-row"><div><div class="dl-name">Donation tracking sheet</div><div class="dl-desc">Log what's raised locally</div></div><a class="btn-secondary dl-btn" href="#">Download</a></div>
           </div>
-          <p class="im-note">Reference build placeholder — kit files aren't attached in this demo. Register your date with your NSO.</p>
+          <p class="im-note">Kit files aren't attached in this demo. Register your date with your NSO.</p>
         </template>
       </div>
     </div>
@@ -96,7 +143,7 @@
   <div class="section-title" id="brand"><h2>Brand &amp; Assets</h2><span class="desc">Logos, brand guidelines, flyers, campaign kit templates, media releases, social media tiles</span></div>
 
   <div class="res-grid">
-    <div class="res-card" data-popup="brand-logos">
+    <div class="res-card mkt-item" data-popup="brand-logos" data-type="Brand asset" data-tags="brand logo print digital">
       <div class="rhead"><span class="ri"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg></span><span class="tag neutral">Mixed access</span></div>
       <p class="rtitle">Brand guidelines and logo pack</p>
       <p class="rdesc">Full logo suite, colour palette and usage rules for local promotion.</p>
@@ -114,10 +161,10 @@
           <div class="dl-row"><div><div class="dl-name">PowerPoint template</div><div class="dl-desc">Title and content slide layouts in brand colours</div></div><a class="btn-secondary dl-btn" href="#">Download</a></div>
           <div class="dl-row"><div><div class="dl-name">Email signature template</div><div class="dl-desc">HTML signature matching the brand (uses the Digital logo)</div></div><a class="btn-secondary dl-btn" href="#">Download</a></div>
         </div>
-        <p class="im-note"><strong>Not sure which?</strong> If it's being printed, use Print (EPS/PDF). If it's viewed on a screen, use Digital (PNG/SVG). Reference build placeholder — files aren't attached yet. Minimum logo size, clear space and colour rules still apply; check with MOW NSW brand/comms before publishing anything.</p>
+        <p class="im-note"><strong>Not sure which?</strong> If it's being printed, use Print (EPS/PDF). If it's viewed on a screen, use Digital (PNG/SVG). Files aren't attached yet. Minimum logo size, clear space and colour rules still apply; check with MOW NSW brand/comms before publishing anything.</p>
       </template>
     </div>
-    <div class="res-card" data-popup="campaign-kits">
+    <div class="res-card mkt-item" data-popup="campaign-kits" data-type="Brand asset" data-tags="campaign brand social print">
       <div class="rhead"><span class="ri"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></span><span class="tag ok">New resource</span></div>
       <p class="rtitle">Campaign kits</p>
       <p class="rdesc">Posters, social tiles and host guides for seasonal campaigns.</p>
@@ -136,7 +183,7 @@
         <p class="im-note">See the Campaigns tab for the current live examples.</p>
       </template>
     </div>
-    <div class="res-card" data-popup="media-releases">
+    <div class="res-card mkt-item" data-popup="media-releases" data-type="Template" data-tags="brand media approval">
       <div class="rhead"><span class="ri"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v12H5.17L4 17.17z"/></svg></span><span class="tag lock">Approval required</span></div>
       <p class="rtitle">Media releases</p>
       <p class="rdesc">Templates and pre-approved messaging. Approval required before publishing.</p>
@@ -152,10 +199,10 @@
           <li>Submit your draft for approval before publishing or sending to media</li>
           <li>Contact your Network Support Officer if you're not sure whether something needs sign-off</li>
         </ul>
-        <p class="im-note">Reference build placeholder — the approval routing workflow isn't built yet.</p>
+        <p class="im-note">The approval routing workflow isn't built yet.</p>
       </template>
     </div>
-    <div class="res-card" data-popup="social-templates">
+    <div class="res-card mkt-item" data-popup="social-templates" data-type="Brand asset" data-tags="social brand canva">
       <div class="rhead"><span class="ri"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 6L2 7"/></svg></span><span class="tag neutral">Canva-ready</span></div>
       <p class="rtitle">Social media templates</p>
       <p class="rdesc">Ready-made tiles sized for Facebook and Instagram.</p>
@@ -171,10 +218,10 @@
           <li>Facebook cover and profile image sizes</li>
           <li>Locked brand elements — logo, colours and fonts stay fixed</li>
         </ul>
-        <p class="im-note">Reference build placeholder — Canva links aren't wired up in this demo.</p>
+        <p class="im-note">Canva links aren't wired up in this demo.</p>
       </template>
     </div>
-    <div class="res-card" data-popup="fundraising-tools">
+    <div class="res-card mkt-item" data-popup="fundraising-tools" data-type="Template" data-tags="fundraising brand">
       <div class="rhead"><span class="ri"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span><span class="tag neutral">11 files</span></div>
       <p class="rtitle">Fundraising tools</p>
       <p class="rdesc">Donation thank-you templates and sponsorship one-pagers.</p>
@@ -190,10 +237,10 @@
           <li>Sponsorship one-pagers for local business asks</li>
           <li>Tax-deductibility wording — check current ATO guidance before sending</li>
         </ul>
-        <p class="im-note">Reference build placeholder — confirm current tax/donation wording with MOW NSW before use, don't reuse this demo text as final copy.</p>
+        <p class="im-note">Confirm current tax/donation wording with MOW NSW before use, don't reuse this demo text as final copy.</p>
       </template>
     </div>
-    <div class="res-card" data-popup="storytelling-guide">
+    <div class="res-card mkt-item" data-popup="storytelling-guide" data-type="Guide" data-tags="brand storytelling media">
       <div class="rhead"><span class="ri"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></span><span class="tag neutral">Guide</span></div>
       <p class="rtitle">Storytelling guide</p>
       <p class="rdesc">How to write and photograph a client or volunteer story for local media.</p>
@@ -209,59 +256,448 @@
           <li>What makes a story feel authentic rather than staged</li>
           <li>A simple structure: the person, the need, the difference the service made</li>
         </ul>
-        <p class="im-note">Reference build placeholder — always confirm consent and privacy requirements before publishing a real client or volunteer story.</p>
+        <p class="im-note">Always confirm consent and privacy requirements before publishing a real client or volunteer story.</p>
       </template>
     </div>
   </div>
   </div>
 
+    </div>
+  </div>
+
 </div>
 
-<script src="portal.js?v=49"></script>
+<script src="portal.js?v=61"></script>
 <script>
-  // Marketing calendar: seed dates + anything a member adds (localStorage-backed, browser-only).
+  // Marketing calendar: an interactive month grid on the left, an events list
+  // on the right, and an "add your event" card that opens a popup where a
+  // member can paste a Facebook / LinkedIn / website link (auto-fills the
+  // fields in this reference build) or fill them in by hand, then flag how
+  // they'd like MOW NSW involved. Everything is localStorage-backed, browser-only.
   (function () {
-    var listEl = document.getElementById("keyDatesList");
-    if (!listEl) return;
-    var KEY = "mow_key_dates_v1";
-    var seed = [
-      { title: "National Meals on Wheels Day", date: "2026-08-27", note: "Campaign kit available under Campaigns" },
-      { title: "Cuppa for a Cause", date: "2026-10-01", note: "Fundraising morning tea campaign — runs through October" },
-      { title: "International Volunteer Day", date: "2026-12-05", note: "Good moment to thank local volunteers publicly" },
-      { title: "Seniors Festival (NSW)", date: "2027-03-01", note: "State-wide campaign, good local media angle" }
-    ];
-    function load() {
-      try { var s = JSON.parse(localStorage.getItem(KEY)); if (Array.isArray(s)) return s; } catch (e) {}
-      return [];
-    }
-    function save(added) { try { localStorage.setItem(KEY, JSON.stringify(added)); } catch (e) {} }
-    function esc(s) { return (s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
-    function fmt(d) {
-      var dt = new Date(d + "T00:00:00");
-      if (isNaN(dt)) return d;
-      return dt.toLocaleDateString("en-AU", { day: "numeric", month: "long", year: "numeric" });
-    }
-    var added = load();
+    var daysEl = document.getElementById("calDays");
+    var listEl = document.getElementById("calEventsList");
+    if (!daysEl || !listEl) return;
 
-    function render() {
-      var all = seed.concat(added.map(function (a) { return { title: a.title, date: a.date, note: "Added by your service", mine: true }; }));
-      all.sort(function (a, b) { return a.date < b.date ? -1 : 1; });
-      listEl.innerHTML = all.map(function (d) {
-        return '<div class="windup-row"><span class="wr-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span><span style="flex:1"><span class="wr-title">' + esc(d.title) + (d.mine ? ' <span class="tag neutral" style="margin-left:6px">Yours</span>' : "") + '</span><div class="wr-date">' + fmt(d.date) + " — " + esc(d.note) + "</div></span></div>";
+    var KEY = "mow_cal_events_v2";
+    var MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+    var MON_SHORT = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    var DOW = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+    var INVOLVE_OPTIONS = [
+      "Share it through MOW NSW social channels",
+      "Include it in the Weekly Windup",
+      "Add it to the state-wide awareness calendar",
+      "Send a MOW NSW representative or delegation",
+      "Provide campaign assets or branded materials",
+      "Help with local media or a media release"
+    ];
+
+    var seed = [
+      { title: "National Meals on Wheels Day", date: "2026-08-27", note: "National day — celebrate volunteers and raise your local profile. Campaign kit under Campaigns." },
+      { title: "Cuppa for a Cause", date: "2026-10-01", note: "Fundraising morning tea campaign — runs through October." },
+      { title: "International Volunteer Day", date: "2026-12-05", note: "A good moment to thank your local volunteers publicly." },
+      { title: "Seniors Festival (NSW)", date: "2027-03-01", note: "State-wide campaign — a strong local media angle." }
+    ];
+
+    function load() { try { var s = JSON.parse(localStorage.getItem(KEY)); if (Array.isArray(s)) return s; } catch (e) {} return []; }
+    function save() { try { localStorage.setItem(KEY, JSON.stringify(added)); } catch (e) {} }
+    function esc(s) { return (s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+    function ymd(dt) { return dt.getFullYear() + "-" + String(dt.getMonth() + 1).padStart(2, "0") + "-" + String(dt.getDate()).padStart(2, "0"); }
+    function parseYmd(s) { var p = (s || "").split("-"); return new Date(+p[0], (+p[1] || 1) - 1, +p[2] || 1); }
+    function fmtLong(s) { var dt = parseYmd(s); return dt.toLocaleDateString("en-AU", { weekday: "long", day: "numeric", month: "long", year: "numeric" }); }
+    // Loosely parses a free-text time like "10:00am" or "2pm" into {h, min}.
+    function parseTimeToHM(timeStr) {
+      var m = /(\d{1,2})(?::(\d{2}))?\s*(am|pm)?/i.exec((timeStr || "").trim());
+      if (!m) return null;
+      var h = parseInt(m[1], 10), min = m[2] ? parseInt(m[2], 10) : 0;
+      var ap = m[3] ? m[3].toLowerCase() : null;
+      if (ap === "pm" && h < 12) h += 12;
+      if (ap === "am" && h === 12) h = 0;
+      return { h: h, min: min };
+    }
+    // Builds the "Add to calendar" widget (see portal.js's shared .ics-add
+    // component) for an event's date + optional free-text time.
+    function icsAddFor(ev) {
+      var start = parseYmd(ev.date);
+      var allDay = true;
+      var hm = ev.time ? parseTimeToHM(ev.time) : null;
+      if (hm) { start.setHours(hm.h, hm.min, 0, 0); allDay = false; }
+      var end = new Date(start);
+      if (allDay) end.setDate(end.getDate() + 1); else end.setHours(end.getHours() + 1);
+      var attrs = 'data-ics-title="' + esc(ev.title) + '" data-ics-start="' + window.icsDateAttr(start) + '" data-ics-end="' + window.icsDateAttr(end) + '"' +
+        (allDay ? " data-ics-allday" : "") +
+        (ev.location ? ' data-ics-location="' + esc(ev.location) + '"' : "") +
+        (ev.note ? ' data-ics-desc="' + esc(ev.note) + '"' : "");
+      return '<span class="ics-add" ' + attrs + '></span>';
+    }
+
+    var added = load();
+    function allEvents() {
+      return seed.map(function (s) { return { title: s.title, date: s.date, note: s.note, mine: false }; })
+        .concat(added.map(function (a) { return { title: a.title, date: a.date, note: a.note, time: a.time, location: a.location, link: a.link, involve: a.involve, mine: true }; }))
+        .sort(function (a, b) { return a.date < b.date ? -1 : 1; });
+    }
+
+    var today = new Date();
+    var viewYear, viewMonth;
+    (function initView() {
+      // Open on the month of the next upcoming event so the grid isn't empty.
+      var ev = allEvents().filter(function (e) { return parseYmd(e.date) >= new Date(today.getFullYear(), today.getMonth(), today.getDate()); })[0];
+      var base = ev ? parseYmd(ev.date) : today;
+      viewYear = base.getFullYear(); viewMonth = base.getMonth();
+    })();
+
+    // ---- Calendar grid ----
+    document.getElementById("calDow").innerHTML = DOW.map(function (d) { return '<div class="cal-dow">' + d + "</div>"; }).join("");
+
+    function eventsOn(dateStr) { return allEvents().filter(function (e) { return e.date === dateStr; }); }
+
+    function renderCalendar() {
+      document.getElementById("calMonth").textContent = MONTHS[viewMonth] + " " + viewYear;
+      var first = new Date(viewYear, viewMonth, 1);
+      var startOffset = (first.getDay() + 6) % 7; // Monday-first
+      var daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
+      var todayStr = ymd(today);
+      var cells = "";
+      for (var i = 0; i < startOffset; i++) cells += '<div class="cal-day empty"></div>';
+      for (var d = 1; d <= daysInMonth; d++) {
+        var dateStr = viewYear + "-" + String(viewMonth + 1).padStart(2, "0") + "-" + String(d).padStart(2, "0");
+        var evs = eventsOn(dateStr);
+        var cls = "cal-day";
+        if (evs.length) cls += " has-event";
+        if (dateStr === todayStr) cls += " today";
+        var dots = "";
+        if (evs.length) {
+          dots = '<div class="cal-dots">' + evs.slice(0, 3).map(function (e) { return '<span class="cal-dot' + (e.mine ? " mine" : "") + '"></span>'; }).join("") + "</div>";
+        }
+        cells += '<div class="' + cls + '" data-date="' + dateStr + '" role="button" tabindex="0"><span>' + d + "</span>" + dots + "</div>";
+      }
+      daysEl.innerHTML = cells;
+    }
+
+    // Clicking any day: an empty day opens the add-event form pre-filled
+    // with that date; a day that already has something on it offers a
+    // choice — read more about what's there, or add your own event too.
+    function onDayActivate(dateStr) {
+      var evs = eventsOn(dateStr);
+      if (!evs.length) openAddEventForm(dateStr);
+      else openDayChooser(dateStr, evs);
+    }
+    daysEl.addEventListener("click", function (e) {
+      var cell = e.target.closest(".cal-day[data-date]");
+      if (!cell) return;
+      onDayActivate(cell.getAttribute("data-date"));
+    });
+    daysEl.addEventListener("keydown", function (e) {
+      if (e.key !== "Enter" && e.key !== " ") return;
+      var cell = e.target.closest(".cal-day[data-date]");
+      if (!cell) return;
+      e.preventDefault();
+      onDayActivate(cell.getAttribute("data-date"));
+    });
+
+    function dayChooserHtml(dateStr, evs) {
+      var html = "<h2>" + esc(fmtLong(dateStr)) + "</h2>";
+      html += '<p class="im-meta" style="margin:0 0 14px">' + evs.length + " event" + (evs.length === 1 ? "" : "s") + " already on this date</p>";
+      html += '<div class="cal-day-evlist">' + evs.map(function (e, i) {
+        return '<button type="button" class="cal-day-ev" data-day-ev="' + i + '"><span class="cal-day-ev-title">' + esc(e.title) + "</span>" +
+          (e.mine ? '<span class="tag ok">Your event</span>' : '<span class="tag neutral">National / sector</span>') +
+          '<span class="cal-day-ev-more">Read more &rarr;</span></button>';
+      }).join("") + "</div>";
+      html += '<button type="button" class="cal-add-card" id="calDayAddBtn" style="margin-top:14px">' +
+        '<span class="cal-add-icon">+</span><span class="cal-add-text"><span class="cal-add-title">Add your event on this date</span>' +
+        '<span class="cal-add-sub">You can add your own event alongside what\'s already there</span></span></button>';
+      return html;
+    }
+
+    function openDayChooser(dateStr, evs) {
+      window.openInfoPopupHtml(dayChooserHtml(dateStr, evs), { wide: true });
+      document.querySelectorAll("[data-day-ev]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          window.openInfoPopupHtml(eventPopupHtml(evs[+btn.getAttribute("data-day-ev")]), { wide: true });
+        });
+      });
+      document.getElementById("calDayAddBtn").addEventListener("click", function () { openAddEventForm(dateStr); });
+    }
+
+    // ---- Events list ----
+    var renderedEvents = [];
+    function renderList() {
+      var events = allEvents();
+      renderedEvents = events;
+      if (!events.length) { listEl.innerHTML = '<div class="cal-empty-note">No events on this day.</div>'; return; }
+      listEl.innerHTML = events.map(function (e, i) {
+        var dt = parseYmd(e.date);
+        var meta = [];
+        if (e.time) meta.push(esc(e.time));
+        if (e.location) meta.push(esc(e.location));
+        var metaLine = meta.join(" · ");
+        var tags = "";
+        if (e.mine) {
+          tags += '<span class="tag ok">Your event</span>';
+          if (e.involve && e.involve.length) tags += '<span class="tag neutral">' + e.involve.length + ' MOW NSW ' + (e.involve.length === 1 ? "request" : "requests") + '</span>';
+        } else {
+          tags += '<span class="tag neutral">National / sector</span>';
+        }
+        var removeBtn = e.mine ? '<button class="cal-ev-remove" data-remove="' + esc(e.date) + '|' + esc(e.title) + '">Remove</button>' : "";
+        return '<div class="cal-event' + (e.mine ? " is-mine" : "") + '" data-ev-idx="' + i + '" role="button" tabindex="0">' +
+          '<div class="cal-ev-date"><span class="cal-ev-day">' + dt.getDate() + '</span><span class="cal-ev-mon">' + MON_SHORT[dt.getMonth()] + "</span></div>" +
+          '<div class="cal-ev-body">' +
+            '<p class="cal-ev-title">' + esc(e.title) + "</p>" +
+            (metaLine ? '<p class="cal-ev-meta">' + metaLine + "</p>" : "") +
+            (e.note ? '<p class="cal-ev-meta">' + esc(e.note) + "</p>" : "") +
+            '<div class="cal-ev-tags">' + tags + "</div>" +
+            (removeBtn ? '<div style="margin-top:6px">' + removeBtn + "</div>" : "") +
+          "</div>" +
+        "</div>";
+      }).join("");
+      renderMiniList();
+    }
+
+    // ---- Synced "Upcoming dates" mini-list in the Marketing Overview.
+    // Reads the same seed + saved events as the calendar, so the two stay
+    // in step whenever an event is added or removed. ----
+    var miniEvents = [];
+    function renderMiniList() {
+      var el = document.getElementById("mktUpcomingList");
+      if (!el) return;
+      var todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+      miniEvents = allEvents().filter(function (e) { return parseYmd(e.date) >= todayStart; }).slice(0, 5);
+      if (!miniEvents.length) { el.innerHTML = '<p class="im-note" style="margin:0">No upcoming dates.</p>'; return; }
+      el.innerHTML = miniEvents.map(function (e, i) {
+        var dt = parseYmd(e.date);
+        return '<button type="button" class="mkt-up-row" data-up-idx="' + i + '">' +
+          '<span class="mkt-up-date"><span class="mkt-up-day">' + dt.getDate() + '</span><span class="mkt-up-mon">' + MON_SHORT[dt.getMonth()] + "</span></span>" +
+          '<span><span class="mkt-up-title">' + esc(e.title) + "</span>" + (e.mine ? '<span class="mkt-up-flag">Your event</span>' : "") + "</span>" +
+        "</button>";
       }).join("");
     }
-    render();
-
-    document.getElementById("keyDateForm").addEventListener("submit", function (e) {
-      e.preventDefault();
-      var title = document.getElementById("kdTitle").value.trim();
-      var date = document.getElementById("kdDate").value;
-      if (!title || !date) return;
-      added.push({ title: title, date: date });
-      save(added);
-      render();
-      this.reset();
+    var miniListEl = document.getElementById("mktUpcomingList");
+    if (miniListEl) miniListEl.addEventListener("click", function (e) {
+      var b = e.target.closest(".mkt-up-row"); if (!b) return;
+      var ev = miniEvents[+b.getAttribute("data-up-idx")];
+      if (ev && typeof window.openInfoPopupHtml === "function") window.openInfoPopupHtml(eventPopupHtml(ev), { wide: true });
     });
+
+    // Build the detail popup for a single event.
+    function eventPopupHtml(ev) {
+      var dt = parseYmd(ev.date);
+      var when = dt.toLocaleDateString("en-AU", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+      var meta = [when];
+      if (ev.time) meta.push(esc(ev.time));
+      var html = "<h2>" + esc(ev.title) + "</h2>";
+      html += '<p class="im-meta">' + (ev.mine ? "Your event" : "National / sector date") + " &middot; " + meta.join(" &middot; ") + "</p>";
+      if (ev.location) html += '<p style="margin:0 0 12px"><strong>Where:</strong> ' + esc(ev.location) + "</p>";
+      if (ev.note) html += "<p>" + esc(ev.note) + "</p>";
+      if (ev.link) html += '<p style="word-break:break-all"><a href="' + esc(ev.link) + '" target="_blank" rel="noopener">' + esc(ev.link) + "</a></p>";
+      var shareBody = encodeURIComponent(ev.title + "\n" + when + (ev.time ? " · " + ev.time : "") + (ev.location ? "\n" + ev.location : "") + (ev.note ? "\n\n" + ev.note : ""));
+      html += '<div style="display:flex;align-items:center;gap:10px;margin-top:10px">' +
+        icsAddFor(ev) +
+        '<a class="share-btn" title="Share by email" href="mailto:?subject=' + encodeURIComponent(ev.title) + "&body=" + shareBody + '">' +
+          '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 6L2 7"/></svg>' +
+        "</a>" +
+      "</div>";
+      if (ev.mine && ev.involve && ev.involve.length) {
+        html += '<p class="im-meta" style="margin-top:10px">MOW NSW involvement you\'ve asked for</p><ul>';
+        ev.involve.forEach(function (o) { html += "<li>" + esc(o) + "</li>"; });
+        html += "</ul>";
+        html += '<div class="cal-louie"><span class="cal-louie-avatar">LR</span>' +
+          '<span class="cal-louie-text">Got it, thanks for flagging this. We can help promote it through our channels or get more involved.' +
+          '<span class="cal-louie-name"><strong>Louie Radburnd</strong> &middot; Marketing &amp; Fundraising Manager, Meals on Wheels NSW</span></span></div>';
+      } else if (ev.mine) {
+        html += '<p class="im-note">You haven\'t asked for MOW NSW involvement on this one yet. Edit the event to add it.</p>';
+      } else {
+        html += '<p class="im-note">Running something local around this date? Use the "Add your event" card and flag if you\'d like MOW NSW to help promote it.</p>';
+      }
+      return html;
+    }
+
+    listEl.addEventListener("click", function (e) {
+      var btn = e.target.closest("[data-remove]");
+      if (btn) {
+        var parts = btn.getAttribute("data-remove").split("|");
+        added = added.filter(function (a) { return !(a.date === parts[0] && a.title === parts[1]); });
+        save();
+        renderCalendar(); renderList();
+        return;
+      }
+      var card = e.target.closest(".cal-event");
+      if (!card) return;
+      var ev = renderedEvents[+card.getAttribute("data-ev-idx")];
+      if (ev && typeof window.openInfoPopupHtml === "function") window.openInfoPopupHtml(eventPopupHtml(ev), { wide: true });
+    });
+    listEl.addEventListener("keydown", function (e) {
+      if (e.key !== "Enter" && e.key !== " ") return;
+      var card = e.target.closest(".cal-event");
+      if (!card) return;
+      e.preventDefault();
+      var ev = renderedEvents[+card.getAttribute("data-ev-idx")];
+      if (ev && typeof window.openInfoPopupHtml === "function") window.openInfoPopupHtml(eventPopupHtml(ev), { wide: true });
+    });
+
+    document.getElementById("calPrev").addEventListener("click", function () { viewMonth--; if (viewMonth < 0) { viewMonth = 11; viewYear--; } renderCalendar(); });
+    document.getElementById("calNext").addEventListener("click", function () { viewMonth++; if (viewMonth > 11) { viewMonth = 0; viewYear++; } renderCalendar(); });
+
+    renderCalendar();
+    renderList();
+
+    // ---- Add-your-event popup ----
+    function involveHtml() {
+      return INVOLVE_OPTIONS.map(function (o, i) {
+        return '<label><input type="checkbox" class="cal-inv" value="' + esc(o) + '"' + (i < 2 ? " checked" : "") + "> " + esc(o) + "</label>";
+      }).join("");
+    }
+
+    function addEventForm() {
+      return '<h2>Add your event</h2>' +
+        '<p class="im-meta" style="font-size:12.5px;color:var(--muted);margin:0 0 16px">Paste a link and we\'ll pull the details in, or fill them in yourself. Nothing is shared with other members.</p>' +
+        '<div class="cal-fetch-row">' +
+          '<div class="field"><label>Paste a link (Facebook, LinkedIn or your website)</label><input type="url" id="calLink" placeholder="https://"></div>' +
+          '<button class="btn-secondary" type="button" id="calFetch" style="white-space:nowrap">Fetch details</button>' +
+        "</div>" +
+        '<p class="im-note hide" id="calFetchNote" style="margin:-6px 0 14px">Details pulled from the link below — edit anything that isn\'t right. (In the finished build this reads the page\'s preview info; here it\'s illustrative.)</p>' +
+        '<form id="calEventForm">' +
+          '<div class="field"><label>Event title</label><input type="text" id="calTitle" placeholder="e.g. Blacktown volunteer open day" required></div>' +
+          '<div class="field-row" style="display:grid;grid-template-columns:1fr 1fr;gap:12px">' +
+            '<div class="field"><label>Date</label><input type="date" id="calDate" required></div>' +
+            '<div class="field"><label>Time (optional)</label><input type="text" id="calTime" placeholder="e.g. 10:00am"></div>' +
+          "</div>" +
+          '<div class="field"><label>Location (optional)</label><input type="text" id="calLoc" placeholder="e.g. Blacktown community hall"></div>' +
+          '<div class="field"><label>Description (optional)</label><textarea id="calDesc" placeholder="A short line about the event" style="min-height:70px"></textarea></div>' +
+          '<div class="field" style="margin-bottom:8px"><label>How would you like MOW NSW involved?</label></div>' +
+          '<div class="cal-involve">' + involveHtml() + "</div>" +
+          '<button class="btn-primary" type="submit">Add to calendar</button>' +
+        "</form>" +
+        '<div class="announce-thanks hide" id="calThanks">Thanks — your event is on the calendar. Your ticked MOW NSW requests would be sent through to the marketing team in the finished build.</div>';
+    }
+
+    function openAddEventForm(prefillDate) {
+      window.openInfoPopupHtml(addEventForm(), { wide: true });
+      if (prefillDate) document.getElementById("calDate").value = prefillDate;
+
+      // Simulated link fetch: fills the fields with illustrative content based
+      // on which platform the pasted URL looks like.
+      document.getElementById("calFetch").addEventListener("click", function () {
+        var url = (document.getElementById("calLink").value || "").trim();
+        if (!url) { document.getElementById("calLink").focus(); return; }
+        var platform = /facebook\./i.test(url) ? "Facebook" : /linkedin\./i.test(url) ? "LinkedIn" : "your website";
+        var d = prefillDate ? parseYmd(prefillDate) : new Date(today.getTime() + 21 * 86400000);
+        document.getElementById("calTitle").value = "Community morning tea & volunteer drive";
+        document.getElementById("calDate").value = ymd(d);
+        document.getElementById("calTime").value = "10:00am";
+        document.getElementById("calLoc").value = "Your service — main hall";
+        document.getElementById("calDesc").value = "Pulled from " + platform + ": an open morning tea to thank volunteers and recruit new drivers. Edit these details as needed.";
+        document.getElementById("calFetchNote").classList.remove("hide");
+      });
+
+      document.getElementById("calEventForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+        var title = document.getElementById("calTitle").value.trim();
+        var date = document.getElementById("calDate").value;
+        if (!title || !date) return;
+        var involve = [].slice.call(document.querySelectorAll(".cal-inv:checked")).map(function (c) { return c.value; });
+        added.push({
+          title: title, date: date,
+          time: document.getElementById("calTime").value.trim(),
+          location: document.getElementById("calLoc").value.trim(),
+          note: document.getElementById("calDesc").value.trim(),
+          link: document.getElementById("calLink").value.trim(),
+          involve: involve
+        });
+        save();
+        viewYear = parseYmd(date).getFullYear(); viewMonth = parseYmd(date).getMonth();
+        renderCalendar(); renderList();
+        e.target.classList.add("hide");
+        document.getElementById("calThanks").classList.remove("hide");
+      });
+    }
+
+    document.getElementById("calAddBtn").addEventListener("click", function () { openAddEventForm(); });
+  })();
+
+  // ---- Left filter rail: Search, Type and Tags across the Campaigns and
+  // Brand & Assets cards. Mirrors the filter behaviour on Resources, News &
+  // Advocacy and Training & Events. While a filter is active it shows only the
+  // card sections that have a match and hides the Overview + Calendar; clearing
+  // returns to whichever tab was active. ----
+  (function () {
+    var searchInput = document.getElementById("mktFilterSearch");
+    if (!searchInput) return;
+    var typeSel = document.getElementById("mktFilterType");
+    var tagWrap = document.getElementById("mktFilterTags");
+    var clearBtn = document.getElementById("mktFilterClear");
+    var clearInline = document.getElementById("mktFilterClearInline");
+    var noResults = document.getElementById("mktFilterNoResults");
+    var TAG_LABELS = { campaign: "Campaign", volunteers: "Volunteers", awareness: "Awareness", fundraising: "Fundraising", brand: "Brand", logo: "Logo", print: "Print", digital: "Digital", social: "Social", media: "Media", approval: "Approval", canva: "Canva", storytelling: "Storytelling" };
+    function norm(s) { return (s || "").trim().toLowerCase(); }
+    function esc(s) { return (s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+    function items() { return document.querySelectorAll(".mkt-item"); }
+    var FILTER_SECTIONS = ["campaigns", "brand"];
+    function sectionEl(cat) { return document.querySelector('[data-cat-section="' + cat + '"]'); }
+
+    function populateTagChips() {
+      var active = [].slice.call(tagWrap.querySelectorAll(".sidebar-tag-chip.active")).map(function (b) { return b.getAttribute("data-tag"); });
+      var tags = [];
+      items().forEach(function (it) {
+        (it.getAttribute("data-tags") || "").split(/\s+/).filter(Boolean).forEach(function (t) { if (tags.indexOf(t) === -1) tags.push(t); });
+      });
+      tags.sort();
+      tagWrap.innerHTML = tags.map(function (tag) {
+        return '<button type="button" class="sidebar-tag-chip' + (active.indexOf(tag) !== -1 ? " active" : "") + '" data-tag="' + tag + '">#' + esc(TAG_LABELS[tag] || tag) + "</button>";
+      }).join("") || '<p class="im-note" style="margin:0">No tags yet</p>';
+    }
+    populateTagChips();
+    tagWrap.addEventListener("click", function (e) {
+      var chip = e.target.closest(".sidebar-tag-chip");
+      if (!chip) return;
+      chip.classList.toggle("active");
+      apply();
+    });
+
+    function apply() {
+      var search = norm(searchInput.value);
+      var type = norm(typeSel.value);
+      var activeTags = [].slice.call(tagWrap.querySelectorAll(".sidebar-tag-chip.active")).map(function (b) { return b.getAttribute("data-tag"); });
+      var anyActive = !!(search || type || activeTags.length);
+
+      if (!anyActive) {
+        items().forEach(function (it) { it.style.display = ""; });
+        noResults.classList.add("hide");
+        var activeTab = document.querySelector(".tabs .tab.active") || document.querySelector(".tabs .tab");
+        if (activeTab) activeTab.click();
+        return;
+      }
+
+      sectionEl("overview").classList.add("cat-hidden");
+      sectionEl("calendar").classList.add("cat-hidden");
+      var shown = 0;
+      items().forEach(function (it) {
+        var itType = norm(it.getAttribute("data-type"));
+        var itTags = (it.getAttribute("data-tags") || "").split(/\s+/);
+        var text = norm(it.textContent);
+        var match = (!search || text.indexOf(search) !== -1) &&
+          (!type || itType === type) &&
+          (!activeTags.length || activeTags.some(function (t) { return itTags.indexOf(t) !== -1; }));
+        it.style.display = match ? "" : "none";
+        if (match) shown++;
+      });
+      // Reveal only the card sections that actually have a visible match.
+      FILTER_SECTIONS.forEach(function (cat) {
+        var sec = sectionEl(cat);
+        var hasVisible = [].slice.call(sec.querySelectorAll(".mkt-item")).some(function (it) { return it.style.display !== "none"; });
+        sec.classList.toggle("cat-hidden", !hasVisible);
+      });
+      noResults.classList.toggle("hide", shown > 0);
+    }
+
+    searchInput.addEventListener("input", apply);
+    typeSel.addEventListener("change", apply);
+    clearBtn.addEventListener("click", function () {
+      searchInput.value = ""; typeSel.value = "";
+      tagWrap.querySelectorAll(".sidebar-tag-chip.active").forEach(function (b) { b.classList.remove("active"); });
+      apply();
+    });
+    if (clearInline) clearInline.addEventListener("click", function (e) { e.preventDefault(); clearBtn.click(); });
   })();
 </script>
 </body>

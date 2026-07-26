@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="mow-favicon.svg" type="image/svg+xml">
-<title>Member Hub — MOW NSW Members Portal (reference build)</title>
-<link rel="stylesheet" href="styles.css?v=49">
+<title>Member Hub — MOW NSW Members Portal</title>
+<link rel="stylesheet" href="styles.css?v=61">
 </head>
 <body data-active="index.html" data-title="Welcome back, Jane" data-crumb=""
       data-sub="Your home for everything you need to run and grow your service, from resources and templates through to sector news and support."
@@ -77,10 +77,10 @@
         <div class="mcard-head"><span class="mi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/></svg></span><h2>Upcoming training</h2></div>
         <div class="thumb"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
         <div class="tdate">Wed 22 July, 2:00pm</div>
-        <div class="ttitle">APD annual meal review: what's required</div>
+        <button type="button" class="ttitle ttitle-btn" id="apdReviewTitle">APD annual meal review: what's required</button>
         <div class="tdesc">A 40-minute walkthrough of the new mandatory review under the Aged Care Act 2024.</div>
         <div style="display:flex;gap:10px">
-          <a class="tcta" href="learning.html#upcoming">Register</a>
+          <button type="button" class="tcta reg-toggle" id="apdReviewRegister">Register</button>
           <a class="tcta" href="learning.html#upcoming">View all</a>
         </div>
       </div>
@@ -89,11 +89,12 @@
 
     <div class="dash-col">
 
-      <div class="mcard" id="deadlines">
-        <div class="mcard-head"><span class="mi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span><h2>Deadlines</h2></div>
+      <div class="mcard snapshot" id="deadlines">
+        <div class="mcard-head"><span class="mi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span><h2>3 items need action</h2></div>
         <a class="deadline-row" href="resources.html?open=sah-reporting" style="text-decoration:none;color:inherit"><span class="dt">Support at Home reporting</span><span class="dd due">18 Jul 2026</span></a>
         <a class="deadline-row" href="resources.html?open=grant-acquittal" style="text-decoration:none;color:inherit"><span class="dt">Grant acquittal</span><span class="dd ok">2 Aug 2026</span></a>
         <a class="deadline-row" href="myservice.html#renewal" style="text-decoration:none;color:inherit"><span class="dt">AGM lodgement</span><span class="dd ok">30 Sep 2026</span></a>
+        <a class="link" href="engagement.html" style="display:block;margin-top:12px">View all &rarr;</a>
       </div>
 
       <div id="discussionsWidgetSubscribed"></div>
@@ -119,7 +120,7 @@
     modal.addEventListener("click", function (e) { if (e.target === modal) closeModal(); });
   })();
 </script>
-<script src="portal.js?v=49"></script>
+<script src="portal.js?v=61"></script>
 <script>
   (function () {
     function esc(s) { return (s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
@@ -197,7 +198,7 @@
     }
 
     // ---- Update your data: member-supplied service data, grouped into the
-    // three categories MOW NSW actually asked for. Reference build — routes
+    // three categories MOW NSW actually asked for. Routes
     // to a review queue in the finished build, nothing saves here yet. ----
     function wireConditionals(container) {
       container.querySelectorAll("[data-cond]").forEach(function (sel) {
@@ -216,7 +217,7 @@
     function openUpdateData() {
       window.openInfoPopupHtml(
         "<h2>Update your data</h2>" +
-        '<p class="im-meta" style="font-size:12px;color:var(--muted);margin:0 0 14px">Updates route to MOW NSW for review before they go live. Reference build — nothing is saved yet.</p>' +
+        '<p class="im-meta" style="font-size:12px;color:var(--muted);margin:0 0 14px">Updates route to MOW NSW for review before they go live. Nothing is saved yet.</p>' +
         '<form id="dataForm">' +
           '<div class="ts-suggest-label">Operational / Reach</div>' +
           '<div class="field"><label>Number of clients currently served (weekly)</label><input type="number" min="0" placeholder="e.g. 42"></div>' +
@@ -251,7 +252,7 @@
 
           '<button class="btn-primary" type="submit">Submit update</button>' +
         "</form>" +
-        '<div class="announce-thanks hide" id="dataThanks">Thanks — your update has been logged and routed to MOW NSW for review. Reference build — nothing is actually saved.</div>',
+        '<div class="announce-thanks hide" id="dataThanks">Thanks — your update has been logged and routed to MOW NSW for review. Nothing is actually saved.</div>',
         { wide: false }
       );
       var form = document.getElementById("dataForm");
@@ -263,6 +264,40 @@
       });
     }
 
+
+    // ---- APD annual meal review: the training-card title opens a popup with
+    // the full session details and its own Register toggle, kept in sync
+    // with the Register button on the dashboard card itself. ----
+    var apdRegisterBtn = document.getElementById("apdReviewRegister");
+    function setApdRegistered(btn, on) {
+      btn.classList.toggle("registered", on);
+      btn.innerHTML = on ? "&#10003; Registered" : "Register";
+    }
+    function toggleApdRegistered() {
+      var on = !apdRegisterBtn.classList.contains("registered");
+      setApdRegistered(apdRegisterBtn, on);
+      var popupBtn = document.getElementById("apdPopupRegister");
+      if (popupBtn) setApdRegistered(popupBtn, on);
+    }
+    apdRegisterBtn.addEventListener("click", toggleApdRegistered);
+
+    function openApdReviewPopup() {
+      var registered = apdRegisterBtn.classList.contains("registered");
+      window.openInfoPopupHtml(
+        "<h2>APD annual meal review: what's required</h2>" +
+        '<p class="im-meta">Wed 22 July, 2:00pm &middot; 40 min &middot; Webinar</p>' +
+        "<p>A walkthrough of the new mandatory dietitian review under the Aged Care Act 2024, and what to have ready before yours.</p>" +
+        '<p class="im-meta" style="margin-top:14px"><strong>Agenda:</strong> menu-cycle checks &middot; texture-modified &amp; special diets &middot; common gaps &middot; Q&amp;A</p>' +
+        '<div style="display:flex;align-items:center;gap:10px;margin-top:16px">' +
+          '<button class="tcta' + (registered ? " registered" : "") + '" type="button" id="apdPopupRegister">' + (registered ? "&#10003; Registered" : "Register") + "</button>" +
+          '<span class="ics-add" data-ics-title="APD annual meal review: what\'s required" data-ics-start="2026-07-22T14:00:00" data-ics-end="2026-07-22T14:40:00" data-ics-desc="A walkthrough of the new mandatory dietitian review under the Aged Care Act 2024, and what to have ready before yours."></span>' +
+          '<a class="share-btn" title="Share by email" href="mailto:?subject=' + encodeURIComponent("APD annual meal review: what's required") + '&body=' + encodeURIComponent("APD annual meal review: what's required\nWed 22 July, 2:00pm · 40 min\n\nA walkthrough of the new mandatory dietitian review under the Aged Care Act 2024, and what to have ready before yours.") + '"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 6L2 7"/></svg></a>' +
+        "</div>" +
+        '<p class="im-note" style="margin-top:14px">See the full session and more upcoming training under <a href="learning.html#upcoming">Training &amp; Events</a>.</p>'
+      );
+      document.getElementById("apdPopupRegister").addEventListener("click", toggleApdRegistered);
+    }
+    document.getElementById("apdReviewTitle").addEventListener("click", openApdReviewPopup);
 
     document.getElementById("qaFindResource").addEventListener("click", openFindResource);
     document.getElementById("qaChanges").addEventListener("click", openChanges);

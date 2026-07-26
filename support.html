@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="mow-favicon.svg" type="image/svg+xml">
-<title>Support — MOW NSW Members Portal (reference build)</title>
-<link rel="stylesheet" href="styles.css?v=49">
+<title>Support — MOW NSW Members Portal</title>
+<link rel="stylesheet" href="styles.css?v=61">
 </head>
 <body data-active="support.html" data-title="Support" data-crumb="Support"
       data-sub="A clear pathway to the right person, whether that's a quick question or something that needs escalating."
@@ -107,7 +107,7 @@
       <input type="text" value="Liverpool Meals on Wheels" readonly>
     </div>
     <button class="btn-primary" type="button" id="askSubmit">Submit request</button>
-    <div class="announce-thanks hide" id="askThanks" style="margin-top:12px">Thanks — your request has been logged and routed to the relevant team (and copied to your NSO). This is a reference build, so nothing is actually sent.</div>
+    <div class="announce-thanks hide" id="askThanks" style="margin-top:12px">Thanks — your request has been logged and routed to the relevant team (and copied to your NSO). Nothing is actually sent.</div>
   </div>
 
   <div class="section-title"><h2>Frequently asked questions</h2></div>
@@ -134,7 +134,7 @@
 
 </div>
 
-<script src="portal.js?v=49"></script>
+<script src="portal.js?v=61"></script>
 <script>
   (function () {
     var modal = document.getElementById("contactModal");
@@ -151,7 +151,7 @@
         var role = btn.getAttribute("data-role") || "";
         body.innerHTML =
           "<h2>Message " + esc(who) + "</h2>" +
-          '<p class="im-meta" style="font-size:12px;color:var(--muted);margin:0 0 12px">' + role + " · through the portal. Reference build — nothing is actually sent.</p>" +
+          '<p class="im-meta" style="font-size:12px;color:var(--muted);margin:0 0 12px">' + role + " · through the portal. Nothing is actually sent.</p>" +
           '<form id="cForm"><div class="field"><label>To</label><input type="text" value="' + esc(who) + '" readonly></div>' +
           '<div class="field"><label>Your message</label><textarea style="min-height:110px" placeholder="What do you need help with?" required></textarea></div>' +
           '<button class="btn-primary" type="submit">Send message</button></form>' +

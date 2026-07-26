@@ -5,10 +5,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="mow-favicon.svg" type="image/svg+xml">
-<title>Connect — MOW NSW Members Portal (reference build)</title>
-<link rel="stylesheet" href="styles.css?v=49">
+<title>Community — MOW NSW Members Portal</title>
+<link rel="stylesheet" href="styles.css?v=61">
 </head>
-<body data-active="connect.html" data-title="Connect" data-crumb="Connect"
+<body data-active="connect.html" data-title="Community" data-crumb="Community"
       data-sub="Two-way engagement: find other services, have your say on what MOW NSW advocates for, and join the conversation."
       data-search="Search consultations, services, threads">
 
@@ -46,15 +46,28 @@
   </div>
 
   <div data-cat-section="overview">
-    <div class="section-title"><h2>Overview</h2><span class="desc">Find and connect with other services, and have a say in what MOW NSW advocates for</span></div>
+    <!-- Featured: the most time-sensitive item, styled like Marketing's next-key-date banner -->
+    <div class="next-session">
+      <div class="thumb-lg">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg>
+      </div>
+      <div class="ns-body">
+        <div class="ns-flag">Closing soon · Have Your Say</div>
+        <div class="lh-title">National Minimum Data Set consultation</div>
+        <div class="lh-desc">MOW NSW is preparing a sector submission and wants member input first. Read the paper, comment inline, and answer a five-minute survey.</div>
+        <div class="ns-agenda"><strong>Why it matters:</strong> the data set shapes how the sector's reach and value are measured, and how that case is put to government.</div>
+        <a class="btn-primary" href="connect.html?open=consult-nmds">Have your say</a>
+      </div>
+    </div>
 
-    <div class="section-title" style="margin-top:0"><h2 style="font-size:17px">What's new</h2></div>
+    <div class="section-title" style="margin-top:20px"><h2 style="font-size:17px">What's new in Community</h2></div>
     <div class="mcard" style="max-width:none;margin-bottom:20px">
       <a class="row" href="connect.html?open=consult-nmds"><span class="rt">National Minimum Data Set consultation<div class="meta">Have Your Say · Five minute survey</div></span><span class="tag warn">Closing soon</span></a>
       <a class="row" href="#discussion" data-cat="discussion"><span class="rt">Anyone else seen delays with My Aged Care referrals this month?<div class="meta">Priya Nair from Wagga Wagga Meals on Wheels · 2 days ago · 2 replies</div></span><span class="tag neutral">Latest discussion</span></a>
       <a class="row" href="#escalated" data-cat="escalated"><span class="rt">3 escalated issues in progress<div class="meta">Referral delays, WWCC guidance, fuel cost pressure</div></span><span class="tag warn">In progress</span></a>
     </div>
 
+    <div class="section-title"><h2>Find your way around</h2></div>
     <div class="quick-grid" style="grid-template-columns:repeat(3,1fr); margin-bottom:20px">
       <a class="quick-item" href="directory.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3L3 6v15l6-3 6 3 6-3V3l-6 3-6-3z"/><path d="M9 3v15M15 6v15"/></svg><span>Member directory</span></a>
       <a class="quick-item" href="#haveyoursay" data-cat="haveyoursay"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg><span>Consultations and surveys</span></a>
@@ -67,7 +80,7 @@
         <div class="dt-map"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3L3 6v15l6-3 6 3 6-3V3l-6 3-6-3z"/><path d="M9 3v15M15 6v15"/></svg></div>
         <div>
           <h3>Member directory &amp; map</h3>
-          <p>Search 130+ member services by location and distance, see them on an interactive map, visit their website, and get in touch through the portal.</p>
+          <p>Search 130+ member services by location and distance on an interactive map, or switch to the people directory to find individual coordinators and managers, and get in touch through the portal.</p>
         </div>
       </div>
       <a class="btn-primary" href="directory.html">Open the directory &rarr;</a>
@@ -90,7 +103,7 @@
         2. What's the practical burden of adding these fields to your current systems?<br>
         3. Are there fields that would be genuinely useful for your own service planning, not just national reporting?</p>
         <p>MOW NSW's preliminary view is that the intent is reasonable but the implementation timeline (six weeks from final sign-off) is too tight for smaller services without paid admin staff. Your response below feeds directly into the sector submission.</p>
-        <p class="im-note">Reference build placeholder text, written to demonstrate the scrollable paper layout — not the real consultation wording. Confirm actual content with MOW NSW policy/advocacy before this goes live.</p>
+        <p class="im-note">Not the real consultation wording. Confirm actual content with MOW NSW policy/advocacy before this goes live.</p>
       </template>
       <template class="consult-fields">
         <div class="field"><label>Your name</label><input type="text" placeholder="Full name" value="Jane Smith"></div>
@@ -113,7 +126,7 @@
         <p>1. Whether a shorter, more frequent "need to know" email would actually get read, or add to inbox fatigue<br>
         2. Whether splitting brand/campaign content into a separate monthly digest makes it easier or harder to find<br>
         3. Any format or channel you'd prefer instead (e.g. an SMS alert for genuinely urgent items only)</p>
-        <p class="im-note">Reference build placeholder text, written to demonstrate the scrollable paper layout — not final newsletter strategy content.</p>
+        <p class="im-note">Not final newsletter strategy content.</p>
       </template>
       <template class="consult-fields">
         <div class="field"><label>Your name</label><input type="text" placeholder="Full name" value="Jane Smith"></div>
@@ -139,7 +152,7 @@
         <p>A peer group for anyone who recruits, inducts or manages volunteers at their service. Meets online monthly, plus an active discussion thread for quick questions between sessions.</p>
         <p>Recent topics have included: police check turnaround times, retention strategies for regional services, and how services are handling the new WWCC requirements for under-18 volunteers in some roles.</p>
         <p>Membership is open to any MOW NSW member service — there's no cost, just an expectation that you contribute as well as ask.</p>
-        <p class="im-note">Reference build placeholder — join requests aren't wired up to a real membership list yet.</p>
+        <p class="im-note">Join requests aren't wired up to a real membership list yet.</p>
       </template>
       <template class="consult-fields">
         <div class="field"><label>Your name</label><input type="text" placeholder="Full name" value="Jane Smith"></div>
@@ -156,7 +169,7 @@
         <p class="im-meta">Community of practice</p>
         <p>For services covering large, low-density areas where delivery distance, volunteer driver availability and fuel cost are the main operational pressures — rather than the metro-style challenges of higher client density.</p>
         <p>Recent discussion has covered: shared delivery routes between neighbouring services, regional volunteer driver shortages, and advocacy asks specific to rural funding models.</p>
-        <p class="im-note">Reference build placeholder — join requests aren't wired up to a real membership list yet.</p>
+        <p class="im-note">Join requests aren't wired up to a real membership list yet.</p>
       </template>
       <template class="consult-fields">
         <div class="field"><label>Your name</label><input type="text" placeholder="Full name" value="Jane Smith"></div>
@@ -183,10 +196,10 @@
       <p class="im-note hide" id="discussionNoResults">No discussions match those filters. <a href="#" id="discussionClearInline">Clear filters</a></p>
     </div>
     <div class="sidebar-side">
-      <div class="mcard">
-        <p style="font-size:13.5px;margin:0 0 12px">Got a question, an idea, or something worth sharing with the network?</p>
-        <button class="btn-primary" id="newThreadBtn" type="button" style="width:100%;justify-content:center">+ Start a discussion</button>
-      </div>
+      <button class="cal-add-card" id="newThreadBtn" type="button">
+        <span class="cal-add-icon">+</span>
+        <span class="cal-add-text"><span class="cal-add-title">Start a discussion</span><span class="cal-add-sub">Got a question, an idea, or something worth sharing with the network?</span></span>
+      </button>
       <div id="discussionsWidgetConnectSubscribed"></div>
       <div id="discussionsWidgetConnectActive"></div>
     </div>
@@ -195,11 +208,24 @@
 
   <div data-cat-section="escalated">
     <div class="section-title" id="escalated"><h2>Escalated Issues</h2><span class="desc">Ongoing issues MOW NSW is pursuing on your behalf, and a place to raise a new one</span></div>
-    <div class="two-col-layout">
-    <div class="ec-left">
-    <div class="mcard" style="max-width:none">
-      <div class="row" data-popup="issue-referral-delays" data-commentable data-comment-key="issue-referral-delays" data-comment-label="Member comments — has this affected your service too?" data-comment-placeholder="Share what you're seeing">
-        <span class="rt">My Aged Care referral processing delays<div class="meta">Raised by multiple regional services · Escalated to the department, awaiting response</div></span><span class="tag warn">In progress</span>
+    <div class="sidebar-layout">
+      <aside class="sidebar-filters">
+        <div class="field"><label>Search</label><input type="text" id="escFilterSearch" placeholder="Title or description"></div>
+        <div class="field"><label>Status</label><select id="escFilterStatus"><option value="">Any status</option><option>In progress</option><option>Monitoring</option><option>Resolved</option></select></div>
+        <div class="field"><label>Category</label><select id="escFilterCategory"><option value="">All categories</option><option>Service Delivery</option><option>Volunteers</option><option>Funding</option><option>Digital Systems</option></select></div>
+        <div class="field"><label>Tags</label><div class="sidebar-tag-list" id="escFilterTags"></div></div>
+        <button type="button" class="btn-secondary" id="escFilterClear" style="width:100%;justify-content:center">Clear filters</button>
+      </aside>
+
+      <div class="sidebar-main">
+        <p class="im-note hide" id="escFilterNoResults" style="margin-bottom:16px">No issues match those filters. <a href="#" id="escFilterClearInline">Clear filters</a></p>
+        <div class="res-grid">
+          <div class="res-card esc-card" data-popup="issue-referral-delays" data-commentable data-comment-key="issue-referral-delays" data-comment-label="Member comments — has this affected your service too?" data-comment-placeholder="Share what you're seeing" data-status="In progress" data-category="Service Delivery" data-tags="referrals compliance">
+            <div class="rhead"><span class="ri"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span><span class="tag warn">In progress</span></div>
+            <p class="rtitle">My Aged Care referral processing delays</p>
+            <p class="rdesc">Raised by multiple regional services · Escalated to the department, awaiting response</p>
+            <div class="rtags"><span class="tag neutral">Referrals</span><span class="tag neutral">Compliance</span></div>
+            <div class="rmeta"><span>Click to read more &amp; comment</span></div>
         <template class="popup-content">
           <h2>My Aged Care referral processing delays</h2>
           <p class="im-meta">Raised by multiple regional services · In progress</p>
@@ -210,11 +236,15 @@
           <ul><li>No media coverage yet — being handled directly with the department</li></ul>
           <p class="im-meta" style="margin-top:6px">Update from Claudia</p>
           <p style="background:var(--surface-tint);border-radius:var(--radius-sm);padding:10px 12px">"We've raised this formally and expect a response within two weeks. Keep flagging specific referral reference numbers to your NSO — it strengthens our case." — Claudia, CEO</p>
-          <p class="im-note">Reference build placeholder — illustrative example only.</p>
+          <p class="im-note">Illustrative example only.</p>
         </template>
       </div>
-      <div class="row" data-popup="issue-wwcc" data-commentable data-comment-key="issue-wwcc" data-comment-label="Member comments" data-comment-placeholder="Add a comment">
-        <span class="rt">WWCC requirements inconsistently applied for under-18 volunteers<div class="meta">Raised via Volunteer Coordinators Network · Seeking clarification from NSW Government</div></span><span class="tag warn">In progress</span>
+          <div class="res-card esc-card" data-popup="issue-wwcc" data-commentable data-comment-key="issue-wwcc" data-comment-label="Member comments" data-comment-placeholder="Add a comment" data-status="In progress" data-category="Volunteers" data-tags="volunteers compliance wwcc">
+            <div class="rhead"><span class="ri"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span><span class="tag warn">In progress</span></div>
+            <p class="rtitle">WWCC requirements inconsistently applied for under-18 volunteers</p>
+            <p class="rdesc">Raised via Volunteer Coordinators Network · Seeking clarification from NSW Government</p>
+            <div class="rtags"><span class="tag neutral">Volunteers</span><span class="tag neutral">WWCC</span></div>
+            <div class="rmeta"><span>Click to read more &amp; comment</span></div>
         <template class="popup-content">
           <h2>WWCC requirements inconsistently applied for under-18 volunteers</h2>
           <p class="im-meta">Raised via Volunteer Coordinators Network · In progress</p>
@@ -225,11 +255,15 @@
           <ul><li>None</li></ul>
           <p class="im-meta" style="margin-top:6px">Update from Claudia</p>
           <p style="background:var(--surface-tint);border-radius:var(--radius-sm);padding:10px 12px">"This came up repeatedly in the Volunteer Coordinators Network — we've asked the Office of the Children's Guardian for a single, written answer we can circulate to every service." — Claudia, CEO</p>
-          <p class="im-note">Reference build placeholder — illustrative example only.</p>
+          <p class="im-note">Illustrative example only.</p>
         </template>
       </div>
-      <div class="row" data-popup="issue-fuel-cost" data-commentable data-comment-key="issue-fuel-cost" data-comment-label="Member comments" data-comment-placeholder="Add a comment">
-        <span class="rt">Fuel cost pressure on rural delivery routes<div class="meta">Raised via Rural &amp; Regional Services Forum · Included in Advocacy priorities</div></span><span class="tag neutral">Monitoring</span>
+          <div class="res-card esc-card" data-popup="issue-fuel-cost" data-commentable data-comment-key="issue-fuel-cost" data-comment-label="Member comments" data-comment-placeholder="Add a comment" data-status="Monitoring" data-category="Funding" data-tags="funding regional transport">
+            <div class="rhead"><span class="ri"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span><span class="tag neutral">Monitoring</span></div>
+            <p class="rtitle">Fuel cost pressure on rural delivery routes</p>
+            <p class="rdesc">Raised via Rural &amp; Regional Services Forum · Included in Advocacy priorities</p>
+            <div class="rtags"><span class="tag neutral">Funding</span><span class="tag neutral">Regional</span></div>
+            <div class="rmeta"><span>Click to read more &amp; comment</span></div>
         <template class="popup-content">
           <h2>Fuel cost pressure on rural delivery routes</h2>
           <p class="im-meta">Raised via Rural &amp; Regional Services Forum · Monitoring</p>
@@ -240,11 +274,15 @@
           <ul><li>None yet</li></ul>
           <p class="im-meta" style="margin-top:6px">Update from Claudia</p>
           <p style="background:var(--surface-tint);border-radius:var(--radius-sm);padding:10px 12px">"We're building the fuel cost data into our next pre-budget submission — the more real numbers services can share, the stronger that case." — Claudia, CEO</p>
-          <p class="im-note">Reference build placeholder — illustrative example only.</p>
+          <p class="im-note">Illustrative example only.</p>
         </template>
       </div>
-      <div class="row" data-popup="issue-chsp-outage">
-        <span class="rt">CHSP portal reporting outage, 14–16 June<div class="meta">Raised by several services · Resolved, root cause confirmed with vendor</div></span><span class="tag ok">Resolved</span>
+          <div class="res-card esc-card" data-popup="issue-chsp-outage" data-status="Resolved" data-category="Digital Systems" data-tags="digital chsp reporting">
+            <div class="rhead"><span class="ri"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span><span class="tag ok">Resolved</span></div>
+            <p class="rtitle">CHSP portal reporting outage, 14–16 June</p>
+            <p class="rdesc">Raised by several services · Resolved, root cause confirmed with vendor</p>
+            <div class="rtags"><span class="tag neutral">Digital systems</span><span class="tag neutral">CHSP</span></div>
+            <div class="rmeta"><span>Click to read more</span></div>
         <template class="popup-content">
           <h2>CHSP portal reporting outage, 14–16 June</h2>
           <p class="im-meta">Raised by several services · Resolved</p>
@@ -255,57 +293,24 @@
           <ul><li>None</li></ul>
           <p class="im-meta" style="margin-top:6px">Update from Claudia</p>
           <p style="background:var(--surface-tint);border-radius:var(--radius-sm);padding:10px 12px">"Confirmed with the department that no service will be penalised for the outage window — if you were affected and haven't heard this, let your NSO know." — Claudia, CEO</p>
-          <p class="im-note">Reference build placeholder — illustrative example only. Resolved issues are closed for comment.</p>
+          <p class="im-note">Illustrative example only. Resolved issues are closed for comment.</p>
         </template>
       </div>
-    </div>
-    <p class="im-note" style="margin-top:14px">Reference build placeholder — see something that should be on this list? Raise it below and your NSO can help escalate it.</p>
-    </div>
-
-    <div class="ec-right">
-      <div class="mcard" style="max-width:none">
-        <div class="mcard-head" style="margin-bottom:10px"><h2 style="font-size:17px;margin:0">Raise an issue — Member Voice</h2></div>
-        <p style="font-size:13px;color:var(--muted);margin:0 0 14px">Tell us what's going on. Issues raised here are reviewed weekly and may be added to the list on the left.</p>
-        <form id="voiceForm">
-          <div class="field"><label>Issue <span class="tag warn" style="padding:2px 7px">Required</span></label><input type="text" id="vIssue" placeholder="Short title, e.g. Delays with My Aged Care referrals" required></div>
-          <div class="field"><label>Description <span class="tag warn" style="padding:2px 7px">Required</span></label><textarea id="vDesc" placeholder="What's happening?" required style="min-height:80px"></textarea></div>
-          <div class="field-row">
-            <div class="field"><label>Category <span class="tag warn" style="padding:2px 7px">Required</span></label>
-              <select id="vCategory" required>
-                <option value="">Choose a category</option>
-                <option>Funding</option><option>Workforce</option><option>Service Delivery</option>
-                <option>Compliance &amp; Regulation</option><option>Aged Care Reform</option><option>Transport</option>
-                <option>Volunteers</option><option>Digital Systems</option><option>Health &amp; Clinical</option>
-                <option>Procurement</option><option>Government Policy</option><option>Media &amp; Public Perception</option><option>Other</option>
-              </select>
-            </div>
-            <div class="field"><label>Impact <span class="tag warn" style="padding:2px 7px">Required</span></label><input type="text" id="vImpact" placeholder="e.g. Delayed client intakes" required></div>
-          </div>
-          <div class="field"><label>Who is affected <span class="tag warn" style="padding:2px 7px">Required</span></label><input type="text" id="vAffected" placeholder="e.g. Regional services, new clients awaiting intake" required></div>
-
-          <div class="field"><label>Suggested solution <span style="font-weight:400">(optional)</span></label><textarea id="vSolution" placeholder="Any practical recommendation you have" style="min-height:60px"></textarea></div>
-          <div class="field"><label>Supporting evidence <span style="font-weight:400">(optional)</span></label><input type="file" id="vEvidence" multiple><div class="hint">Documents, photos, letters or media articles</div></div>
-          <div class="field"><label>Has this been raised elsewhere? <span style="font-weight:400">(optional)</span></label><input type="text" id="vElsewhere" placeholder="e.g. Government department, MP, council, peak body"></div>
-
-          <div class="field-row">
-            <div class="field"><label>Contact person</label><input type="text" value="Jane Smith, Liverpool Meals on Wheels" readonly></div>
-            <div class="field"><label>Email &amp; phone</label><input type="text" value="admin@liverpoolmow.org.au · (02) 9800 1234" readonly></div>
-          </div>
-          <div class="field">
-            <label style="display:flex; align-items:center; gap:8px; font-weight:400"><input type="checkbox" id="vPermContact"> Permission to contact — allow the advocacy team to discuss this further</label>
-            <label style="display:flex; align-items:center; gap:8px; font-weight:400; margin-top:8px"><input type="checkbox" id="vPermAnon"> Permission to use anonymously — allow this as a case study while protecting my identity</label>
-          </div>
-          <button class="btn-primary" type="submit">Submit to Member Voice</button>
-        </form>
-        <div class="suggest-thanks hide" id="voiceThanks">Thanks — that's been logged in Member Voice and may be escalated by the advocacy team. Reference build, nothing is actually sent.</div>
+        </div>
       </div>
-    </div>
+
+      <aside class="sidebar-side">
+        <button class="cal-add-card" id="escalateBtn" type="button">
+          <span class="cal-add-icon">+</span>
+          <span class="cal-add-text"><span class="cal-add-title">Escalate an issue</span><span class="cal-add-sub">Something affecting your service that MOW NSW should know about?</span></span>
+        </button>
+      </aside>
     </div>
   </div>
 
 </div>
 
-<script src="portal.js?v=49"></script>
+<script src="portal.js?v=61"></script>
 <script>
   /* ---------- Consultations (two-pane popup) ---------- */
   (function () {
@@ -355,15 +360,65 @@
 
   /* ---------- Directory search/filter removed — now on directory.html ---------- */
 
-  /* ---------- Member Voice quick-feedback form ---------- */
+  /* ---------- Escalated Issues: raise button + left filter rail ---------- */
   (function () {
-    var form = document.getElementById("voiceForm");
-    if (!form) return;
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      form.classList.add("hide");
-      document.getElementById("voiceThanks").classList.remove("hide");
+    var btn = document.getElementById("escalateBtn");
+    if (btn && typeof window.openEscalateIssuePopup === "function") {
+      btn.addEventListener("click", function () { window.openEscalateIssuePopup(); });
+    }
+
+    // Left filter rail (Search, Status, Category, Tags) over the issue cards,
+    // matching the filter pattern on Resources / News / Marketing.
+    var searchInput = document.getElementById("escFilterSearch");
+    if (!searchInput) return;
+    var statusSel = document.getElementById("escFilterStatus");
+    var catSel = document.getElementById("escFilterCategory");
+    var tagWrap = document.getElementById("escFilterTags");
+    var clearBtn = document.getElementById("escFilterClear");
+    var clearInline = document.getElementById("escFilterClearInline");
+    var noResults = document.getElementById("escFilterNoResults");
+    var TAG_LABELS = { referrals: "Referrals", compliance: "Compliance", volunteers: "Volunteers", wwcc: "WWCC", funding: "Funding", regional: "Regional", transport: "Transport", digital: "Digital systems", chsp: "CHSP", reporting: "Reporting" };
+    function norm(s) { return (s || "").trim().toLowerCase(); }
+    function esc(s) { return (s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+    function cards() { return document.querySelectorAll(".esc-card"); }
+
+    (function populateTags() {
+      var tags = [];
+      cards().forEach(function (c) { (c.getAttribute("data-tags") || "").split(/\s+/).filter(Boolean).forEach(function (t) { if (tags.indexOf(t) === -1) tags.push(t); }); });
+      tags.sort();
+      tagWrap.innerHTML = tags.map(function (t) { return '<button type="button" class="sidebar-tag-chip" data-tag="' + t + '">#' + esc(TAG_LABELS[t] || t) + "</button>"; }).join("");
+    })();
+    tagWrap.addEventListener("click", function (e) { var chip = e.target.closest(".sidebar-tag-chip"); if (!chip) return; chip.classList.toggle("active"); apply(); });
+
+    function apply() {
+      var search = norm(searchInput.value);
+      var status = norm(statusSel.value);
+      var cat = norm(catSel.value);
+      var activeTags = [].slice.call(tagWrap.querySelectorAll(".sidebar-tag-chip.active")).map(function (b) { return b.getAttribute("data-tag"); });
+      var shown = 0;
+      cards().forEach(function (c) {
+        var cStatus = norm(c.getAttribute("data-status"));
+        var cCat = norm(c.getAttribute("data-category"));
+        var cTags = (c.getAttribute("data-tags") || "").split(/\s+/);
+        var text = norm(c.textContent);
+        var match = (!search || text.indexOf(search) !== -1) &&
+          (!status || cStatus === status) &&
+          (!cat || cCat === cat) &&
+          (!activeTags.length || activeTags.some(function (t) { return cTags.indexOf(t) !== -1; }));
+        c.style.display = match ? "" : "none";
+        if (match) shown++;
+      });
+      noResults.classList.toggle("hide", shown > 0);
+    }
+    searchInput.addEventListener("input", apply);
+    statusSel.addEventListener("change", apply);
+    catSel.addEventListener("change", apply);
+    clearBtn.addEventListener("click", function () {
+      searchInput.value = ""; statusSel.value = ""; catSel.value = "";
+      tagWrap.querySelectorAll(".sidebar-tag-chip.active").forEach(function (b) { b.classList.remove("active"); });
+      apply();
     });
+    if (clearInline) clearInline.addEventListener("click", function (e) { e.preventDefault(); clearBtn.click(); });
   })();
 
   /* ---------- Functional discussion thread (localStorage-backed demo) ----------
@@ -565,7 +620,7 @@
         });
       },
       onMessage: function (msgWho) {
-        openModal('<h2>Message ' + esc(msgWho) + '</h2><p class="im-meta" style="font-size:12px;color:var(--muted);margin:0 0 12px">Direct message through the portal. In this reference build nothing is actually sent.</p><form id="dmForm"><div class="field"><label>To</label><input type="text" value="' + esc(msgWho) + '" readonly></div><div class="field"><label>Message</label><textarea style="min-height:100px" placeholder="Say hello, ask a question, share a contact" required></textarea></div><button class="btn-primary" type="submit">Send message</button></form><div class="announce-thanks hide" id="dmThanks">Sent — ' + esc(msgWho) + " will get your message in their portal inbox.</div>");
+        openModal('<h2>Message ' + esc(msgWho) + '</h2><p class="im-meta" style="font-size:12px;color:var(--muted);margin:0 0 12px">Direct message through the portal. Nothing is actually sent.</p><form id="dmForm"><div class="field"><label>To</label><input type="text" value="' + esc(msgWho) + '" readonly></div><div class="field"><label>Message</label><textarea style="min-height:100px" placeholder="Say hello, ask a question, share a contact" required></textarea></div><button class="btn-primary" type="submit">Send message</button></form><div class="announce-thanks hide" id="dmThanks">Sent — ' + esc(msgWho) + " will get your message in their portal inbox.</div>");
         document.getElementById("dmForm").addEventListener("submit", function (ev) {
           ev.preventDefault();
           document.getElementById("dmForm").classList.add("hide");

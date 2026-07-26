@@ -30,19 +30,20 @@
     ]},
     { label: "Training & Events", pages: ["learning.html"], items: [
         ["learning.html#overview", "Overview"],
-        ["learning.html#webinars", "Webinars and events — upcoming and recordings"],
+        ["learning.html#webinars", "Webinars and Events"],
         ["learning.html#modules", "Training modules"],
         ["learning.html#reading", "Blogs and podcasts"],
         ["learning.html#handbooks", "Handbooks and toolkits"]
     ]},
     { label: "Marketing", pages: ["marketing.html"], items: [
         ["marketing.html#overview", "Overview"],
-        ["marketing.html#calendar", "Calendar of key awareness dates"],
+        ["marketing.html#calendar", "Calendar"],
         ["marketing.html#campaigns", "Campaigns"],
         ["marketing.html#brand", "Brand & Assets"]
     ]},
-    { label: "Community", pages: ["connect.html", "directory.html"], items: [
+    { label: "Community", pages: ["connect.html", "directory.html", "engagement.html"], items: [
         ["connect.html#overview", "Overview"],
+        ["engagement.html", "Get involved"],
         ["directory.html", "Member directory"],
         ["connect.html#haveyoursay", "Consultations and surveys"],
         ["connect.html#discussion", "Discussions"],
@@ -69,6 +70,112 @@
   ];
   var searchIcon = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>';
   var chev = '<svg class="chev" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg>';
+  var bellIcon = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>';
+
+  // ---- Notifications feed. These are the member-engagement prompts that also
+  // drive the "bell" dropdown in the topbar; clicking one deep-links straight
+  // to the thing that needs the member (a thread, a consultation, renewal).
+  // The full set — and the reasoning behind each — lives on the Get involved
+  // page (engagement.html) under Community. Reference build: sample data only. ----
+  var NI = {
+    reply: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
+    like: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>',
+    renewal: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>',
+    consult: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>',
+    event: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>'
+  };
+  var NOTIFICATIONS = [
+    { id: "n-reply-shifts", tone: "reply", text: "<strong>Simone Despoges</strong> replied in your discussion <strong>Filling volunteer shifts</strong>", time: "2 hours ago", url: "connect.html#discussion" },
+    { id: "n-like-nmds", tone: "like", text: "Your comment on the <strong>National Minimum Data Set consultation</strong> was liked", time: "Yesterday", url: "connect.html?open=consult-nmds" },
+    { id: "n-renewal", tone: "renewal", text: "Membership renewal is due in <strong>14 days</strong> — a quick confirm keeps your benefits active", time: "Due 9 Aug 2026", url: "myservice.html#renewal" },
+    { id: "n-consult-newsletter", tone: "consult", text: "New consultation open: <strong>Member newsletter redesign</strong>. Five minutes to have your say", time: "3 days ago", url: "connect.html?open=consult-newsletter" },
+    { id: "n-thread-chsp", tone: "reply", text: "<strong>2 new replies</strong> in <strong>CHSP transition</strong>, a thread you're following", time: "4 days ago", url: "connect.html#discussion" }
+  ];
+  function readNotifs() { try { return JSON.parse(localStorage.getItem("mow_notifs_read") || "[]") || []; } catch (e) { return []; } }
+  function saveReadNotifs(a) { try { localStorage.setItem("mow_notifs_read", JSON.stringify(a)); } catch (e) {} }
+
+  // ---- Popup content for each notification. Clicking a notification opens the
+  // relevant thing (thread, consultation paper, renewal) in the shared info
+  // modal, on whatever page the member is on, rather than navigating away.
+  // Each popup ends with a link through to the full page. Reference build:
+  // the content mirrors the real threads/consultations on Community. ----
+  function npMsg(initials, name, role, time, text, opts) {
+    opts = opts || {};
+    return '<div class="npop-msg' + (opts.hl ? " hl" : "") + (opts.mine ? " mine" : "") + '">' +
+      '<span class="npop-av">' + initials + "</span>" +
+      '<div class="npop-msg-body"><div class="npop-msg-head"><span class="npop-name">' + name + "</span>" +
+        (role ? '<span class="npop-role">' + role + "</span>" : "") +
+        '<span class="npop-time">' + time + "</span></div>" +
+        '<p class="npop-text">' + text + "</p></div></div>";
+  }
+  function npFooter(url, label) {
+    return '<a class="btn-secondary" href="' + url + '" style="width:100%;justify-content:center;margin-top:14px">' + label + ' &rarr;</a>';
+  }
+  function npReplyBox() {
+    return '<div class="npop-reply"><textarea placeholder="Write a reply..." aria-label="Write a reply"></textarea>' +
+      '<button class="btn-primary npop-reply-btn" type="button">Post reply</button></div>' +
+      '<div class="npop-thanks hide">Thanks, your reply has been posted to the thread. In the finished build it would notify everyone following it.</div>';
+  }
+  var NOTIF_POPUPS = {
+    "n-reply-shifts": function () {
+      return '<h2>Filling volunteer shifts</h2>' +
+        '<p class="im-meta">Discussion &middot; Operate &middot; you started this thread</p>' +
+        '<div class="npop-thread">' +
+          npMsg("YO", "You", "Meals on Wheels Blacktown", "3 days ago", "We're consistently short on Thursday and Friday runs. What's working for other services to fill the gaps without leaning on the same few people every week?", { mine: true }) +
+          npMsg("SD", "Simone Despoges", "MOW NSW &middot; Network Support", "2 hours ago", "A few services have had good results splitting the long runs into two shorter shifts and publishing the roster a fortnight ahead. Happy to share the template we put together, I'll drop it into the Volunteer Coordinators Network too.", { hl: true }) +
+          npMsg("PN", "Priya Nair", "Wagga Wagga Meals on Wheels", "1 hour ago", "Same-day reminder texts made the biggest difference for us. No-shows dropped noticeably.") +
+        "</div>" +
+        npReplyBox() +
+        npFooter("connect.html#discussion", "Open in Discussions");
+    },
+    "n-thread-chsp": function () {
+      return '<h2>CHSP transition</h2>' +
+        '<p class="im-meta">Discussion &middot; Comply &middot; a thread you\'re following &middot; 2 new replies</p>' +
+        '<div class="npop-thread">' +
+          npMsg("RT", "Raj Tan", "Penrith Meals on Wheels", "5 days ago", "Has anyone mapped their current CHSP service types across to the new Support at Home categories yet? Trying to work out where our meal service lands.") +
+          npMsg("LB", "Leesa O'Keefe", "MOW NSW &middot; Member Training", "Yesterday", "We're running a walkthrough at the next webinar, but the short version: meals stay in scope. I'll post the mapping table here once it's confirmed.", { hl: true }) +
+          npMsg("MC", "Maria Costa", "Shoalhaven Meals on Wheels", "6 hours ago", "Following, this is exactly what our board is asking about. Thanks Leesa.", { hl: true }) +
+        "</div>" +
+        npReplyBox() +
+        npFooter("connect.html#discussion", "Open in Discussions");
+    },
+    "n-like-nmds": function () {
+      return '<div class="npop-banner"><span class="npop-banner-ic">&#9829;</span> <strong>Simone Despoges</strong> and 3 others liked your comment on this consultation.</div>' +
+        '<h2>National Minimum Data Set consultation</h2>' +
+        '<p class="im-meta">Consultation &middot; Survey &middot; closes 12 Jul 2026</p>' +
+        '<p>The Department is proposing a National Minimum Data Set (NMDS) for community aged care, aimed at giving a consistent national picture of who is being supported and what services they receive.</p>' +
+        '<p>MOW NSW is preparing a sector submission and wants member input before responding.</p>' +
+        '<div class="npop-quote"><p class="npop-quote-label">Your comment</p><p>"The proposed demographic fields largely duplicate what we already report through CHSP. The bigger issue is the six-week timeline, which is unworkable for services without paid admin staff."</p></div>' +
+        '<p class="im-note">Reference build placeholder text, not the real consultation wording. Confirm actual content with MOW NSW policy/advocacy before this goes live.</p>' +
+        npFooter("connect.html?open=consult-nmds", "View the full consultation and respond");
+    },
+    "n-consult-newsletter": function () {
+      return '<h2>Proposed changes to the Marketing Updates newsletter</h2>' +
+        '<p class="im-meta">Newsletter feedback &middot; closes 30 Jul 2026</p>' +
+        '<p>MOW NSW is considering moving the Marketing Updates newsletter from monthly to fortnightly, and splitting it into two streams: a short "need to know" alert email, and a longer monthly digest with campaign kits, brand assets and success stories.</p>' +
+        '<p>What we would like your feedback on:</p>' +
+        '<ul>' +
+          '<li>Whether a shorter, more frequent "need to know" email would actually get read, or just add to inbox fatigue</li>' +
+          '<li>Whether splitting brand and campaign content into a separate monthly digest makes it easier or harder to find</li>' +
+          '<li>Any format or channel you would prefer instead (for example an SMS alert for genuinely urgent items only)</li>' +
+        "</ul>" +
+        '<p class="im-note">Reference build placeholder text, not final newsletter strategy content.</p>' +
+        npFooter("connect.html?open=consult-newsletter", "Give your feedback");
+    },
+    "n-renewal": function () {
+      return '<h2>Membership renewal</h2>' +
+        '<p class="im-meta">Meals on Wheels Blacktown &middot; due 9 August 2026</p>' +
+        '<div class="npop-banner"><span class="npop-banner-ic">&#8635;</span> Your membership renews in <strong>14 days</strong>. Confirming now keeps everything active with no break.</div>' +
+        '<p>Renewing keeps your service\'s access to member-only resources, training, and the member voice in MOW NSW advocacy. Letting it lapse can temporarily interrupt that access.</p>' +
+        '<ul>' +
+          '<li>Membership year: 2026&ndash;27</li>' +
+          '<li>Invoice: issued to your service\'s billing contact</li>' +
+          '<li>What to check: your contact details and service profile are current</li>' +
+        "</ul>" +
+        '<p class="im-note">Reference build placeholder — no real invoice is raised in this demo.</p>' +
+        npFooter("myservice.html#renewal", "Review and confirm renewal");
+    }
+  };
   // Two-layer wave: a page-coloured wash underneath (same fill as the page
   // background, filled solid down to the very bottom edge so it melts
   // straight into the page with no seam), topped by a thick teal ribbon
@@ -134,6 +241,29 @@
         (cur ? '<span class="um-acct-check">&#10003;</span>' : "") + "</button>";
     }).join("");
 
+    // ---- Notifications bell + dropdown ----
+    var readIds = readNotifs();
+    var unreadCount = NOTIFICATIONS.filter(function (n) { return readIds.indexOf(n.id) === -1; }).length;
+    var notifItemsHtml = NOTIFICATIONS.map(function (n) {
+      var unread = readIds.indexOf(n.id) === -1;
+      return '<a class="notif-item' + (unread ? " unread" : "") + '" href="' + n.url + '" data-notif="' + n.id + '">' +
+        '<span class="notif-icon notif-' + n.tone + '">' + NI[n.tone] + "</span>" +
+        '<span class="notif-body"><span class="notif-text">' + n.text + '</span><span class="notif-time">' + n.time + "</span></span>" +
+        (unread ? '<span class="notif-dot" aria-label="Unread"></span>' : "") +
+      "</a>";
+    }).join("");
+    var notifHtml =
+      '<div class="notif" id="notifWrap">' +
+        '<button type="button" class="notif-toggle" id="notifToggle" aria-label="Notifications" aria-expanded="false">' + bellIcon +
+          (unreadCount ? '<span class="notif-badge" id="notifBadge">' + unreadCount + "</span>" : '<span class="notif-badge hide" id="notifBadge">0</span>') +
+        "</button>" +
+        '<div class="notif-menu" id="notifMenu">' +
+          '<div class="notif-head"><span>Notifications</span><button type="button" id="notifMarkAll">Mark all read</button></div>' +
+          '<div class="notif-list" id="notifList">' + notifItemsHtml + "</div>" +
+          '<a class="notif-foot" href="engagement.html">See all the ways to get involved &rarr;</a>' +
+        "</div>" +
+      "</div>";
+
     // One-piece gradient header: nav row + hero content + wave, all on the
     // gradient (no separate solid navy bar). Topbar itself floats as a white
     // rounded pill above the gradient.
@@ -144,6 +274,7 @@
             '<a class="brand" href="index.html"><span class="mark"><img src="mow-favicon.svg" width="18" height="18" alt="MOW NSW"></span><span class="brand-text"><span class="brand-title">Members Hub</span><span class="brand-sub">Dashboard</span></span></a>' +
             "<nav>" + navHtml + "</nav>" +
             searchToggleHtml +
+            notifHtml +
             '<div class="user">' +
               '<span class="acct-logo"><span class="acct-name">' + activeAccount + "</span></span>" + chev +
               '<div class="user-menu">' +
@@ -600,6 +731,64 @@
   document.addEventListener("click", function () {
     document.querySelectorAll(".topbar .user.open").forEach(function (el) { el.classList.remove("open"); });
   });
+
+  // ---- Notifications dropdown ----
+  (function () {
+    var wrap = document.getElementById("notifWrap");
+    if (!wrap) return;
+    var toggle = document.getElementById("notifToggle");
+    var menu = document.getElementById("notifMenu");
+    var badge = document.getElementById("notifBadge");
+
+    function markRead(id) {
+      var read = readNotifs();
+      if (read.indexOf(id) === -1) { read.push(id); saveReadNotifs(read); }
+      var item = menu.querySelector('[data-notif="' + id + '"]');
+      if (item) { item.classList.remove("unread"); var dot = item.querySelector(".notif-dot"); if (dot) dot.remove(); }
+      updateBadge();
+    }
+    function updateBadge() {
+      var n = menu.querySelectorAll(".notif-item.unread").length;
+      badge.textContent = n;
+      badge.classList.toggle("hide", n === 0);
+    }
+    toggle.addEventListener("click", function (e) {
+      e.stopPropagation();
+      var willOpen = !wrap.classList.contains("open");
+      document.querySelectorAll(".topbar .user.open").forEach(function (el) { el.classList.remove("open"); });
+      wrap.classList.toggle("open", willOpen);
+      toggle.setAttribute("aria-expanded", willOpen ? "true" : "false");
+    });
+    menu.addEventListener("click", function (e) { e.stopPropagation(); });
+    // Clicking a notification marks it read and opens the relevant thing
+    // (thread, consultation paper, newsletter, renewal) as a popup, right on
+    // the current page. If no popup is defined, its href navigates as a fallback.
+    menu.querySelectorAll(".notif-item").forEach(function (item) {
+      item.addEventListener("click", function (e) {
+        var id = item.getAttribute("data-notif");
+        markRead(id);
+        var builder = NOTIF_POPUPS[id];
+        if (builder && typeof window.openInfoPopupHtml === "function") {
+          e.preventDefault();
+          wrap.classList.remove("open");
+          toggle.setAttribute("aria-expanded", "false");
+          window.openInfoPopupHtml(builder(), { wide: true });
+          var box = document.getElementById("infoModalBody");
+          var rb = box.querySelector(".npop-reply-btn");
+          if (rb) rb.addEventListener("click", function () {
+            var r = box.querySelector(".npop-reply"); if (r) r.classList.add("hide");
+            var t = box.querySelector(".npop-thanks"); if (t) t.classList.remove("hide");
+          });
+        }
+      });
+    });
+    document.getElementById("notifMarkAll").addEventListener("click", function (e) {
+      e.stopPropagation();
+      NOTIFICATIONS.forEach(function (n) { markRead(n.id); });
+    });
+    document.addEventListener("click", function () { wrap.classList.remove("open"); toggle.setAttribute("aria-expanded", "false"); });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") { wrap.classList.remove("open"); toggle.setAttribute("aria-expanded", "false"); } });
+  })();
 
   // ---- Switch account (updates the active service label live) ----
   document.querySelectorAll("[data-acct]").forEach(function (btn) {
@@ -1703,4 +1892,140 @@
     history.replaceState(null, "", "#" + slug);
     catActivate(slug, false);
   });
+})();
+
+// ---- Shared "Add to calendar" control — ONE consistent implementation used
+// everywhere on the site. Drop an empty tag anywhere (including inside
+// popup content injected after page load) with:
+//   class="ics-add" data-ics-title="…" data-ics-start="2026-07-22T14:00:00"
+//   [data-ics-end="…"] [data-ics-allday] [data-ics-location="…"] [data-ics-desc="…"]
+// and it self-renders into an icon button that opens a small menu: a direct
+// Google Calendar link, and an .ics download that Outlook and Apple
+// Calendar both open natively. Start/end values must include a "T" time
+// component (even for all-day events) so the browser parses them as local
+// time rather than UTC-midnight. A MutationObserver picks up instances
+// added later (e.g. inside a popup), so no per-page wiring is needed. ----
+(function () {
+  function pad(n) { return String(n).padStart(2, "0"); }
+  function fmtStamp(d) { return d.getUTCFullYear() + pad(d.getUTCMonth() + 1) + pad(d.getUTCDate()) + "T" + pad(d.getUTCHours()) + pad(d.getUTCMinutes()) + pad(d.getUTCSeconds()) + "Z"; }
+  function fmtDateOnly(d) { return d.getFullYear() + "" + pad(d.getMonth() + 1) + "" + pad(d.getDate()); }
+  function icsEscape(s) { return String(s || "").replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\n/g, "\\n"); }
+  function attrEscape(s) { return String(s || "").replace(/&/g, "&amp;").replace(/"/g, "&quot;"); }
+
+  window.icsDateAttr = function (d) {
+    return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()) + "T" + pad(d.getHours()) + ":" + pad(d.getMinutes()) + ":00";
+  };
+
+  window.downloadIcs = function (opts) {
+    var start = opts.start, end = opts.end || new Date(start.getTime() + (opts.allDay ? 86400000 : 3600000));
+    var lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//MOW NSW Members Hub//EN", "CALSCALE:GREGORIAN", "BEGIN:VEVENT",
+      "UID:" + Date.now() + "-" + Math.random().toString(36).slice(2) + "@membershub.local",
+      "DTSTAMP:" + fmtStamp(new Date())];
+    if (opts.allDay) {
+      lines.push("DTSTART;VALUE=DATE:" + fmtDateOnly(start));
+      lines.push("DTEND;VALUE=DATE:" + fmtDateOnly(end));
+    } else {
+      lines.push("DTSTART:" + fmtStamp(start));
+      lines.push("DTEND:" + fmtStamp(end));
+    }
+    lines.push("SUMMARY:" + icsEscape(opts.title));
+    if (opts.location) lines.push("LOCATION:" + icsEscape(opts.location));
+    if (opts.description) lines.push("DESCRIPTION:" + icsEscape(opts.description));
+    lines.push("END:VEVENT", "END:VCALENDAR");
+
+    var blob = new Blob([lines.join("\r\n")], { type: "text/calendar;charset=utf-8" });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = (opts.title || "event").replace(/[^a-z0-9]+/gi, "-").toLowerCase() + ".ics";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+  };
+
+  var calIcon = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>';
+  var chevIcon = '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>';
+  var googleIcon = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg>';
+  var downloadIcon = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>';
+
+  function googleUrl(el, start, end, allDay, title, location, desc) {
+    var dates = allDay ? fmtDateOnly(start) + "/" + fmtDateOnly(end) : fmtStamp(start) + "/" + fmtStamp(end);
+    return "https://calendar.google.com/calendar/render?action=TEMPLATE&text=" + encodeURIComponent(title) +
+      "&dates=" + dates + (desc ? "&details=" + encodeURIComponent(desc) : "") + (location ? "&location=" + encodeURIComponent(location) : "");
+  }
+
+  function renderOne(el) {
+    if (el.dataset.icsRendered) return;
+    var startStr = el.getAttribute("data-ics-start");
+    if (!startStr) return;
+    el.dataset.icsRendered = "1";
+    var title = el.getAttribute("data-ics-title") || "";
+    var endStr = el.getAttribute("data-ics-end");
+    var allDay = el.hasAttribute("data-ics-allday");
+    var start = new Date(startStr);
+    var end = endStr ? new Date(endStr) : new Date(start.getTime() + (allDay ? 86400000 : 3600000));
+    var location = el.getAttribute("data-ics-location") || "";
+    var desc = el.getAttribute("data-ics-desc") || "";
+
+    el.classList.add("ics-add");
+    el.innerHTML =
+      '<button type="button" class="ics-add-btn" data-ics-toggle>' + calIcon + "<span>Add to calendar</span>" + chevIcon + "</button>" +
+      '<div class="ics-add-menu hide">' +
+        '<a class="ics-add-opt" href="' + googleUrl(el, start, end, allDay, title, location, desc) + '" target="_blank" rel="noopener">' + googleIcon + "Google Calendar</a>" +
+        '<button type="button" class="ics-add-opt" data-ics-title="' + attrEscape(title) + '" data-ics-start="' + startStr + '" data-ics-end="' + (endStr || "") + '"' + (allDay ? " data-ics-allday" : "") + ' data-ics-location="' + attrEscape(location) + '" data-ics-desc="' + attrEscape(desc) + '">' + downloadIcon + "Outlook / Apple (.ics)</button>" +
+      "</div>";
+  }
+
+  function scan(root) {
+    if (root.nodeType !== 1 && root.nodeType !== 9) return;
+    if (root.matches && root.matches(".ics-add[data-ics-title]")) renderOne(root);
+    (root.querySelectorAll ? root.querySelectorAll(".ics-add[data-ics-title]") : []).forEach(renderOne);
+  }
+  scan(document);
+  new MutationObserver(function (muts) {
+    muts.forEach(function (m) { m.addedNodes.forEach(scan); });
+  }).observe(document.body, { childList: true, subtree: true });
+
+  // Both listeners below run in the CAPTURE phase (the `true` third arg).
+  // A card's own [data-popup] click handler is attached directly to the
+  // card, which sits closer to the target than document in the bubble
+  // path — so a bubble-phase stopPropagation() here would always run too
+  // late to stop it. Capture runs document-down before that ever fires.
+
+  // Toggle the dropdown, closing any other open one; close on outside click.
+  document.addEventListener("click", function (e) {
+    var toggle = e.target.closest && e.target.closest("[data-ics-toggle]");
+    if (toggle) {
+      e.stopPropagation();
+      var menu = toggle.nextElementSibling;
+      var willOpen = menu.classList.contains("hide");
+      document.querySelectorAll(".ics-add-menu").forEach(function (m) { m.classList.add("hide"); });
+      if (willOpen) menu.classList.remove("hide");
+      return;
+    }
+    if (!e.target.closest || !e.target.closest(".ics-add-menu")) {
+      document.querySelectorAll(".ics-add-menu").forEach(function (m) { m.classList.add("hide"); });
+    }
+  }, true);
+
+  // The actual .ics download, for the "Outlook / Apple" option (and any
+  // other bare [data-ics-title] element, for backward compatibility).
+  document.addEventListener("click", function (e) {
+    var btn = e.target.closest && e.target.closest("[data-ics-title]");
+    if (!btn || btn.classList.contains("ics-add")) return;
+    e.stopPropagation();
+    var start = btn.getAttribute("data-ics-start");
+    if (!start) return;
+    var end = btn.getAttribute("data-ics-end");
+    window.downloadIcs({
+      title: btn.getAttribute("data-ics-title"),
+      start: new Date(start),
+      end: end ? new Date(end) : null,
+      allDay: btn.hasAttribute("data-ics-allday"),
+      location: btn.getAttribute("data-ics-location") || "",
+      description: btn.getAttribute("data-ics-desc") || ""
+    });
+    document.querySelectorAll(".ics-add-menu").forEach(function (m) { m.classList.add("hide"); });
+  }, true);
 })();

@@ -4,11 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="mow-favicon.svg" type="image/svg+xml">
-<title>Directory — MOW NSW Members Portal (reference build)</title>
+<title>Directory — MOW NSW Members Portal</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-<link rel="stylesheet" href="styles.css?v=49">
+<link rel="stylesheet" href="styles.css?v=61">
 </head>
-<body data-active="connect.html" data-title="Member directory" data-crumb="Connect / Directory"
+<body data-active="connect.html" data-title="Member directory" data-crumb="Community / Directory"
       data-sub="Find member services near you, see them on the map, visit their website, and get in touch through the portal.">
 
 <div class="modal-overlay hide" id="infoModal">
@@ -27,45 +27,91 @@
 
 <div class="shell">
 
-  <div class="breadcrumb" style="margin-bottom:14px"><a href="connect.html">&larr; Back to Connect</a></div>
-  <p class="im-note" style="margin-bottom:16px">Reference build — service locations, distances and websites below are illustrative sample data, not a live member register. The map uses OpenStreetMap and needs an internet connection to load tiles.</p>
+  <div data-hero-aside>
+    <div class="dir-toggle" role="tablist" aria-label="Directory view">
+      <button type="button" class="dir-toggle-btn active" id="toggleServices" role="tab" aria-selected="true">Member services</button>
+      <button type="button" class="dir-toggle-btn" id="toggleIndividuals" role="tab" aria-selected="false">Individuals</button>
+    </div>
+  </div>
 
-  <div class="finder">
-    <div class="finder-panel">
-      <div class="field">
-        <label>Location</label>
-        <input type="text" id="locInput" placeholder="Suburb or town (e.g. Parramatta)">
-      </div>
-      <div class="field">
-        <label>Within</label>
-        <div class="radio-row" id="distRow">
-          <span class="pill-opt on" data-dist="0">Any distance</span>
-          <span class="pill-opt" data-dist="50">50 km</span>
-          <span class="pill-opt" data-dist="100">100 km</span>
-          <span class="pill-opt" data-dist="250">250 km</span>
+  <p class="im-note" style="margin-bottom:16px" id="dirNote">Service locations, distances and websites below are illustrative sample data, not a live member register. The map uses OpenStreetMap and needs an internet connection to load tiles.</p>
+
+  <div id="viewServices">
+    <div class="dir-filter-bar">
+      <div class="dfb-row">
+        <div class="field">
+          <label>Location</label>
+          <input type="text" id="locInput" placeholder="Suburb or town (e.g. Parramatta)">
+        </div>
+        <div class="field">
+          <label>Within</label>
+          <div class="radio-row" id="distRow">
+            <span class="pill-opt on" data-dist="0">Any distance</span>
+            <span class="pill-opt" data-dist="50">50 km</span>
+            <span class="pill-opt" data-dist="100">100 km</span>
+            <span class="pill-opt" data-dist="250">250 km</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Service type</label>
+          <div class="check-row" id="typeRow">
+            <span class="pill-opt" data-type="Meals">Meals</span>
+            <span class="pill-opt" data-type="Social support">Social support</span>
+            <span class="pill-opt" data-type="CHSP">CHSP</span>
+          </div>
         </div>
       </div>
-      <div class="field">
-        <label>Service type</label>
-        <div class="check-row" id="typeRow">
-          <span class="pill-opt" data-type="Meals">Meals</span>
-          <span class="pill-opt" data-type="Social support">Social support</span>
-          <span class="pill-opt" data-type="CHSP">CHSP</span>
+      <div class="dfb-row">
+        <div class="field dfb-field-layers">
+          <label>Map layers</label>
+          <div class="layer-toggle-list" id="layerRow">
+            <label class="layer-toggle"><input type="checkbox" data-layer="regions"> NSW Aged Care Planning Regions</label>
+            <label class="layer-toggle"><input type="checkbox" data-layer="distance"> Distance between services</label>
+            <label class="layer-toggle"><input type="checkbox" data-layer="volunteers"> Volunteer support range</label>
+            <label class="layer-toggle"><input type="checkbox" data-layer="population"> Population growth &amp; demand</label>
+          </div>
         </div>
       </div>
-      <div class="finder-count" id="finderCount"></div>
-      <div class="result-list" id="resultList"></div>
     </div>
 
-    <div id="mapWrap">
-      <div id="map"></div>
+    <div class="finder-count" id="finderCount"></div>
+    <div class="dir-body">
+      <div class="finder-panel">
+        <div class="result-list" id="resultList"></div>
+      </div>
+      <div id="mapWrap">
+        <div id="map"></div>
+        <div class="im-note map-legend hide" id="mapLegend"></div>
+      </div>
     </div>
+  </div>
+
+  <div id="viewIndividuals" class="hide">
+    <div class="dir-filter-bar">
+      <div class="dfb-row">
+        <div class="field">
+          <label>Search</label>
+          <input type="text" id="pplSearch" placeholder="Name, role or service">
+        </div>
+        <div class="field">
+          <label>Role</label>
+          <div class="check-row" id="pplRoleRow">
+            <span class="pill-opt" data-role="Managers">Managers</span>
+            <span class="pill-opt" data-role="Volunteer coordinators">Volunteer coordinators</span>
+            <span class="pill-opt" data-role="Committee &amp; board">Committee &amp; board</span>
+            <span class="pill-opt" data-role="Kitchen">Kitchen</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="finder-count" id="pplCount"></div>
+    <div class="people-grid" id="peopleGrid"></div>
   </div>
 
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="portal.js?v=49"></script>
+<script src="portal.js?v=61"></script>
 <script>
   (function () {
     // ---- Sample service data (illustrative, not a real register) ----
@@ -78,14 +124,26 @@
     var ORIGIN_DEFAULT = SUBURBS.liverpool;
 
     var SERVICES = [
-      { name: "Liverpool Meals on Wheels", region: "Sydney metro", lat: -33.92, lng: 150.92, types: ["Meals", "Social support", "CHSP"], site: "#" },
-      { name: "Parramatta Meals on Wheels", region: "Sydney metro", lat: -33.81, lng: 151.00, types: ["Meals", "CHSP"], site: "#" },
-      { name: "Penrith Meals on Wheels", region: "Greater Western Sydney", lat: -33.75, lng: 150.69, types: ["Meals", "Social support"], site: "#" },
-      { name: "Wollongong Meals on Wheels", region: "Illawarra", lat: -34.42, lng: 150.89, types: ["Social support"], site: "#" },
-      { name: "Newcastle Meals on Wheels", region: "Hunter", lat: -32.93, lng: 151.78, types: ["Meals", "CHSP"], site: "#" },
-      { name: "Dubbo Meals on Wheels", region: "Central West", lat: -32.25, lng: 148.60, types: ["Meals", "CHSP"], site: "#" },
-      { name: "Wagga Wagga Meals on Wheels", region: "Riverina", lat: -35.11, lng: 147.37, types: ["Social support", "CHSP"], site: "#" },
-      { name: "Coffs Harbour Meals on Wheels", region: "Mid North Coast", lat: -30.30, lng: 153.11, types: ["Meals", "CHSP"], site: "#" }
+      { name: "Liverpool Meals on Wheels", region: "Sydney metro", lat: -33.92, lng: 150.92, types: ["Meals", "Social support", "CHSP"], site: "#", volunteers: 145 },
+      { name: "Parramatta Meals on Wheels", region: "Sydney metro", lat: -33.81, lng: 151.00, types: ["Meals", "CHSP"], site: "#", volunteers: 95 },
+      { name: "Penrith Meals on Wheels", region: "Greater Western Sydney", lat: -33.75, lng: 150.69, types: ["Meals", "Social support"], site: "#", volunteers: 80 },
+      { name: "Wollongong Meals on Wheels", region: "Illawarra", lat: -34.42, lng: 150.89, types: ["Social support"], site: "#", volunteers: 65 },
+      { name: "Newcastle Meals on Wheels", region: "Hunter", lat: -32.93, lng: 151.78, types: ["Meals", "CHSP"], site: "#", volunteers: 90 },
+      { name: "Dubbo Meals on Wheels", region: "Central West", lat: -32.25, lng: 148.60, types: ["Meals", "CHSP"], site: "#", volunteers: 50 },
+      { name: "Wagga Wagga Meals on Wheels", region: "Riverina", lat: -35.11, lng: 147.37, types: ["Social support", "CHSP"], site: "#", volunteers: 40 },
+      { name: "Coffs Harbour Meals on Wheels", region: "Mid North Coast", lat: -30.30, lng: 153.11, types: ["Meals", "CHSP"], site: "#", volunteers: 55 }
+    ];
+
+    // Illustrative NSW Aged Care Planning Region boundaries + demand stats —
+    // approximations for this reference build, not the official ACPR map.
+    var REGIONS = [
+      { name: "Sydney metro", center: [-33.87, 151.05], radius: 28000, growthPct: 9, aged65: "17%", volunteers: "120–160" },
+      { name: "Greater Western Sydney", center: [-33.80, 150.75], radius: 30000, growthPct: 14, aged65: "14%", volunteers: "80–110" },
+      { name: "Illawarra", center: [-34.45, 150.85], radius: 35000, growthPct: 7, aged65: "19%", volunteers: "60–90" },
+      { name: "Hunter", center: [-32.90, 151.55], radius: 45000, growthPct: 8, aged65: "20%", volunteers: "70–100" },
+      { name: "Central West", center: [-32.50, 148.80], radius: 90000, growthPct: 5, aged65: "22%", volunteers: "40–60" },
+      { name: "Riverina", center: [-35.00, 147.30], radius: 90000, growthPct: 4, aged65: "23%", volunteers: "35–55" },
+      { name: "Mid North Coast", center: [-30.50, 152.90], radius: 60000, growthPct: 11, aged65: "26%", volunteers: "50–75" }
     ];
 
     var origin = ORIGIN_DEFAULT;
@@ -93,6 +151,7 @@
     var activeTypes = []; // empty = all
     var listEl = document.getElementById("resultList");
     var countEl = document.getElementById("finderCount");
+    var legendEl = document.getElementById("mapLegend");
 
     function haversine(a, b) {
       var R = 6371, dLat = (b[0] - a[0]) * Math.PI / 180, dLng = (b[1] - a[1]) * Math.PI / 180;
@@ -102,9 +161,29 @@
     }
     function esc(s) { return (s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
     function initials(n) { return n.split(" ").filter(Boolean).slice(0, 2).map(function (w) { return w[0]; }).join("").toUpperCase(); }
+    // Leaflet sets these as raw SVG attributes, not CSS, so plain hex values
+    // are used here rather than the var(--token) references CSS elsewhere uses.
+    var MAP_COLORS = { navyDeep: "#031F73", teal: "#2C8B88", tealPale: "#72DCD4", orange: "#D2491A" };
+    function growthColor(pct) { return pct >= 10 ? MAP_COLORS.navyDeep : pct >= 6 ? MAP_COLORS.teal : MAP_COLORS.tealPale; }
 
     // ---- Map (Leaflet + OSM), with fallback if the library/tiles don't load ----
     var map = null, markers = {};
+    var regionsLayer = null, distanceLayer = null, volunteersLayer = null, populationLayer = null;
+    var LAYER_LEGEND = {
+      regions: "Dashed circles approximate each NSW Aged Care Planning Region (illustrative boundaries for this demo, not the official ACPR map).",
+      distance: "Dashed lines show the straight-line distance from your searched location to each visible service.",
+      volunteers: "Circle size shows the illustrative range of volunteer support at each service.",
+      population: "Shaded regions show illustrative population growth and aged-care demand — darker means faster growth."
+    };
+
+    function popupHtml(s, d) {
+      var tags = s.types.map(function (t) { return '<span class="tag neutral">' + esc(t) + "</span>"; }).join(" ");
+      return '<div class="map-popup"><strong>' + esc(s.name) + "</strong><br>" + esc(s.region) +
+        (typeof d === "number" ? " · " + d + " km away" : "") +
+        '<div style="margin:6px 0">' + tags + "</div>" +
+        '<a href="' + s.site + '" target="_blank" rel="noopener">Visit website &rarr;</a></div>';
+    }
+
     if (window.L) {
       map = L.map("map").setView([-32.5, 150.5], 6);
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -112,17 +191,55 @@
       }).addTo(map);
       SERVICES.forEach(function (s) {
         var m = L.marker([s.lat, s.lng]).addTo(map);
-        m.bindPopup("<strong>" + esc(s.name) + "</strong><br>" + esc(s.region));
+        m.bindPopup(popupHtml(s, haversine(origin, [s.lat, s.lng])));
+        m.on("click", function () { focusService(s, true); });
         markers[s.name] = m;
       });
+
+      regionsLayer = L.layerGroup();
+      REGIONS.forEach(function (r) {
+        L.circle(r.center, { radius: r.radius, color: MAP_COLORS.navyDeep, weight: 1.5, dashArray: "5 5", fillOpacity: 0.03 })
+          .bindTooltip(r.name + " (illustrative region boundary)")
+          .addTo(regionsLayer);
+      });
+
+      volunteersLayer = L.layerGroup();
+      SERVICES.forEach(function (s) {
+        L.circleMarker([s.lat, s.lng], { radius: 8 + s.volunteers / 12, color: MAP_COLORS.orange, weight: 1.5, fillOpacity: 0.15 })
+          .bindTooltip("~" + s.volunteers + " volunteers (illustrative)")
+          .addTo(volunteersLayer);
+      });
+
+      populationLayer = L.layerGroup();
+      REGIONS.forEach(function (r) {
+        L.circle(r.center, { radius: r.radius * 0.7, color: growthColor(r.growthPct), weight: 0, fillOpacity: 0.22 })
+          .bindTooltip(r.name + ": " + r.growthPct + "% projected population growth by 2031 · " + r.aged65 + " aged 65+ · " + r.volunteers + " volunteers across the region (illustrative)")
+          .addTo(populationLayer);
+      });
+
+      distanceLayer = L.layerGroup();
     } else {
       document.getElementById("mapWrap").innerHTML =
         '<div class="map-fallback">The interactive map couldn\'t load (it needs an internet connection for OpenStreetMap). The service list on the left still works.</div>';
     }
 
-    function focusService(s) {
-      if (map && markers[s.name]) { map.setView([s.lat, s.lng], 11); markers[s.name].openPopup(); }
-      document.querySelectorAll(".result-card").forEach(function (c) { c.classList.toggle("active", c.getAttribute("data-name") === s.name); });
+    function focusService(s, fromMap) {
+      if (map && markers[s.name]) { map.setView([s.lat, s.lng], 11); if (!fromMap) markers[s.name].openPopup(); }
+      document.querySelectorAll(".result-card").forEach(function (c) {
+        var active = c.getAttribute("data-name") === s.name;
+        c.classList.toggle("active", active);
+        if (active && fromMap) c.scrollIntoView({ block: "nearest", behavior: "smooth" });
+      });
+    }
+
+    function rebuildDistanceLayer(rows) {
+      if (!distanceLayer) return;
+      distanceLayer.clearLayers();
+      rows.forEach(function (r) {
+        var line = L.polyline([origin, [r.s.lat, r.s.lng]], { color: MAP_COLORS.teal, weight: 2, dashArray: "4 6", opacity: 0.7 });
+        line.bindTooltip(r.d + " km", { permanent: true, direction: "center", className: "map-dist-label" });
+        distanceLayer.addLayer(line);
+      });
     }
 
     function render() {
@@ -152,7 +269,9 @@
           "</div>";
         card.addEventListener("click", function (e) { if (!e.target.closest("button,a")) focusService(s); });
         listEl.appendChild(card);
+        if (markers[s.name]) markers[s.name].setPopupContent(popupHtml(s, r.d));
       });
+      rebuildDistanceLayer(rows);
     }
 
     // ---- Filters ----
@@ -174,15 +293,30 @@
       render();
     });
 
-    // ---- Contact-via-portal modal ----
+    // ---- Map layer toggles ----
+    var LAYERS_BY_KEY = { regions: function () { return regionsLayer; }, distance: function () { return distanceLayer; }, volunteers: function () { return volunteersLayer; }, population: function () { return populationLayer; } };
+    document.getElementById("layerRow").addEventListener("change", function (e) {
+      var box = e.target.closest("input[data-layer]"); if (!box) return;
+      var key = box.getAttribute("data-layer");
+      var layer = LAYERS_BY_KEY[key] && LAYERS_BY_KEY[key]();
+      box.closest(".layer-toggle").classList.toggle("on", box.checked);
+      if (map && layer) { if (box.checked) layer.addTo(map); else map.removeLayer(layer); }
+      var activeKeys = [].slice.call(document.querySelectorAll("#layerRow input:checked")).map(function (b) { return b.getAttribute("data-layer"); });
+      if (activeKeys.length) {
+        legendEl.innerHTML = activeKeys.map(function (k) { return "<div>" + LAYER_LEGEND[k] + "</div>"; }).join("");
+        legendEl.classList.remove("hide");
+      } else {
+        legendEl.classList.add("hide");
+      }
+    });
+
+    // ---- Contact-via-portal modal (shared by services and individuals) ----
     var cModal = document.getElementById("contactModal");
     var cBody = document.getElementById("contactModalBody");
-    listEl.addEventListener("click", function (e) {
-      var btn = e.target.closest("[data-contact]"); if (!btn) return;
-      var who = btn.getAttribute("data-contact");
+    function openContact(who, sub) {
       cBody.innerHTML =
         "<h2>Contact " + esc(who) + "</h2>" +
-        '<p class="im-meta" style="font-size:12px;color:var(--muted);margin:0 0 12px">Message this service through the portal. In this reference build nothing is actually sent.</p>' +
+        '<p class="im-meta" style="font-size:12px;color:var(--muted);margin:0 0 12px">' + esc(sub || "Message this service through the portal.") + ' Nothing is actually sent.</p>' +
         '<form id="cForm"><div class="field"><label>To</label><input type="text" value="' + esc(who) + '" readonly></div>' +
         '<div class="field"><label>Your message</label><textarea style="min-height:100px" placeholder="Introduce your service and what you\'d like to ask" required></textarea></div>' +
         '<button class="btn-primary" type="submit">Send message</button></form>' +
@@ -193,11 +327,91 @@
         document.getElementById("cForm").classList.add("hide");
         document.getElementById("cThanks").classList.remove("hide");
       });
+    }
+    listEl.addEventListener("click", function (e) {
+      var btn = e.target.closest("[data-contact]"); if (!btn) return;
+      openContact(btn.getAttribute("data-contact"), "Message this service through the portal.");
     });
     cModal.querySelectorAll("[data-modal-close]").forEach(function (b) { b.addEventListener("click", function () { cModal.classList.add("hide"); }); });
     cModal.addEventListener("click", function (e) { if (e.target === cModal) cModal.classList.add("hide"); });
 
     render();
+
+    // ================= Individuals directory =================
+    // A people directory alongside the service finder. Reference build:
+    // sample profiles only, not a real staff or volunteer register.
+    var INDIVIDUALS = [
+      { name: "Jane Smith", role: "Service Manager", service: "Liverpool Meals on Wheels", region: "Sydney metro", cat: "Managers" },
+      { name: "Helen Ward", role: "Board Chair", service: "Liverpool Meals on Wheels", region: "Sydney metro", cat: "Committee & board" },
+      { name: "Raj Patel", role: "Volunteer Coordinator", service: "Parramatta Meals on Wheels", region: "Sydney metro", cat: "Volunteer coordinators" },
+      { name: "Margaret Lee", role: "President", service: "Penrith Meals on Wheels", region: "Greater Western Sydney", cat: "Committee & board" },
+      { name: "Tom Nguyen", role: "Treasurer", service: "Wollongong Meals on Wheels", region: "Illawarra", cat: "Committee & board" },
+      { name: "Sarah Doyle", role: "Volunteer Coordinator", service: "Newcastle Meals on Wheels", region: "Hunter", cat: "Volunteer coordinators" },
+      { name: "David Brown", role: "Kitchen Coordinator", service: "Dubbo Meals on Wheels", region: "Central West", cat: "Kitchen" },
+      { name: "Priya Nair", role: "Service Manager", service: "Wagga Wagga Meals on Wheels", region: "Riverina", cat: "Managers" },
+      { name: "Anna Rossi", role: "Volunteer Coordinator", service: "Coffs Harbour Meals on Wheels", region: "Mid North Coast", cat: "Volunteer coordinators" }
+    ];
+    var pplSearch = document.getElementById("pplSearch");
+    var pplRoleRow = document.getElementById("pplRoleRow");
+    var pplCount = document.getElementById("pplCount");
+    var peopleGrid = document.getElementById("peopleGrid");
+    var activeRoles = [];
+
+    function renderPeople() {
+      var q = (pplSearch.value || "").trim().toLowerCase();
+      var rows = INDIVIDUALS.filter(function (p) {
+        var okRole = !activeRoles.length || activeRoles.indexOf(p.cat) !== -1;
+        var okSearch = !q || (p.name + " " + p.role + " " + p.service + " " + p.region).toLowerCase().indexOf(q) !== -1;
+        return okRole && okSearch;
+      });
+      pplCount.textContent = rows.length + " " + (rows.length === 1 ? "person" : "people") + " found";
+      if (!rows.length) { peopleGrid.innerHTML = '<div class="people-empty">No people match those filters.</div>'; return; }
+      peopleGrid.innerHTML = rows.map(function (p) {
+        return '<div class="person-card">' +
+          '<span class="person-av">' + initials(p.name) + "</span>" +
+          '<div class="person-body">' +
+            '<div class="person-name">' + esc(p.name) + "</div>" +
+            '<div class="person-role">' + esc(p.role) + "</div>" +
+            '<div class="person-svc">' + esc(p.service) + " · " + esc(p.region) + "</div>" +
+            '<div class="person-actions"><button data-contact="' + esc(p.name) + '">Contact via portal</button></div>' +
+          "</div>" +
+        "</div>";
+      }).join("");
+    }
+    pplSearch.addEventListener("input", renderPeople);
+    pplRoleRow.addEventListener("click", function (e) {
+      var p = e.target.closest(".pill-opt"); if (!p) return;
+      p.classList.toggle("on");
+      activeRoles = [].slice.call(this.querySelectorAll(".pill-opt.on")).map(function (x) { return x.getAttribute("data-role"); });
+      renderPeople();
+    });
+    peopleGrid.addEventListener("click", function (e) {
+      var btn = e.target.closest("[data-contact]"); if (!btn) return;
+      openContact(btn.getAttribute("data-contact"), "Message this person through the portal.");
+    });
+    renderPeople();
+
+    // ---- Toggle between the two directories ----
+    var viewServices = document.getElementById("viewServices");
+    var viewIndividuals = document.getElementById("viewIndividuals");
+    var btnServices = document.getElementById("toggleServices");
+    var btnIndividuals = document.getElementById("toggleIndividuals");
+    var noteEl = document.getElementById("dirNote");
+    var SERVICES_NOTE = "Service locations, distances and websites below are illustrative sample data, not a live member register. The map uses OpenStreetMap and needs an internet connection to load tiles.";
+    var PEOPLE_NOTE = "These individual profiles are illustrative sample data, not a real staff or volunteer register. Contact goes through the portal, so personal contact details aren't shown.";
+    function showView(individuals) {
+      viewIndividuals.classList.toggle("hide", !individuals);
+      viewServices.classList.toggle("hide", individuals);
+      btnIndividuals.classList.toggle("active", individuals);
+      btnServices.classList.toggle("active", !individuals);
+      btnIndividuals.setAttribute("aria-selected", individuals ? "true" : "false");
+      btnServices.setAttribute("aria-selected", individuals ? "false" : "true");
+      noteEl.textContent = individuals ? PEOPLE_NOTE : SERVICES_NOTE;
+      // Leaflet needs its size recalculated after its container has been shown again.
+      if (!individuals && map) setTimeout(function () { map.invalidateSize(); }, 0);
+    }
+    btnServices.addEventListener("click", function () { showView(false); });
+    btnIndividuals.addEventListener("click", function () { showView(true); });
   })();
 </script>
 </body>
