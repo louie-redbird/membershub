@@ -107,12 +107,20 @@
     { title: "Media releases", url: "marketing.html?open=media-releases", type: "Template", tags: ["brand", "media", "approval"] },
     { title: "Social media templates", url: "marketing.html?open=social-templates", type: "Brand asset", tags: ["social", "brand", "canva"] },
     { title: "Fundraising tools", url: "marketing.html?open=fundraising-tools", type: "Template", tags: ["fundraising", "brand"] },
-    { title: "Storytelling guide", url: "marketing.html?open=storytelling-guide", type: "Guide", tags: ["brand", "storytelling", "media"] }
+    { title: "Storytelling guide", url: "marketing.html?open=storytelling-guide", type: "Guide", tags: ["brand", "storytelling", "media"] },
+    { title: "CHSP compliance essentials", url: "learning.html?open=mod-chsp", type: "Module", tags: ["chsp", "compliance"] },
+    { title: "Volunteer driver safety essentials", url: "learning.html?open=mod-driver-safety", type: "Module", tags: ["safety", "volunteers"] },
+    { title: "How to write a grant application that gets read", url: "learning.html?open=grant-writing-blog", type: "Blog", tags: ["grants", "finance"] },
+    { title: "Three lessons from services that came through a funding cut", url: "learning.html?open=funding-cut-blog", type: "Blog", tags: ["funding", "governance"] },
+    { title: "Behind the Wheel: a volunteer driver's story", url: "learning.html?open=behind-the-wheel", type: "Podcast", tags: ["volunteers"] },
+    { title: "Funding Files: decoding Support at Home", url: "learning.html?open=funding-files", type: "Podcast", tags: ["funding", "reform"] },
+    { title: "Treasurer's handbook", url: "learning.html?open=treasurer-handbook", type: "Handbook", tags: ["finance", "governance"] }
   ];
   window.SITE_CONTENT = CONTENT;
   var searchIcon = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>';
   var chev = '<svg class="chev" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg>';
   var bellIcon = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>';
+  var hamburgerIcon = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>';
 
   // ---- Notifications feed. These are the member-engagement prompts that also
   // drive the "bell" dropdown in the topbar; clicking one deep-links straight
@@ -265,6 +273,23 @@
       return '<a href="' + n.href + '"' + (isActive ? ' class="active"' : "") + ">" + n.label + "</a>";
     }).join("");
 
+    // ---- Same NAV data, rendered as an accordion for the mobile drawer
+    // (hamburger menu) instead of hover/click mega-menus. ----
+    var mobileNavHtml = NAV.map(function (n, i) {
+      var isActive = n.pages && n.pages.indexOf(active) !== -1;
+      if (n.items) {
+        var subHtml = n.items.map(function (it) {
+          var external = /^https?:\/\//.test(it[0]);
+          return '<a href="' + it[0] + '"' + (external ? ' target="_blank" rel="noopener"' : "") + ">" + it[1] + (external ? ' <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-left:4px;vertical-align:-1px"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/></svg>' : "") + "</a>";
+        }).join("");
+        return '<div class="mnav-group' + (isActive ? " open active" : "") + '">' +
+          '<button type="button" class="mnav-group-btn' + (isActive ? " active" : "") + '" data-mnav-toggle>' + n.label + chev + "</button>" +
+          '<div class="mnav-group-menu">' + subHtml + "</div>" +
+        "</div>";
+      }
+      return '<a class="mnav-link' + (isActive ? " active" : "") + '" href="' + n.href + '">' + n.label + "</a>";
+    }).join("");
+
     var searchToggleHtml = searchPh
       ? '<button type="button" class="ts-toggle" id="tsToggle" aria-label="Search" aria-expanded="false">' + searchIcon + "</button>"
       : "";
@@ -318,9 +343,10 @@
             searchToggleHtml +
             notifHtml +
             '<div class="user">' +
+              '<span class="acct-avatar" id="acctAvatar">' + acctInitials(activeAccount) + "</span>" +
               '<span class="acct-logo"><span class="acct-name">' + activeAccount + "</span></span>" + chev +
               '<div class="user-menu">' +
-                '<div class="um-head"><div class="n" id="umAcctName">' + activeAccount + '</div><div class="r">Active account</div></div>' +
+                '<div class="um-head"><div class="n um-acct-headname">' + activeAccount + '</div><div class="r">Active account</div></div>' +
                 '<a href="myservice.html#profile">Service profile</a>' +
                 '<a href="myservice.html#profile">Update contact details</a>' +
                 '<a href="myservice.html#benefits">Membership benefits</a>' +
@@ -332,6 +358,7 @@
                 '<a href="login.html" class="um-item danger">Log out</a>' +
               "</div>" +
             "</div>" +
+            '<button type="button" class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Menu" aria-expanded="false">' + hamburgerIcon + "</button>" +
           "</div>" +
           searchRowHtml +
         "</header>" +
@@ -361,7 +388,41 @@
         "</div>" +
       "</div>";
 
-    body.insertAdjacentHTML("afterbegin", header + baseModal);
+    // ---- Mobile account panel: the same "switch service / profile links /
+    // log out" menu as the desktop topbar user button, but inlined into the
+    // drawer body so the avatar+name control can be dropped from the mobile
+    // topbar entirely (there's no room for it next to search/notifications). ----
+    var mobileAcctHtml =
+      '<div class="mnav-acct">' +
+        '<div class="mnav-acct-head">' +
+          '<span class="acct-avatar">' + acctInitials(activeAccount) + "</span>" +
+          '<div><div class="n um-acct-headname">' + activeAccount + '</div><div class="r">Active account</div></div>' +
+        "</div>" +
+        '<a href="myservice.html#profile">Service profile</a>' +
+        '<a href="myservice.html#profile">Update contact details</a>' +
+        '<a href="myservice.html#benefits">Membership benefits</a>' +
+        '<a href="myservice.html#renewal">Membership renewal</a>' +
+        '<div class="um-sep"></div>' +
+        '<div class="um-label">Switch account</div>' +
+        switchHtml +
+        '<div class="um-sep"></div>' +
+        '<a href="login.html" class="um-item danger">Log out</a>' +
+      "</div>";
+
+    // ---- Mobile nav drawer (hamburger menu): the same NAV data as the
+    // desktop mega-menu, rendered as a slide-in accordion, plus the account
+    // panel above at the top since the topbar hides the user button here. ----
+    var mobileNav =
+      '<div class="mnav-overlay" id="mnavOverlay"></div>' +
+      '<nav class="mnav-drawer" id="mnavDrawer" aria-hidden="true">' +
+        '<div class="mnav-head">' +
+          '<a class="brand" href="index.html"><span class="mark"><img src="mow-favicon.svg" width="18" height="18" alt="MOW NSW"></span><span class="brand-text"><span class="brand-title">Members Hub</span><span class="brand-sub">Dashboard</span></span></a>' +
+          '<button type="button" class="mnav-close" id="mnavClose" aria-label="Close menu">&times;</button>' +
+        "</div>" +
+        '<div class="mnav-body">' + mobileAcctHtml + mobileNavHtml + "</div>" +
+      "</nav>";
+
+    body.insertAdjacentHTML("afterbegin", header + baseModal + mobileNav);
 
     // Pull any [data-hero-aside] element (e.g. the dashboard alert) up into the
     // hero's right-hand slot, next to the title.
@@ -842,6 +903,44 @@
     document.addEventListener("keydown", function (e) { if (e.key === "Escape") { wrap.classList.remove("open"); toggle.setAttribute("aria-expanded", "false"); } });
   })();
 
+  // ---- Mobile nav drawer (hamburger menu) ----
+  (function () {
+    var navToggle = document.getElementById("mobileNavToggle");
+    var drawer = document.getElementById("mnavDrawer");
+    var overlay = document.getElementById("mnavOverlay");
+    var closeBtn = document.getElementById("mnavClose");
+    if (!navToggle || !drawer) return;
+
+    function openDrawer() {
+      drawer.classList.add("open");
+      overlay.classList.add("open");
+      drawer.setAttribute("aria-hidden", "false");
+      navToggle.setAttribute("aria-expanded", "true");
+      document.body.classList.add("mnav-lock");
+    }
+    function closeDrawer() {
+      drawer.classList.remove("open");
+      overlay.classList.remove("open");
+      drawer.setAttribute("aria-hidden", "true");
+      navToggle.setAttribute("aria-expanded", "false");
+      document.body.classList.remove("mnav-lock");
+    }
+    navToggle.addEventListener("click", function (e) { e.stopPropagation(); openDrawer(); });
+    closeBtn.addEventListener("click", closeDrawer);
+    overlay.addEventListener("click", closeDrawer);
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeDrawer(); });
+    // A real navigation (link click) should close the drawer behind it.
+    drawer.querySelectorAll(".mnav-group-menu a, .mnav-link, .mnav-acct a").forEach(function (a) {
+      a.addEventListener("click", closeDrawer);
+    });
+    // Accordion: tapping a group's heading expands/collapses just that group.
+    drawer.querySelectorAll("[data-mnav-toggle]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        btn.closest(".mnav-group").classList.toggle("open");
+      });
+    });
+  })();
+
   // ---- Switch account (updates the active service label live) ----
   document.querySelectorAll("[data-acct]").forEach(function (btn) {
     btn.addEventListener("click", function (e) {
@@ -849,8 +948,8 @@
       var name = btn.getAttribute("data-acct");
       try { localStorage.setItem("mow_active_account", name); } catch (err) {}
       document.querySelectorAll(".acct-logo .acct-name").forEach(function (n) { n.textContent = name; });
-      var head = document.getElementById("umAcctName");
-      if (head) head.textContent = name;
+      document.querySelectorAll(".acct-avatar").forEach(function (a) { a.textContent = acctInitials(name); });
+      document.querySelectorAll(".um-acct-headname").forEach(function (n) { n.textContent = name; });
       document.querySelectorAll(".um-acct").forEach(function (b) {
         var check = b.querySelector(".um-acct-check");
         if (check) check.remove();
