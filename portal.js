@@ -19,14 +19,14 @@
   // up as active for a given data-active value. ----
   var NAV = [
     { label: "Resources", href: "resources.html", pages: ["resources.html"] },
-    { label: "Updates & Advocacy", pages: ["news.html"], items: [
-        ["news.html#overview", "Overview"],
-        ["news.html#newsforservices", "News for services"],
-        ["news.html#windup", "Weekly Windup"],
-        ["news.html#alerts", "Current topics and alerts"],
-        ["news.html#reforms", "Reform updates"],
-        ["news.html#advocacy", "Advocacy priorities"],
-        ["news.html#submissions", "Submissions and policy positions"]
+    { label: "News & Advocacy", pages: ["updates.html", "advocacy.html", "submissions.html"], items: [
+        ["updates.html#updates", "All updates"],
+        ["updates.html#mownews", "Meals on Wheels news"],
+        ["updates.html#localnews", "Sector News"],
+        ["updates.html#windup", "Weekly Windup"],
+        ["updates.html#reforms", "Reform updates"],
+        ["advocacy.html", "Advocacy priorities"],
+        ["submissions.html", "Submissions and policy positions"]
     ]},
     { label: "Training & Events", pages: ["learning.html"], items: [
         ["learning.html#overview", "Overview"],
@@ -60,19 +60,13 @@
     { title: "Grant acquittal checklist", url: "resources.html?open=grant-acquittal", type: "Resource", tags: ["finance", "funding", "grants"] },
     { title: "Brand guidelines and logo pack", url: "marketing.html?open=brand-logos", type: "Marketing", tags: ["brand", "promote", "logo"] },
     { title: "Cuppa for a Cause campaign kit", url: "marketing.html?open=mkt-campaign-cuppa", type: "Marketing", tags: ["campaigns", "brand", "fundraising"] },
-    { title: "Weekly Windup — latest edition", url: "news.html", type: "News", tags: ["news", "mow", "windup"] },
+    { title: "Weekly Windup — latest edition", url: "updates.html", type: "News", tags: ["news", "mow", "windup"] },
     { title: "National Minimum Data Set consultation", url: "connect.html?open=consult-nmds", type: "Consultation", tags: ["advocacy", "have your say", "mds"] },
     { title: "APD annual meal review: what's required", url: "learning.html#upcoming", type: "Webinar", tags: ["training", "aged care", "dietitian"] },
     { title: "Member directory & map", url: "directory.html", type: "Directory", tags: ["community", "directory", "map"] },
     { title: "Volunteer Coordinators Network", url: "connect.html#communities", type: "Community", tags: ["community", "volunteers", "working group"] },
     { title: "Your Network Support Officer", url: "support.html", type: "Support", tags: ["support", "contact", "nso"] }
   ];
-  var PAGES = [
-    ["Dashboard", "index.html"], ["Resources & Templates", "resources.html"], ["Learning", "learning.html"],
-    ["Sector Updates & Advocacy", "news.html"], ["Marketing", "marketing.html"], ["Connect", "connect.html"],
-    ["Support", "support.html"], ["Service", "myservice.html"]
-  ];
-
   var searchIcon = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>';
   var chev = '<svg class="chev" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg>';
   // Two-layer wave: a page-coloured wash underneath (same fill as the page
@@ -96,6 +90,7 @@
     try { var s = localStorage.getItem("mow_active_account"); if (s && ACCOUNTS.indexOf(s) !== -1) return s; } catch (e) {}
     return ACCOUNTS[0];
   })();
+  window.mowActiveAccount = activeAccount;
   function acctInitials(n) {
     var parts = n.replace(/Meals on Wheels/i, "MOW").split(" ").filter(Boolean);
     return (parts[0][0] + (parts[1] ? parts[1][0] : "")).toUpperCase();
@@ -180,8 +175,9 @@
 
     var baseModal =
       '<div class="modal-overlay hide" id="infoModal">' +
-        '<div class="modal">' +
+        '<div class="modal" id="infoModalInner">' +
           '<button class="close" data-modal-close aria-label="Close">&times;</button>' +
+          '<button class="modal-expand-btn" id="infoModalExpandBtn" type="button" aria-label="Expand" title="Expand"></button>' +
           '<div class="info-modal-body" id="infoModalBody"></div>' +
         "</div>" +
       "</div>" +
@@ -206,13 +202,20 @@
     // contact tiles AND by the .im-author chip inside resource popups. ----
     (function () {
       var STAFF_DIRECTORY = {
-        "Sarah Nguyen": { role: "Network Support Officer", email: "snguyen@nswmealsonwheels.org.au" },
-        "Leesa Carter": { role: "Reform, CHSP & Quality", email: "lcarter@nswmealsonwheels.org.au" },
-        "Simone Ho": { role: "Finance & funding", email: "sho@nswmealsonwheels.org.au" },
-        "Rezwan Lasker": { role: "Governance & HR", email: "rlasker@nswmealsonwheels.org.au" },
-        "Laura Bui": { role: "Brand & Comms", email: "lbui@nswmealsonwheels.org.au" },
-        "Louie R.": { role: "Nutrition & Quality", email: "lradburn@nswmealsonwheels.org.au" },
-        "Portal support desk": { role: "Logins & access issues", email: "portalsupport@nswmealsonwheels.org.au" }
+        "Sarah Thomas": { role: "Manager, Network Support, Products and Services", email: "SarahT@nswmealsonwheels.org.au" },
+        "Leesa O'Keefe": { role: "Network Support Officer · Member Training & Communication", email: "LeesaO@nswmealsonwheels.org.au" },
+        "Simone Despoges": { role: "Network Support Officer (South Western Sydney, Macarthur/Wingecarribee, Illawarra, Southern Highlands)", email: "Simone.D@nswmealsonwheels.org.au" },
+        "Louie Radburnd": { role: "Marketing and Fundraising Manager · Nutrition & Quality", email: "LouieR@nswmealsonwheels.org.au" },
+        "Claudia": { role: "Chief Executive Officer", email: "ClaudiaO@nswmealsonwheels.org.au" },
+        "Liza Torres": { role: "Corporate Services Officer (Finance)", email: "Finance@nswmealsonwheels.org.au" },
+        "Sue Dryden": { role: "Engagement & Communications Coordinator", email: "Volunteer.Coordinator@nswmealsonwheels.org.au" },
+        "Rezwan Sarker": { role: "Administration Officer / IT Liaison", email: "Reception@nswmealsonwheels.org.au" },
+        "Puvana Thillai Nadesan": { role: "General Manager, Corporate Resources", email: "PuvanaT@nswmealsonwheels.org.au" },
+        "Jenny Rea": { role: "Network Support Officer (Riverina Murray)", email: "Jenny@nswmealsonwheels.org.au" },
+        "Sheryl Smith": { role: "Network Support Officer (Central West, Orana Far West)", email: "SherylG@nswmealsonwheels.org.au" },
+        "Kathy Jennings": { role: "Network Support Officer (Northern NSW & Sydney regions)", email: "KathyJ@nswmealsonwheels.org.au" },
+        "Denise Chapman": { role: "Network Support Dietitian (APD)", email: "DeniseC@nswmealsonwheels.org.au" },
+        "Laura Brooks": { role: "Marketing and Dietetics Communication Coordinator (APD)", email: "LauraB@nswmealsonwheels.org.au" }
       };
       var cpModal = document.getElementById("contactPersonModal");
       var cpBody = document.getElementById("contactPersonBody");
@@ -287,43 +290,52 @@
       var supportIcon = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z"/><path d="M9.5 9a2.5 2.5 0 0 1 5 0c0 1.5-2.5 2-2.5 3.5"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>';
       var fabHtml =
         '<button type="button" class="support-fab" id="supportFabBtn">' + supportIcon + "<span>Support</span></button>" +
-        '<div class="modal-overlay hide" id="supportFabModal"><div class="modal modal-fab">' +
-          '<button class="close" data-modal-close aria-label="Close">&times;</button>' +
-          '<div class="info-modal-body" id="supportFabBody"></div>' +
-        "</div></div>";
+        '<div class="drawer-overlay" id="supportDrawerOverlay"></div>' +
+        '<aside class="side-drawer" id="supportDrawer" aria-hidden="true">' +
+          '<div class="drawer-head"><button class="drawer-close" id="supportDrawerClose" aria-label="Close">&times;</button></div>' +
+          '<div class="drawer-body info-modal-body" id="supportFabBody"></div>' +
+        "</aside>";
       body.insertAdjacentHTML("beforeend", fabHtml);
 
       var CATS = [
-        { cat: "Compliance & reporting", name: "Leesa Carter", init: "LC" },
-        { cat: "Funding & grants", name: "Simone Ho", init: "SH" },
-        { cat: "HR & volunteers", name: "Rezwan Lasker", init: "RL" },
-        { cat: "Brand, comms & media", name: "Laura Bui", init: "LB" },
-        { cat: "Technical / portal access", name: "Portal support desk", init: "IT" }
+        { cat: "Compliance & reporting", name: "Leesa O'Keefe", init: "LO" },
+        { cat: "Funding & grants", name: "Liza Torres", init: "LT" },
+        { cat: "HR & volunteers", name: "Sue Dryden", init: "SD" },
+        { cat: "Brand, comms & nutrition", name: "Louie Radburnd", init: "LR" },
+        { cat: "Technical / portal access", name: "Rezwan Sarker", init: "RS" }
       ];
+      function initialsOf(name) { return (name || "").split(" ").filter(Boolean).slice(0, 2).map(function (w) { return w[0]; }).join("").toUpperCase(); }
 
-      var fabModal = document.getElementById("supportFabModal");
+      var overlay = document.getElementById("supportDrawerOverlay");
+      var drawer = document.getElementById("supportDrawer");
       var fabBody = document.getElementById("supportFabBody");
+      function openFabDrawer() { overlay.classList.add("open"); drawer.classList.add("open"); drawer.setAttribute("aria-hidden", "false"); }
+      function closeFabDrawer() { overlay.classList.remove("open"); drawer.classList.remove("open"); drawer.setAttribute("aria-hidden", "true"); }
       var dir = window.__STAFF_DIRECTORY || {};
       var bookIcon = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>';
       var msgIcon = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>';
+      var callIcon = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>';
+      var mailIcon = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 6L2 7"/></svg>';
+      var teamsIcon = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/><path d="M9 14h6v4H9z"/></svg>';
 
       function homeView() {
         fabBody.innerHTML =
           '<h2>Support</h2>' +
           '<p class="im-meta">Contact a team, book time with your NSO, or open a quick guide — no need to leave this window.</p>' +
           '<div class="fab-nso">' +
-            '<span class="fn-avatar">SN</span>' +
-            '<div class="fn-info"><div class="fn-flag">Your NSO</div><div class="fn-name">Sarah Nguyen</div><div class="fn-role">Sydney metro region</div></div>' +
+            '<span class="fn-avatar">ST' + window.mowPresence.dotHtml("Sarah Thomas") + '</span>' +
+            '<div class="fn-info"><div class="fn-flag">Your NSO</div><div class="fn-name">Sarah Thomas</div><div class="fn-role">Sydney metro region</div></div>' +
             '<div class="fn-actions">' +
-              '<button type="button" data-fab-contact="Sarah Nguyen" title="Message, call, email or Teams">' + msgIcon + "</button>" +
-              '<a href="https://outlook.office.com/bookwithme/user/snguyen@nswmealsonwheels.org.au" target="_blank" rel="noopener" title="Book a time (O365 Bookings)">' + bookIcon + "</a>" +
+              '<button type="button" data-fab-contact="Sarah Thomas" title="Message, call, email or Teams">' + msgIcon + "</button>" +
+              '<a href="https://outlook.office.com/bookwithme/user/SarahT@nswmealsonwheels.org.au" target="_blank" rel="noopener" title="Book a time (O365 Bookings)">' + bookIcon + "</a>" +
             "</div>" +
           "</div>" +
           '<div class="fab-grid-label">Contact a team</div>' +
           '<div class="fab-contact-grid">' +
           CATS.map(function (c) {
-            return '<button type="button" class="fab-contact-tile" data-fab-contact="' + c.name + '"><span class="fc-avatar">' + c.init + "</span><span class=\"fc-name\">" + c.name + '</span><span class="fc-cat">' + c.cat + "</span></button>";
+            return '<button type="button" class="fab-contact-tile" data-fab-contact="' + c.name + '"><span class="fc-avatar">' + c.init + window.mowPresence.dotHtml(c.name) + "</span><span class=\"fc-name\">" + c.name + '</span><span class="fc-cat">' + c.cat + "</span></button>";
           }).join("") +
+          '<button type="button" class="fab-contact-tile" data-fab-view="directory"><span class="fc-avatar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><span class="fc-name">See full staff directory</span><span class="fc-cat">All MOW NSW contacts</span></button>' +
           "</div>" +
           '<div class="fab-grid-label">Get more help</div>' +
           '<div class="fab-section-grid">' +
@@ -335,10 +347,9 @@
 
         fabBody.querySelectorAll("[data-fab-contact]").forEach(function (btn) {
           btn.addEventListener("click", function () {
-            var name = btn.getAttribute("data-fab-contact");
             var tile = btn.closest(".fab-contact-tile");
             var cat = tile ? tile.querySelector(".fc-cat").textContent : "";
-            window.openContactPopup({ name: name, role: (dir[name] && dir[name].role) || cat || "Your Network Support Officer", email: (dir[name] && dir[name].email) || "info@nswmealsonwheels.org.au" });
+            contactView(btn.getAttribute("data-fab-contact"), cat);
           });
         });
         fabBody.querySelectorAll("[data-fab-view]").forEach(function (btn) {
@@ -346,13 +357,62 @@
             var v = btn.getAttribute("data-fab-view");
             if (v === "ask") askView();
             else if (v === "faq") faqView();
+            else if (v === "directory") directoryView();
             else transitionView();
           });
         });
       }
 
-      function backBtn() { return '<button class="fab-back" type="button" id="fabBack">&larr; Back to Support</button>'; }
-      function wireBack() { document.getElementById("fabBack").addEventListener("click", homeView); }
+      function backBtn() { return '<button class="fab-back" type="button" id="fabBack">&larr; Back</button>'; }
+      function wireBack(fn) { document.getElementById("fabBack").addEventListener("click", fn || homeView); }
+
+      // ---- Full staff directory: every real MOW NSW contact, browsable
+      // inside the drawer. Selecting anyone opens contactView in-place —
+      // contacting someone never has to leave this panel. ----
+      function directoryView() {
+        var names = Object.keys(dir).sort(function (a, b) { return a.localeCompare(b); });
+        fabBody.innerHTML = backBtn() +
+          "<h2>Staff directory</h2>" +
+          '<p class="im-meta" style="margin-bottom:14px">Every MOW NSW contact — pick anyone to call, email or message them from here.</p>' +
+          '<div class="fab-directory-list">' +
+          names.map(function (name) {
+            return '<button type="button" class="fab-directory-row" data-directory-contact="' + name + '"><span class="fc-avatar">' + initialsOf(name) + window.mowPresence.dotHtml(name) + '</span><span class="fdr-info"><span class="fdr-name">' + name + '</span><span class="fdr-role">' + (dir[name].role || "") + "</span></span></button>";
+          }).join("") +
+          "</div>";
+        wireBack();
+        fabBody.querySelectorAll("[data-directory-contact]").forEach(function (btn) {
+          btn.addEventListener("click", function () { contactView(btn.getAttribute("data-directory-contact"), "", directoryView); });
+        });
+      }
+
+      // ---- In-drawer contact view: Call / Email / Teams + a message form,
+      // replacing the old approach of popping a separate modal on top of
+      // the drawer. backTo controls where "Back" returns to (the home grid,
+      // or the full directory if that's where this was opened from). ----
+      function contactView(name, fallbackRole, backTo) {
+        var info = dir[name] || {};
+        var role = info.role || fallbackRole || "";
+        var email = info.email || "info@nswmealsonwheels.org.au";
+        var teamsUrl = "https://teams.microsoft.com/l/meeting/new?subject=" + encodeURIComponent("Portal enquiry") + "&attendees=" + encodeURIComponent(email);
+        fabBody.innerHTML = backBtn() +
+          '<div class="fab-contact-header"><span class="fc-avatar">' + initialsOf(name) + window.mowPresence.dotHtml(name) + '</span><div><span class="fdr-name" style="display:block">' + name + '</span><span class="fdr-role" style="display:block">' + role + "</span></div></div>" +
+          '<div class="contact-action-row">' +
+            '<a class="contact-action" href="tel:1300679669">' + callIcon + "Call</a>" +
+            '<a class="contact-action" href="mailto:' + email + '">' + mailIcon + "Email</a>" +
+            '<a class="contact-action" target="_blank" rel="noopener" href="' + teamsUrl + '">' + teamsIcon + "Teams</a>" +
+          "</div>" +
+          '<div class="ts-suggest-label" style="margin-top:16px">' + msgIcon + " Message via portal</div>" +
+          '<form id="fabContactForm"><div class="field"><label>To</label><input type="text" value="' + name + '" readonly></div>' +
+          '<div class="field"><label>Your message</label><textarea id="fabContactMsg" style="min-height:90px" placeholder="What do you need help with?"></textarea></div>' +
+          '<button class="btn-primary" type="submit">Send message</button></form>' +
+          '<div class="announce-thanks hide" id="fabContactThanks">Sent — ' + name + " will reply through your portal inbox.</div>";
+        wireBack(backTo);
+        document.getElementById("fabContactForm").addEventListener("submit", function (e) {
+          e.preventDefault();
+          document.getElementById("fabContactForm").classList.add("hide");
+          document.getElementById("fabContactThanks").classList.remove("hide");
+        });
+      }
 
       function askView() {
         fabBody.innerHTML = backBtn() +
@@ -392,11 +452,57 @@
 
       document.getElementById("supportFabBtn").addEventListener("click", function () {
         homeView();
-        fabModal.classList.remove("hide");
+        openFabDrawer();
       });
-      fabModal.querySelectorAll("[data-modal-close]").forEach(function (btn) { btn.addEventListener("click", function () { fabModal.classList.add("hide"); }); });
-      fabModal.addEventListener("click", function (e) { if (e.target === fabModal) fabModal.classList.add("hide"); });
-      document.addEventListener("keydown", function (e) { if (e.key === "Escape") fabModal.classList.add("hide"); });
+      document.getElementById("supportDrawerClose").addEventListener("click", closeFabDrawer);
+      overlay.addEventListener("click", closeFabDrawer);
+      document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeFabDrawer(); });
+    })();
+
+    // ---- Site footer (every chrome page). Content and structure mirror
+    // nswmealsonwheels.org.au's real footer (address, phone, acknowledgement
+    // of country, useful links, charity status, ABN/legal row) — external
+    // links point at the live public site since those pages don't exist here. ----
+    (function () {
+      var footerWaveSvg = '<svg viewBox="0 0 1440 70" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">' +
+        '<path d="M0,30 C220,60 460,10 720,35 C980,60 1220,15 1440,40 L1440,70 L0,70 Z" fill="var(--navy-deep)"/>' +
+        '</svg>';
+      var footerHtml =
+        '<footer class="site-footer">' +
+          '<div class="divider wave footer-wave">' + footerWaveSvg + "</div>" +
+          '<div class="footer-inner">' +
+            '<div class="footer-col">' +
+              '<div class="footer-brand"><span class="mark"><img src="mow-favicon.svg" width="18" height="18" alt="MOW NSW"></span>Meals on Wheels NSW</div>' +
+              '<p>0.2 Ground Floor, 15 Bourke Road<br>Mascot NSW 2020</p>' +
+              '<p><a href="tel:1300679669">Call 1300 679 669</a><br>7:30am–4:00pm weekdays</p>' +
+              '<p class="footer-ack">We acknowledge the Traditional Custodians of the lands and waters across Australia, and pay our respects to Elders past and present.</p>' +
+            "</div>" +
+            '<div class="footer-col">' +
+              '<div class="footer-col-head">Member portal</div>' +
+              '<a href="index.html">Dashboard</a><a href="resources.html">Resources</a><a href="support.html">Support</a><a href="connect.html">Community</a>' +
+            "</div>" +
+            '<div class="footer-col">' +
+              '<div class="footer-col-head">Useful links</div>' +
+              '<a href="https://nswmealsonwheels.org.au/meals/find-a-meal" target="_blank" rel="noopener">Find a meal</a>' +
+              '<a href="https://nswmealsonwheels.org.au/volunteer" target="_blank" rel="noopener">Become a volunteer</a>' +
+              '<a href="https://nswmealsonwheels.org.au/donate/donate-now" target="_blank" rel="noopener">Donate now</a>' +
+              '<a href="https://nswmealsonwheels.org.au/contact-us" target="_blank" rel="noopener">Contact MOW NSW</a>' +
+            "</div>" +
+            '<div class="footer-col">' +
+              '<div class="footer-col-head">We are</div>' +
+              "<p>A Registered Charity.<br>Endorsed as a Deductible Gift Recipient.<br>Supported by the Australian Government.</p>" +
+            "</div>" +
+          "</div>" +
+          '<div class="footer-bottom">' +
+            "<span>&copy; " + new Date().getFullYear() + " Meals on Wheels NSW Ltd. All rights reserved. ABN 87 418 074 604.</span>" +
+            '<span class="footer-legal">' +
+              '<a href="https://nswmealsonwheels.org.au/terms-and-conditions" target="_blank" rel="noopener">Terms of use</a>' +
+              '<a href="https://nswmealsonwheels.org.au/privacy-policy" target="_blank" rel="noopener">Privacy</a>' +
+              '<a href="https://nswmealsonwheels.org.au/accessibility" target="_blank" rel="noopener">Accessibility</a>' +
+            "</span>" +
+          "</div>" +
+        "</footer>";
+      body.insertAdjacentHTML("beforeend", footerHtml);
     })();
 
     // ---- Nav dropdowns ----
@@ -432,21 +538,16 @@
           return c.title.toLowerCase().indexOf(term) !== -1 || c.tags.some(function (t) { return t.indexOf(term) !== -1; });
         });
         var top3 = matches.slice(0, 3);
-        var pageMatches = PAGES.filter(function (p) { return !term || p[0].toLowerCase().indexOf(term) !== -1; }).slice(0, 7);
         var allTags = [];
         CONTENT.forEach(function (c) { c.tags.forEach(function (t) { if (allTags.indexOf(t) === -1) allTags.push(t); }); });
         var tagMatches = allTags.filter(function (t) { return !term || t.indexOf(term) !== -1; }).slice(0, 10);
 
         var html = "";
         if (top3.length) {
-          html += '<div class="ts-suggest-label">Most relevant</div><div class="ts-suggest-cols">' +
+          html += '<div class="ts-suggest-label">Most popular</div><div class="ts-suggest-cols">' +
             top3.map(function (c) {
               return '<a class="ts-suggest-item" href="' + c.url + '"><div class="tsi-t">' + esc(c.title) + '</div><div class="tsi-m">' + esc(c.type) + "</div></a>";
             }).join("") + "</div>";
-        }
-        if (pageMatches.length) {
-          html += '<div class="ts-suggest-label">Pages</div><div class="ts-suggest-pages">' +
-            pageMatches.map(function (p) { return '<a href="' + p[1] + '">' + esc(p[0]) + "</a>"; }).join("") + "</div>";
         }
         if (tagMatches.length) {
           html += '<div class="ts-suggest-label">Tags</div><div class="ts-suggest-tags">' +
@@ -518,41 +619,311 @@
     });
   });
 
+  // ---- Staff presence + org "are we open" status. Reference build mock of
+  // an Outlook-calendar sync: business hours are Mon-Fri 7:30am-4pm (the
+  // office hours MOW NSW states everywhere), and each staff member's own
+  // dot is a deterministic pseudo-random flicker within that window so it
+  // doesn't just mirror the org-wide state for every single person. ----
+  window.mowPresence = (function () {
+    function isBusinessHours() {
+      var d = new Date(), day = d.getDay();
+      if (day === 0 || day === 6) return false;
+      var mins = d.getHours() * 60 + d.getMinutes();
+      return mins >= 7 * 60 + 30 && mins < 16 * 60;
+    }
+    function hash(s) {
+      var h = 0;
+      for (var i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0;
+      return h;
+    }
+    function isStaffOnline(name) {
+      if (!isBusinessHours()) return false;
+      var slot = Math.floor(Date.now() / (10 * 60 * 1000));
+      return (hash(name || "") + slot) % 3 !== 0;
+    }
+    function dotHtml(name) {
+      var on = isStaffOnline(name);
+      return '<span class="presence-dot' + (on ? " on" : "") + '" title="' + (on ? "Online now" : "Offline right now") + ' — synced with Outlook calendar"></span>';
+    }
+    function statusBannerHtml() {
+      var open = isBusinessHours();
+      return open
+        ? '<div class="fab-status-line on"><span class="status-dot"></span> <strong>Meals on Wheels NSW is online</strong> — call <a href="tel:1300679669">1300 679 669</a> or send a message below</div>'
+        : '<div class="fab-status-line off"><span class="status-dot"></span> <strong>We\'re offline right now</strong> — a message is the best way to reach us. Call <a href="tel:1300679669">1300 679 669</a>, 7:30am–4pm weekdays.</div>';
+    }
+    return { isBusinessHours: isBusinessHours, isStaffOnline: isStaffOnline, dotHtml: dotHtml, statusBannerHtml: statusBannerHtml };
+  })();
+
+  // ---- Discussion-thread notification subscriptions, localStorage-backed.
+  // Shared between the dashboard's Active Discussions widget (which can
+  // filter to "Subscribed") and the bell toggle on each thread card in
+  // Connect &gt; Discussions. ----
+  window.mowSubscriptions = (function () {
+    var KEY = "mow_subscribed_threads_v1";
+    function load() { try { var s = JSON.parse(localStorage.getItem(KEY)); if (Array.isArray(s)) return s; } catch (e) {} return []; }
+    function save(list) { try { localStorage.setItem(KEY, JSON.stringify(list)); } catch (e) {} }
+    return {
+      isSubscribed: function (id) { return load().indexOf(id) !== -1; },
+      toggle: function (id) {
+        var list = load(), i = list.indexOf(id);
+        if (i === -1) list.push(id); else list.splice(i, 1);
+        save(list);
+        return i === -1;
+      },
+      all: function () { return load(); }
+    };
+  })();
+
+  // ---- Discussions widget: a single-mode "Active" or "Subscribed" card
+  // (no toggle — callers mount one of each, Subscribed first) used on the
+  // dashboard AND inside Connect's Discussions page. One shared renderer so
+  // both stay in sync with mow_threads_v2 and with each other. ----
+  window.initDiscussionsWidget = function (containerEl, opts) {
+    opts = opts || {};
+    var mode = opts.mode || "active";
+    var KEY = "mow_threads_v2";
+    var SEED = [
+      { id: "t1", person: "Priya Nair", author: "Wagga Wagga Meals on Wheels", title: "Anyone else seen delays with My Aged Care referrals this month?", when: "2 days ago" },
+      { id: "t2", person: "Tom Baxter", author: "Coffs Harbour Meals on Wheels", title: "Sharing our new volunteer thank-you event idea", when: "5 days ago" },
+      { id: "t3", person: "Jane Smith", author: "Liverpool Meals on Wheels", title: "Tips for rostering around school holidays?", when: "1 week ago" }
+    ];
+    function esc(s) { return (s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+    function loadThreads() {
+      try { var s = JSON.parse(localStorage.getItem(KEY)); if (Array.isArray(s) && s.length) return s; } catch (e) {}
+      return SEED;
+    }
+
+    containerEl.classList.add("mcard", "snapshot");
+    containerEl.innerHTML =
+      '<div class="mcard-head">' +
+        '<span class="mi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>' +
+        "<h2>" + (mode === "subscribed" ? "Subscribed discussions" : "Active discussions") + "</h2>" +
+      "</div>" +
+      '<div data-disc-list></div>' +
+      (opts.hideLink ? "" : '<a class="link" href="connect.html#discussion">Go to Discussions &rarr;</a>');
+
+    var list = containerEl.querySelector("[data-disc-list]");
+    function render() {
+      var threads = loadThreads();
+      if (mode === "subscribed") {
+        var subs = window.mowSubscriptions.all();
+        threads = threads.filter(function (t) { return subs.indexOf(t.id) !== -1; });
+      }
+      list.innerHTML = threads.slice(0, 3).map(function (t) {
+        return '<button type="button" class="row" data-widget-popout="' + t.id + '"><span class="rt">' + esc(t.title) + '<div class="meta">' + esc(t.person || t.author) + " · " + esc(t.when) + "</div></span></button>";
+      }).join("") || '<p class="im-note" style="margin:0">' + (mode === "subscribed" ? "You're not subscribed to any discussions yet — use the bell icon on a thread in Discussions." : "No active discussions yet.") + "</p>";
+      list.querySelectorAll("[data-widget-popout]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          window.openThreadPopout(btn.getAttribute("data-widget-popout"), { onUpdate: render });
+        });
+      });
+    }
+    render();
+  };
+
   // ---- Generic reusable comment thread, localStorage-backed. Used for
   // escalated sector issues, submissions, and commenting on visual assets
-  // (templates, social tiles, posters). ----
+  // (templates, social tiles, posters). Each comment carries the author's
+  // name and service; comments the current user posted (mine: true) get
+  // Edit/Remove controls, others are read-only. ----
+  // ---- Shared recursive comment-list renderer: comments can be liked, and
+  // replied to, and replies can be liked and replied to in turn — arbitrary
+  // depth, addressed by a "0-2-1"-style path from the root list. Comments
+  // the current user posted (mine: true) get Edit/Remove; every comment
+  // gets Like/Reply. `list` is mutated in place; `persist` saves it back to
+  // wherever the caller keeps it (a whole thread, or one paragraph's
+  // thread). Used by renderCommentThread and wireParagraphComments below —
+  // one implementation so both get like/reply/edit/remove for free. ----
+  window.renderCommentList = function (container, list, persist, opts) {
+    opts = opts || {};
+    function esc(s) { return (s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+    var openReply = null;
+    var editing = null;
+
+    function getNode(path) {
+      var node = { replies: list };
+      path.split("-").forEach(function (i) { node = node.replies[+i]; });
+      return node;
+    }
+    function getParentList(path) {
+      var parts = path.split("-");
+      var node = { replies: list };
+      for (var i = 0; i < parts.length - 1; i++) node = node.replies[+parts[i]];
+      return node.replies;
+    }
+    function renderNode(node, path, depth) {
+      var repliesHtml = (node.replies || []).map(function (child, i) { return renderNode(child, path + "-" + i, depth + 1); }).join("");
+      return '<div class="cc-item' + (depth > 0 ? " cc-reply" : "") + '" data-path="' + path + '">' +
+        '<span class="cc-who">' + esc(node.who) + (node.org ? " · " + esc(node.org) : "") + '</span><span class="cc-when">' + esc(node.when) + "</span>" +
+        (editing === path
+          ? '<div class="consult-comment-form" style="margin-top:6px"><input type="text" value="' + esc(node.text) + '" data-cc-edit-input><button type="button" data-cc-save="' + path + '">Save</button></div>' +
+            '<button type="button" class="cc-cancel" data-cc-cancel-edit="' + path + '">Cancel edit</button>'
+          : '<div class="cc-text">' + esc(node.text) + "</div>") +
+        '<div class="cc-actions">' +
+          '<button type="button" data-cc-like="' + path + '" class="' + (node.likedByMe ? "liked" : "") + '">&#128077; ' + (node.likes || 0) + "</button>" +
+          '<button type="button" data-cc-reply-toggle="' + path + '">Reply</button>' +
+          (node.mine ? '<button type="button" data-cc-edit-toggle="' + path + '">Edit</button><button type="button" data-cc-remove="' + path + '">Remove</button>' : "") +
+        "</div>" +
+        (openReply === path ? '<div class="consult-comment-form cc-reply-form"><input type="text" placeholder="Write a reply" data-cc-reply-input><button type="button" data-cc-reply-submit="' + path + '">Reply</button></div>' : "") +
+        (repliesHtml ? '<div class="cc-replies">' + repliesHtml + "</div>" : "") +
+      "</div>";
+    }
+
+    function render() {
+      container.innerHTML =
+        (opts.label ? '<div class="ts-suggest-label">' + esc(opts.label) + "</div>" : "") +
+        '<div class="comment-list">' + (list.length ? list.map(function (node, i) { return renderNode(node, "" + i, 0); }).join("") : '<p class="im-note" style="margin:0 0 10px">No comments yet — be the first.</p>') + "</div>" +
+        '<div class="consult-comment-form"><input type="text" placeholder="' + esc(opts.placeholder || "Add a comment") + '" data-cc-root-input><button type="button" data-cc-root-submit>' + (opts.postLabel || "Post") + "</button></div>";
+      wire();
+      if (opts.onChange) opts.onChange();
+    }
+
+    function newComment(text) {
+      return { who: opts.me || "Jane Smith", org: opts.org || window.mowActiveAccount || "", when: "just now", text: text, mine: true, likes: 0, likedByMe: false, replies: [] };
+    }
+
+    function wire() {
+      container.querySelectorAll("[data-cc-like]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var node = getNode(btn.getAttribute("data-cc-like"));
+          node.likedByMe = !node.likedByMe;
+          node.likes = (node.likes || 0) + (node.likedByMe ? 1 : -1);
+          persist(); render();
+        });
+      });
+      container.querySelectorAll("[data-cc-reply-toggle]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var p = btn.getAttribute("data-cc-reply-toggle");
+          openReply = openReply === p ? null : p;
+          render();
+        });
+      });
+      container.querySelectorAll("[data-cc-reply-submit]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var p = btn.getAttribute("data-cc-reply-submit");
+          var itemEl = container.querySelector('[data-path="' + p + '"]');
+          var input = itemEl.querySelector(":scope > .cc-reply-form [data-cc-reply-input]");
+          var val = input.value.trim();
+          if (!val) return;
+          var node = getNode(p);
+          node.replies = node.replies || [];
+          node.replies.push(newComment(val));
+          openReply = null;
+          persist(); render();
+        });
+      });
+      container.querySelectorAll("[data-cc-edit-toggle]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var p = btn.getAttribute("data-cc-edit-toggle");
+          editing = editing === p ? null : p;
+          render();
+        });
+      });
+      container.querySelectorAll("[data-cc-cancel-edit]").forEach(function (btn) {
+        btn.addEventListener("click", function () { editing = null; render(); });
+      });
+      container.querySelectorAll("[data-cc-save]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var p = btn.getAttribute("data-cc-save");
+          var itemEl = container.querySelector('[data-path="' + p + '"]');
+          var input = itemEl.querySelector(":scope > .consult-comment-form [data-cc-edit-input]");
+          var val = input.value.trim();
+          if (!val) return;
+          var node = getNode(p);
+          node.text = val;
+          node.when = "just now (edited)";
+          editing = null;
+          persist(); render();
+        });
+      });
+      container.querySelectorAll("[data-cc-remove]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var p = btn.getAttribute("data-cc-remove");
+          var parentList = getParentList(p);
+          var idx = +p.slice(p.lastIndexOf("-") + 1);
+          parentList.splice(idx, 1);
+          persist(); render();
+        });
+      });
+      var rootInput = container.querySelector("[data-cc-root-input]");
+      var rootBtn = container.querySelector("[data-cc-root-submit]");
+      function submitRoot() {
+        var val = rootInput.value.trim();
+        if (!val) return;
+        list.push(newComment(val));
+        persist(); render();
+      }
+      rootBtn.addEventListener("click", submitRoot);
+      rootInput.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); submitRoot(); } });
+    }
+
+    render();
+  };
+
   window.renderCommentThread = function (container, key, opts) {
     opts = opts || {};
     var CKEY = "mow_comments_v1";
-    function esc(s) { return (s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
     function loadAll() { try { var s = JSON.parse(localStorage.getItem(CKEY)); if (s) return s; } catch (e) {} return {}; }
     function saveAll(all) { try { localStorage.setItem(CKEY, JSON.stringify(all)); } catch (e) {} }
     var all = loadAll();
     var list = all[key] || (opts.seed ? opts.seed.slice() : []);
     var wrap = document.createElement("div");
     wrap.className = "comment-thread";
-    function render() {
-      wrap.innerHTML =
-        '<div class="ts-suggest-label">' + (opts.label || "Member comments") + "</div>" +
-        '<div class="comment-list">' + (list.length ? list.map(function (c) {
-          return '<div class="cc-item"><span class="cc-who">' + esc(c.who) + '</span><span class="cc-when">' + esc(c.when) + '</span><div class="cc-text">' + esc(c.text) + "</div></div>";
-        }).join("") : '<p class="im-note" style="margin:0 0 10px">No comments yet — be the first.</p>') + "</div>" +
-        '<div class="consult-comment-form"><input type="text" placeholder="' + esc(opts.placeholder || "Add a comment") + '"><button type="button">Post</button></div>';
-      wrap.querySelector("button").addEventListener("click", function () {
-        var input = wrap.querySelector("input");
-        var val = input.value.trim();
-        if (!val) return;
-        list.push({ who: opts.me || "Liverpool Meals on Wheels", when: "just now", text: val });
-        all[key] = list;
-        saveAll(all);
-        render();
-      });
-      wrap.querySelector("input").addEventListener("keydown", function (e) {
-        if (e.key === "Enter") { e.preventDefault(); wrap.querySelector("button").click(); }
-      });
-    }
-    render();
     container.appendChild(wrap);
+    window.renderCommentList(wrap, list, function () { all[key] = list; saveAll(all); }, {
+      label: opts.label || "Member comments", placeholder: opts.placeholder, me: opts.me, org: opts.org
+    });
+  };
+
+  // ---- Shared word-review-style inline paragraph commenting: every
+  // paragraph in a container gets a hoverable "add comment" affordance,
+  // backed by a localStorage thread keyed on a caller-supplied id + the
+  // paragraph's index. Used by Submissions' upcoming drafts and Connect's
+  // Have Your Say papers. ----
+  window.wireParagraphComments = function (container, id, opts) {
+    opts = opts || {};
+    if (!id) return;
+    var CKEY = "mow_paper_comments_v1";
+    function loadAll() { try { var s = JSON.parse(localStorage.getItem(CKEY)); if (s) return s; } catch (e) {} return {}; }
+    function saveAll(all) { try { localStorage.setItem(CKEY, JSON.stringify(all)); } catch (e) {} }
+    var allComments = loadAll();
+    var mine = allComments[id] || {};
+    function countAll(list) { return (list || []).reduce(function (sum, c) { return sum + 1 + countAll(c.replies); }, 0); }
+    // :scope > p only — excludes paragraphs nested inside a doc-preview
+    // panel or other collapsible detail block, which may be hidden (and so
+    // would silently produce a zero-size, inaccessible comment box).
+    var paras = container.querySelectorAll(opts.selector || ":scope > p:not(.im-meta):not(.im-note)");
+
+    paras.forEach(function (p, idx) {
+      p.classList.add("consult-para");
+      var thread = mine[idx] || [];
+
+      var addBtn = document.createElement("button");
+      addBtn.type = "button"; addBtn.className = "cp-add"; addBtn.title = "Add a comment on this paragraph";
+      addBtn.innerHTML = "&#128172;";
+      p.appendChild(addBtn);
+
+      var box = document.createElement("div");
+      box.className = "consult-comments hide";
+      p.insertAdjacentElement("afterend", box);
+
+      function syncCount() {
+        var total = countAll(thread);
+        p.classList.toggle("has-comments", total > 0);
+        var existingCount = addBtn.querySelector(".cp-count");
+        if (total) {
+          if (existingCount) existingCount.textContent = total;
+          else { var c2 = document.createElement("span"); c2.className = "cp-count"; c2.textContent = total; addBtn.appendChild(c2); }
+        } else if (existingCount) {
+          existingCount.remove();
+        }
+      }
+      window.renderCommentList(box, thread, function () { mine[idx] = thread; allComments[id] = mine; saveAll(allComments); }, {
+        placeholder: "Add a comment on this paragraph", postLabel: "Comment", org: opts.org, me: opts.me, onChange: syncCount
+      });
+      syncCount();
+      addBtn.addEventListener("click", function () { box.classList.toggle("hide"); });
+    });
   };
 
   // ---- Generic popup pattern: show a summary first, collapse the rest of
@@ -593,10 +964,593 @@
   // members can weigh in on the artwork/templates themselves.
   var VISUAL_ASSET_IDS = ["brand-logos", "campaign-kits", "mkt-campaign-cuppa", "media-releases", "social-templates", "fundraising-tools", "storytelling-guide"];
 
+  // ---- Shared expand/collapse wiring for any modal: a button next to Close
+  // that grows the modal wider and taller (a two-pane modal can also pass
+  // its grid layout element to rebalance the column ratio while expanded).
+  // Returns the setExpanded(on) function so the caller can reset to
+  // collapsed each time it loads new content into the modal. ----
+  window.wireModalExpand = function (modalInner, expandBtn, layoutEl) {
+    var EXPAND_ICON = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>';
+    var COLLAPSE_ICON = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 14h6v6M20 10h-6V4M14 10l7-7M10 14l-7 7"/></svg>';
+    function setExpanded(on) {
+      modalInner.classList.toggle("expanded", on);
+      if (layoutEl) layoutEl.classList.toggle("expanded", on);
+      expandBtn.innerHTML = on ? COLLAPSE_ICON : EXPAND_ICON;
+      expandBtn.title = on ? "Collapse" : "Expand";
+      expandBtn.setAttribute("aria-label", on ? "Collapse" : "Expand");
+    }
+    setExpanded(false);
+    expandBtn.addEventListener("click", function () { setExpanded(!modalInner.classList.contains("expanded")); });
+    return setExpanded;
+  };
+
   // ---- Generic info-popup pattern ----
   var modal = document.getElementById("infoModal");
   var modalBody = document.getElementById("infoModalBody");
   if (modal && modalBody) {
+    var setModalExpanded = window.wireModalExpand(document.getElementById("infoModalInner"), document.getElementById("infoModalExpandBtn"));
+
+    // ---- Generic escape hatch: any feature can drop arbitrary HTML into the
+    // shared info modal instead of driving it off a [data-popup] trigger.
+    // Used by the dashboard's "Find it fast" actions and the shared
+    // announcement composer below. ----
+    window.openInfoPopupHtml = function (html, opts) {
+      modalBody.innerHTML = html;
+      var inner = modal.querySelector(".modal");
+      if (inner) inner.classList.toggle("modal-lg", !!(opts && opts.wide));
+      setModalExpanded(false);
+      modal.classList.remove("hide");
+    };
+    window.closeInfoPopup = function () { modal.classList.add("hide"); };
+
+    // ---- Shared "post an announcement" composer. Used by the dashboard's
+    // "Make an announcement" quick action AND the "+ Post an announcement"
+    // button on News for services, so both go through one implementation. ----
+    window.openAnnouncePopup = function () {
+      window.openInfoPopupHtml(
+        "<h2>Post an announcement</h2>" +
+        '<p class="im-meta" style="font-size:12px;color:var(--muted);margin:0 0 14px">Posts to the Meals on Wheels news column for members. In this reference build nothing is actually published.</p>' +
+        '<form id="announceForm">' +
+          '<div class="field"><label>Headline</label><input type="text" placeholder="Short, clear headline" required></div>' +
+          '<div class="field"><label>Audience</label><select><option>All member services</option><option>My region only</option><option>Volunteer coordinators</option></select></div>' +
+          '<div class="field"><label>Announcement</label><textarea placeholder="What do members need to know?" style="min-height:120px" required></textarea></div>' +
+          '<div class="field"><label>Link (optional)</label><input type="url" placeholder="https://"></div>' +
+          '<div class="field"><label>Attach a file (optional)</label><input type="file"></div>' +
+          '<button class="btn-primary" type="submit">Publish announcement</button>' +
+        "</form>" +
+        '<div class="announce-thanks hide" id="announceThanks">Thanks — your announcement has been submitted. In the finished build it would appear in the Meals on Wheels news column once approved.</div>'
+      );
+      document.getElementById("announceForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+        e.target.classList.add("hide");
+        document.getElementById("announceThanks").classList.remove("hide");
+      });
+    };
+
+    // ---- Shared "Raise an issue — Member Voice" popup — same fields as
+    // Connect's inline Escalated Issues form, for pages that want the same
+    // capability without embedding the whole form on the page. ----
+    window.openEscalateIssuePopup = function () {
+      window.openInfoPopupHtml(
+        "<h2>Raise an issue — Member Voice</h2>" +
+        '<p class="im-meta" style="font-size:12px;color:var(--muted);margin:0 0 14px">Tell us what\'s going on. Issues raised here are reviewed weekly and may be added to the Escalated Issues list.</p>' +
+        '<form id="voicePopupForm">' +
+          '<div class="field field-tight"><label>Issue <span class="tag warn" style="padding:2px 7px">Required</span></label><input type="text" placeholder="Short title, e.g. Delays with My Aged Care referrals" required></div>' +
+          '<div class="field field-tight"><label>Description <span class="tag warn" style="padding:2px 7px">Required</span></label><textarea placeholder="What\'s happening?" required style="min-height:64px"></textarea></div>' +
+          '<div class="field-row">' +
+            '<div class="field field-tight"><label>Category <span class="tag warn" style="padding:2px 7px">Required</span></label>' +
+              '<select required>' +
+                '<option value="">Choose a category</option>' +
+                '<option>Funding</option><option>Workforce</option><option>Service Delivery</option>' +
+                '<option>Compliance &amp; Regulation</option><option>Aged Care Reform</option><option>Transport</option>' +
+                '<option>Volunteers</option><option>Digital Systems</option><option>Health &amp; Clinical</option>' +
+                '<option>Procurement</option><option>Government Policy</option><option>Media &amp; Public Perception</option><option>Other</option>' +
+              '</select>' +
+            '</div>' +
+            '<div class="field field-tight"><label>Impact <span class="tag warn" style="padding:2px 7px">Required</span></label><input type="text" placeholder="e.g. Delayed client intakes" required></div>' +
+          "</div>" +
+          '<div class="field field-tight"><label>Who is affected <span class="tag warn" style="padding:2px 7px">Required</span></label><input type="text" placeholder="e.g. Regional services, new clients awaiting intake" required></div>' +
+          '<div class="field-row">' +
+            '<div class="field field-tight"><label>Suggested solution <span style="font-weight:400">(optional)</span></label><textarea placeholder="Any practical recommendation you have" style="min-height:48px"></textarea></div>' +
+            '<div class="field field-tight"><label>Raised elsewhere? <span style="font-weight:400">(optional)</span></label><textarea placeholder="e.g. Government department, MP, council, peak body" style="min-height:48px"></textarea></div>' +
+          "</div>" +
+          '<div class="field field-tight"><label>Supporting evidence <span style="font-weight:400">(optional)</span></label><input type="file" multiple><div class="hint">Documents, photos, letters or media articles</div></div>' +
+          '<div class="field-row">' +
+            '<div class="field field-tight"><label>Contact person</label><input type="text" value="Jane Smith, Liverpool Meals on Wheels" readonly></div>' +
+            '<div class="field field-tight"><label>Email &amp; phone</label><input type="text" value="admin@liverpoolmow.org.au · (02) 9800 1234" readonly></div>' +
+          "</div>" +
+          '<div class="field field-tight">' +
+            '<label class="checkbox-row"><input type="checkbox"><span>Permission to contact — allow the advocacy team to discuss this further</span></label>' +
+            '<label class="checkbox-row"><input type="checkbox"><span>Permission to use anonymously — allow this as a case study while protecting my identity</span></label>' +
+          "</div>" +
+          '<button class="btn-primary" type="submit">Submit to Member Voice</button>' +
+        "</form>" +
+        '<div class="suggest-thanks hide" id="voicePopupThanks">Thanks — that\'s been logged in Member Voice and may be escalated by the advocacy team. Reference build, nothing is actually sent.</div>'
+      );
+      document.getElementById("voicePopupForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+        e.target.classList.add("hide");
+        document.getElementById("voicePopupThanks").classList.remove("hide");
+      });
+    };
+
+    // ---- Shared "Start a conversation" composer — one implementation used
+    // by the dashboard's quick action AND Connect's "+ Start a discussion"
+    // button, so both actually post into the same thread list (mow_threads_v2,
+    // the same key/schema Connect's discussion board reads). Pass
+    // opts.onPosted(thread) to update a live list in place (Connect) instead
+    // of showing the reference-build "thanks" state (dashboard). ----
+    window.openStartConversationPopup = function (opts) {
+      opts = opts || {};
+      var esc = function (s) { return (s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); };
+      var KEY = "mow_threads_v2";
+      var ME_PERSON = "Jane Smith";
+      function loadThreads() { try { var s = JSON.parse(localStorage.getItem(KEY)); if (Array.isArray(s)) return s; } catch (e) {} return []; }
+      function saveThreads(list) { try { localStorage.setItem(KEY, JSON.stringify(list)); } catch (e) {} }
+
+      window.openInfoPopupHtml(
+        "<h2>Start a conversation</h2>" +
+        '<p class="im-meta" style="font-size:12px;color:var(--muted);margin:0 0 14px">Posts to Connect &gt; Discussions.</p>' +
+        '<form id="convForm">' +
+          '<div class="field"><label>Thread title</label><input type="text" id="convTitle" placeholder="What\'s your question or idea?" required></div>' +
+          '<div class="field-row">' +
+            '<div class="field readonly"><label>Member service</label><input type="text" value="' + esc(activeAccount) + '" readonly></div>' +
+            '<div class="field"><label>Category</label><select id="convCategory"><option>Operate</option><option>Comply</option><option>Deliver</option><option>Promote</option><option>General</option></select></div>' +
+          "</div>" +
+          '<div class="field"><label>Message</label><textarea id="convBody" style="min-height:90px" placeholder="Add a bit of detail" required></textarea></div>' +
+          '<div class="field"><label>Tags <span style="font-weight:400">(comma separated, optional)</span></label><input type="text" id="convTags" placeholder="e.g. Volunteers, Rostering"></div>' +
+          '<div class="field-row">' +
+            '<div class="field"><label>Attachments (optional)</label><input type="file"></div>' +
+            '<div class="field"><label>Visible to</label><select id="convVisible" data-cond data-cond-yes="convSpecific"><option>All members</option><option>MOW NSW staff only</option><option value="Yes">Specific member</option></select></div>' +
+          "</div>" +
+          '<div class="field hide" id="convSpecific"><label>Which member?</label><input type="text" placeholder="e.g. Wagga Wagga Meals on Wheels"></div>' +
+          '<div class="field-check-grid" style="margin-bottom:14px">' +
+            '<label><input type="checkbox" id="convPublic"> Public Q&amp;A other services can find</label>' +
+            '<label><input type="checkbox" id="convNotify" checked> Notify me of replies</label>' +
+          "</div>" +
+          '<button class="btn-primary" type="submit">Post</button>' +
+        "</form>" +
+        '<div class="announce-thanks hide" id="convThanks">Thanks — your thread has been posted. <a href="connect.html#discussion">View it in Discussions &rarr;</a></div>'
+      );
+
+      if (opts.title) document.getElementById("convTitle").value = opts.title;
+      if (opts.category) document.getElementById("convCategory").value = opts.category;
+
+      var form = document.getElementById("convForm");
+      form.querySelectorAll("[data-cond]").forEach(function (sel) {
+        var yesIds = (sel.getAttribute("data-cond-yes") || "").split(/\s+/).filter(Boolean);
+        function update() {
+          var show = sel.value === "Yes";
+          yesIds.forEach(function (id) { var el = document.getElementById(id); if (el) el.classList.toggle("hide", !show); });
+        }
+        sel.addEventListener("change", update);
+        update();
+      });
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var tags = document.getElementById("convTags").value.split(",").map(function (t) { return t.trim(); }).filter(Boolean);
+        var thread = {
+          id: "t" + Date.now(), person: ME_PERSON, author: activeAccount, mine: true,
+          title: document.getElementById("convTitle").value,
+          body: document.getElementById("convBody").value,
+          category: document.getElementById("convCategory").value,
+          tags: tags,
+          when: "just now", reactions: { like: 0, helpful: 0 }, myReactions: [], repliesList: []
+        };
+        if (document.getElementById("convNotify").checked) window.mowSubscriptions.toggle(thread.id);
+        var threads = loadThreads();
+        threads.unshift(thread);
+        saveThreads(threads);
+        if (opts.onPosted) {
+          opts.onPosted(thread);
+          window.closeInfoPopup();
+        } else {
+          form.classList.add("hide");
+          document.getElementById("convThanks").classList.remove("hide");
+        }
+      });
+    };
+
+    // ---- Shared "Discuss in Webinar Forum" composer — asks to have a topic
+    // raised at an upcoming webinar, training session or Community of
+    // Practice call. Used from Submissions' "Get involved" prompt. ----
+    window.openWebinarForumPopup = function (opts) {
+      opts = opts || {};
+      var esc = function (s) { return (s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); };
+      window.openInfoPopupHtml(
+        "<h2>Discuss in Webinar Forum</h2>" +
+        '<p class="im-meta" style="font-size:12px;color:var(--muted);margin:0 0 14px">Ask to have this raised as a discussion topic at an upcoming webinar, training session or Community of Practice call.</p>' +
+        '<form id="webinarForumForm">' +
+          '<div class="field"><label>Topic</label><input type="text" id="wfTopic" value="' + esc(opts.title || "") + '" required></div>' +
+          '<div class="field"><label>Preferred session</label><select id="wfSession"><option>Next available webinar</option><option>APD annual meal review — Wed 22 July</option><option>Volunteer induction — Tue 12 August</option><option>A Community of Practice call</option></select></div>' +
+          '<div class="field"><label>What would you like covered?</label><textarea id="wfNotes" placeholder="A bit of context for the presenter" style="min-height:80px" required></textarea></div>' +
+          '<div class="field readonly"><label>Contact</label><input type="text" value="Jane Smith · Liverpool Meals on Wheels" readonly></div>' +
+          '<button class="btn-primary" type="submit">Request this topic</button>' +
+        "</form>" +
+        '<div class="announce-thanks hide" id="webinarForumThanks">Thanks — this has been flagged to the Training &amp; Events team, and we\'ll follow up if it can fit into an upcoming session.</div>'
+      );
+      document.getElementById("webinarForumForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+        e.target.classList.add("hide");
+        document.getElementById("webinarForumThanks").classList.remove("hide");
+      });
+    };
+
+    // ---- Shared "Get involved" chooser — three lightweight routes into
+    // the network for a specific draft/topic: start a discussion, ask for
+    // it at a webinar/forum, or talk to Support. Each opens its own popup;
+    // this one is just the menu. ----
+    window.openGetInvolvedPopup = function (opts) {
+      opts = opts || {};
+      var esc = function (s) { return (s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); };
+      var title = opts.title || "";
+      window.openInfoPopupHtml(
+        "<h2>Get involved</h2>" +
+        (title ? '<p class="im-meta" style="font-size:12px;color:var(--muted);margin:0 0 14px">' + esc(title) + "</p>" : "") +
+        '<div class="mcard" style="max-width:none;margin:0">' +
+          '<button type="button" class="row" id="giDiscuss"><span class="rt">Start a discussion<div class="meta">Post a question or comment to the network in Discussions</div></span></button>' +
+          '<button type="button" class="row" id="giWebinar"><span class="rt">Discuss in Webinar Forum<div class="meta">Raise it at an upcoming webinar, training session or CoP call</div></span></button>' +
+          '<button type="button" class="row" id="giSupport"><span class="rt">Contact Support<div class="meta">Talk it through with your Network Support Officer</div></span></button>' +
+        "</div>"
+      );
+      document.getElementById("giDiscuss").addEventListener("click", function () {
+        window.openStartConversationPopup({ title: title ? "Re: " + title : "" });
+      });
+      document.getElementById("giWebinar").addEventListener("click", function () {
+        window.openWebinarForumPopup({ title: title });
+      });
+      document.getElementById("giSupport").addEventListener("click", function () {
+        window.closeInfoPopup();
+        var fab = document.getElementById("supportFabBtn");
+        if (fab) fab.click();
+      });
+    };
+
+    // =====================================================================
+    // ThreadUI: canonical discussion-thread card renderer + interaction
+    // wiring. Shared by Connect's Discussions feed and the thread popout
+    // (dashboard widgets, Connect's expand icon) so both look and behave
+    // identically — one implementation, not two copies drifting apart.
+    // Also owns the mow_threads_v2 schema/seed, so there's one source of
+    // truth for thread + per-comment likes and replies-to-a-comment.
+    // =====================================================================
+    window.ThreadUI = (function () {
+      var KEY = "mow_threads_v2";
+      var ME_PERSON = "Jane Smith";
+      function esc(s) { return (s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+      function initials(name) { return (name || "").split(" ").filter(Boolean).slice(0, 2).map(function (w) { return w[0]; }).join("").toUpperCase(); }
+
+      var SEED = [
+        { id: "t1", person: "Priya Nair", author: "Wagga Wagga Meals on Wheels", mine: false, category: "Deliver", tags: ["My Aged Care", "Referrals"],
+          title: "Anyone else seen delays with My Aged Care referrals this month?",
+          body: "We've had three referrals sit for over a fortnight. Wondering if it's just us or a wider system issue.",
+          when: "2 days ago", reactions: { like: 4 }, myReactions: [],
+          repliesList: [
+            { id: "t1-r1", person: "Tom Baxter", author: "Coffs Harbour Meals on Wheels", body: "Same here — about 10 days on average this month.", when: "2 days ago", reactions: { like: 0 }, myReactions: [] },
+            { id: "t1-r2", person: "Sarah Thomas", author: "MOW NSW (NSO)", body: "Flagging this to the My Aged Care liaison team — will update the thread.", when: "1 day ago", reactions: { like: 0 }, myReactions: [] }
+          ] },
+        { id: "t2", person: "Tom Baxter", author: "Coffs Harbour Meals on Wheels", mine: false, category: "Promote", tags: ["Volunteers", "Events"],
+          title: "Sharing our new volunteer thank-you event idea",
+          body: "We ran a small morning tea with certificates and it went down really well. Happy to share the run sheet.",
+          when: "5 days ago", reactions: { like: 6 }, myReactions: [],
+          repliesList: [
+            { id: "t2-r1", person: "Anh Le", author: "Parramatta Meals on Wheels", body: "Love this idea, mind sharing the run sheet? Cc @Sarah Thomas (NSO) so she's aware too — might suit the newsletter.", when: "4 days ago", reactions: { like: 0 }, myReactions: [] },
+            { id: "t2-r2", person: "Tom Baxter", author: "Coffs Harbour Meals on Wheels", body: "Of course — I'll drop it in the thread tomorrow!", when: "3 days ago", reactions: { like: 0 }, myReactions: [] }
+          ] },
+        { id: "t3", person: ME_PERSON, author: "Liverpool Meals on Wheels", mine: true, category: "Operate", tags: ["Rostering", "Volunteers"],
+          title: "Tips for rostering around school holidays?",
+          body: "Half our drivers have grandkids to mind over the holidays. How does everyone keep runs covered?",
+          when: "1 week ago", reactions: { like: 2 }, myReactions: [],
+          repliesList: [
+            { id: "t3-r1", person: "Priya Nair", author: "Wagga Wagga Meals on Wheels", body: "We stagger shifts and lean on retirees who don't have school pickups.", when: "6 days ago", reactions: { like: 0 }, myReactions: [] }
+          ] }
+      ];
+
+      var MENTIONABLE = [
+        "Sarah Thomas (NSO)", "Leesa O'Keefe (MOW NSW)", "Simone Despoges (MOW NSW)", "Sue Dryden (MOW NSW)",
+        "Wagga Wagga Meals on Wheels", "Coffs Harbour Meals on Wheels", "Parramatta Meals on Wheels", "Penrith Meals on Wheels"
+      ];
+      function withMentions(text) {
+        var out = esc(text);
+        MENTIONABLE.forEach(function (m) {
+          var re = new RegExp("@" + m.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "g");
+          out = out.replace(re, '<span class="mention">@' + esc(m) + "</span>");
+        });
+        return out;
+      }
+
+      function loadThreads() {
+        var list;
+        try { var s = JSON.parse(localStorage.getItem(KEY)); if (Array.isArray(s)) list = s; } catch (e) {}
+        if (!list) list = SEED.slice();
+        // Backfill replies saved before per-comment like/reply existed —
+        // without a stable id, replyTo lookups (and thus replyItemHtml's
+        // recursion) can self-match on two undefined values and loop forever.
+        var seq = 0;
+        list.forEach(function (t) {
+          (t.repliesList || []).forEach(function (r) {
+            if (!r.id) r.id = t.id + "-rlegacy-" + (seq++);
+            if (!r.reactions) r.reactions = { like: 0 };
+            if (!r.myReactions) r.myReactions = [];
+          });
+        });
+        return list;
+      }
+      function saveThreads(list) { try { localStorage.setItem(KEY, JSON.stringify(list)); } catch (e) {} }
+
+      var thumbIcon = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/></svg>';
+      var thumbIconSmall = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/></svg>';
+      var thumbIconFilled = '<svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/></svg>';
+      var commentIcon = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>';
+      var commentIconSmall = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>';
+      var bellIcon = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>';
+      var globeIcon = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>';
+      var expandIcon = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></svg>';
+
+      function popoutBtn(t) {
+        return '<button type="button" class="tp-popout" data-popout="' + t.id + '" title="Open in a popout" aria-label="Open in a popout">' + expandIcon + "</button>";
+      }
+      function kebabMenu(t) {
+        var items = t.mine
+          ? '<button type="button" data-edit="' + t.id + '">Edit</button><button type="button" class="danger" data-del="' + t.id + '">Delete</button>'
+          : '<button type="button" data-msg="' + esc(t.author) + '">Message ' + esc((t.author || "").split(" ")[0]) + '</button>';
+        return '<div class="tp-kebab-wrap"><button type="button" class="tp-kebab" data-kebab="' + t.id + '" aria-label="More options">&#8942;</button>' +
+          '<div class="tp-kebab-menu" data-kebab-menu="' + t.id + '">' + items + '</div></div>';
+      }
+      function statsRow(t) {
+        var likeCount = (t.reactions && t.reactions.like) || 0;
+        var replyCount = (t.repliesList || []).length;
+        return '<div class="tp-stats">' +
+          (likeCount ? '<span class="tp-stat-likes"><span class="dot">' + thumbIconFilled + "</span>" + likeCount + "</span>" : "<span></span>") +
+          (replyCount ? '<button type="button" class="tp-stat-replies" data-toggle="' + t.id + '">' + replyCount + " comment" + (replyCount === 1 ? "" : "s") + "</button>" : "<span></span>") +
+        "</div>";
+      }
+      function actionRow(t) {
+        var likeOn = (t.myReactions || []).indexOf("like") !== -1;
+        var subscribed = window.mowSubscriptions.isSubscribed(t.id);
+        return '<div class="tp-actions">' +
+          '<button type="button" class="tp-action' + (likeOn ? " on" : "") + '" data-react="' + t.id + '" title="Like">' + thumbIcon + "</button>" +
+          '<button type="button" class="tp-action" data-focus-comment="' + t.id + '" title="Comment">' + commentIcon + "</button>" +
+          '<button type="button" class="tp-action' + (subscribed ? " on" : "") + '" data-notify="' + t.id + '" title="' + (subscribed ? "Stop emailing me about this thread" : "Email me when this thread gets activity") + '">' + bellIcon + "</button>" +
+        "</div>";
+      }
+      function tagsRow(t) {
+        var tags = t.tags || [];
+        if (!tags.length) return "";
+        return '<div class="tp-tags">' + tags.map(function (tag) {
+          return '<button type="button" class="tp-tag" data-tag-filter="' + esc(tag) + '">#' + esc(tag.replace(/\s+/g, "")) + "</button>";
+        }).join("") + "</div>";
+      }
+      function commentBox(t) {
+        return '<div class="tp-comment-box"><span class="tp-avatar-sm">' + initials(ME_PERSON) + '</span>' +
+          '<input type="text" class="tp-comment-input" placeholder="Add a comment…" data-comment-for="' + t.id + '"></div>';
+      }
+
+      // One comment, with its own Like + Reply, and (recursively) any
+      // replies-to-that-comment nested beneath it.
+      function replyItemHtml(t, r, openReplyBoxId) {
+        var isAuthor = r.author === t.author && (r.person || "") === (t.person || "");
+        var likeCount = (r.reactions && r.reactions.like) || 0;
+        var likeOn = (r.myReactions || []).indexOf("like") !== -1;
+        var children = (t.repliesList || []).filter(function (x) { return x.replyTo === r.id; });
+        var childrenHtml = children.map(function (c) { return replyItemHtml(t, c, openReplyBoxId); }).join("");
+        var replyBoxHtml = openReplyBoxId === r.id
+          ? '<div class="tp-comment-box" style="margin-top:8px;padding-top:0;border-top:none"><span class="tp-avatar-sm">' + initials(ME_PERSON) + '</span><input type="text" class="tp-comment-input" placeholder="Reply to ' + esc((r.person || r.author || "").split(" ")[0]) + '…" data-comment-for="' + t.id + '" data-reply-to="' + r.id + '"></div>'
+          : "";
+        return '<div class="thread-reply" data-reply-id="' + r.id + '"><div class="tr-head"><span class="tr-avatar">' + initials(r.person || r.author) + '</span><span class="tr-author">' + esc(r.person || r.author) +
+          "</span>" + (isAuthor ? '<span class="tr-author-badge">Author</span>' : "") +
+          '<span class="tp-org">from ' + esc(r.author) + '</span><span class="tr-when">' + esc(r.when) + "</span></div>" +
+          '<div class="tr-body">' + withMentions(r.body) + "</div>" +
+          '<div class="tr-actions">' +
+            '<button type="button" class="tr-action' + (likeOn ? " on" : "") + '" data-react-reply="' + r.id + '" data-thread="' + t.id + '">' + thumbIconSmall + (likeCount ? " " + likeCount : "") + "</button>" +
+            '<button type="button" class="tr-action" data-reply-to-comment="' + r.id + '" data-thread="' + t.id + '">' + commentIconSmall + " Reply</button>" +
+          "</div>" +
+          replyBoxHtml +
+          (childrenHtml ? '<div class="thread-reply-list">' + childrenHtml + "</div>" : "") +
+        "</div>";
+      }
+
+      // Shows the most recent 2 top-level comments by default, with a
+      // "View N more" toggle; nested replies-to-a-comment always show
+      // alongside their parent (no separate truncation for those).
+      function replyBlock(t, openState) {
+        openState = openState || {};
+        var all = t.repliesList || [];
+        var topLevel = all.filter(function (r) { return !r.replyTo; });
+        if (!topLevel.length) return "";
+        var showAll = !!openState.showAllReplies;
+        var visible = showAll ? topLevel : topLevel.slice(-2);
+        var hiddenCount = topLevel.length - visible.length;
+        var toggle = hiddenCount > 0
+          ? '<button type="button" class="tp-toggle-replies" data-toggle="' + t.id + '">View ' + hiddenCount + " more comment" + (hiddenCount === 1 ? "" : "s") + "</button>"
+          : "";
+        return toggle + '<div class="thread-reply-list" data-replylist="' + t.id + '">' + visible.map(function (r) { return replyItemHtml(t, r, openState.replyBoxFor); }).join("") + "</div>";
+      }
+
+      // Full card body — identical whether rendered in the main feed list
+      // or inside the popout modal. Caller wraps this in its own
+      // `.thread-post` container.
+      function cardHtml(t, opts) {
+        opts = opts || {};
+        return '<div class="tp-head">' +
+            '<span class="tp-avatar">' + initials(t.person || t.author) + "</span>" +
+            '<div class="tp-who">' +
+              '<div class="tp-name-row"><span class="tp-author">' + esc(t.person || t.author) + "</span>" + (t.mine ? '<span class="tp-mine-flag">You</span>' : "") + "</div>" +
+              '<div class="tp-headline">' + esc(t.author) + (t.category ? " · " + esc(t.category) : "") + "</div>" +
+              '<div class="tp-meta"><span>' + esc(t.when) + "</span>" + globeIcon + "</div>" +
+            "</div>" +
+            (opts.showExpand !== false ? popoutBtn(t) : "") +
+            kebabMenu(t) +
+          "</div>" +
+          '<div class="tp-title">' + esc(t.title) + "</div>" +
+          '<div class="tp-body">' + withMentions(t.body) + "</div>" +
+          tagsRow(t) +
+          statsRow(t) +
+          actionRow(t) +
+          commentBox(t) +
+          replyBlock(t, opts.openState);
+      }
+
+      function findReply(t, replyId) {
+        var found = null;
+        (t.repliesList || []).forEach(function (r) { if (r.id === replyId) found = r; });
+        return found;
+      }
+
+      function toggleLike(obj) {
+        obj.reactions = obj.reactions || {};
+        obj.myReactions = obj.myReactions || [];
+        var idx = obj.myReactions.indexOf("like");
+        if (idx === -1) { obj.myReactions.push("like"); obj.reactions.like = (obj.reactions.like || 0) + 1; }
+        else { obj.myReactions.splice(idx, 1); obj.reactions.like = Math.max(0, (obj.reactions.like || 0) - 1); }
+      }
+
+      // Delegated click + keydown handling for a card container — works for
+      // both the multi-card feed list and a single-card popout. `api`:
+      //   getThreads()        -> current in-memory array
+      //   setThreads(list)    -> replace it after a mutation
+      //   onChange()          -> persist + re-render hook
+      //   getOpenState(id)    -> mutable {showAllReplies, replyBoxFor} for that thread
+      //   onExpand(id)        -> optional, popout icon
+      //   onTagFilter(tag)    -> optional
+      //   onEdit/onDelete/onMessage(id/name) -> optional, kebab menu
+      function wire(root, api) {
+        function threads() { return api.getThreads(); }
+        function persistAndRefresh() { saveThreads(threads()); api.onChange(); }
+
+        root.addEventListener("click", function (e) {
+          var toggleBtn = e.target.closest("[data-toggle]");
+          if (toggleBtn) {
+            var st = api.getOpenState(toggleBtn.getAttribute("data-toggle"));
+            st.showAllReplies = !st.showAllReplies;
+            api.onChange();
+            return;
+          }
+          var tagFilterBtn = e.target.closest("[data-tag-filter]");
+          if (tagFilterBtn && api.onTagFilter) { api.onTagFilter(tagFilterBtn.getAttribute("data-tag-filter")); return; }
+
+          var focusBtn = e.target.closest("[data-focus-comment]");
+          if (focusBtn) {
+            var input = root.querySelector('.tp-comment-input[data-comment-for="' + focusBtn.getAttribute("data-focus-comment") + '"]:not([data-reply-to])');
+            if (input) input.focus();
+            return;
+          }
+          var replyToCommentBtn = e.target.closest("[data-reply-to-comment]");
+          if (replyToCommentBtn) {
+            var rid = replyToCommentBtn.getAttribute("data-reply-to-comment");
+            var st2 = api.getOpenState(replyToCommentBtn.getAttribute("data-thread"));
+            st2.replyBoxFor = st2.replyBoxFor === rid ? null : rid;
+            api.onChange();
+            return;
+          }
+          var expandBtn = e.target.closest("[data-popout]");
+          if (expandBtn && api.onExpand) { api.onExpand(expandBtn.getAttribute("data-popout")); return; }
+
+          var kebabBtn = e.target.closest("[data-kebab]");
+          if (kebabBtn) {
+            var menu = kebabBtn.parentElement.querySelector("[data-kebab-menu]");
+            var willOpen = !menu.classList.contains("open");
+            root.querySelectorAll(".tp-kebab-menu.open").forEach(function (m) { m.classList.remove("open"); });
+            if (willOpen) menu.classList.add("open");
+            return;
+          }
+          var reactReplyBtn = e.target.closest("[data-react-reply]");
+          if (reactReplyBtn) {
+            var list = threads();
+            var th = list.find(function (x) { return x.id === reactReplyBtn.getAttribute("data-thread"); });
+            var reply = th && findReply(th, reactReplyBtn.getAttribute("data-react-reply"));
+            if (reply) { toggleLike(reply); api.setThreads(list); persistAndRefresh(); }
+            return;
+          }
+          var reactBtn = e.target.closest("[data-react]");
+          if (reactBtn) {
+            var list2 = threads();
+            var rt = list2.find(function (x) { return x.id === reactBtn.getAttribute("data-react"); });
+            if (rt) { toggleLike(rt); api.setThreads(list2); persistAndRefresh(); }
+            return;
+          }
+          var bellBtn = e.target.closest("[data-notify]");
+          if (bellBtn) {
+            var on = window.mowSubscriptions.toggle(bellBtn.getAttribute("data-notify"));
+            bellBtn.classList.toggle("on", on);
+            bellBtn.title = on ? "Stop emailing me about this thread" : "Email me when this thread gets activity";
+            return;
+          }
+          var btn = e.target.closest("button");
+          if (!btn) return;
+          var editId = btn.getAttribute("data-edit");
+          var delId = btn.getAttribute("data-del");
+          var msgWho = btn.getAttribute("data-msg");
+          if (editId && api.onEdit) { api.onEdit(editId); return; }
+          if (delId && api.onDelete) { api.onDelete(delId); return; }
+          if (msgWho && api.onMessage) { api.onMessage(msgWho); return; }
+        });
+
+        root.addEventListener("keydown", function (e) {
+          if (e.key !== "Enter") return;
+          var input = e.target.closest(".tp-comment-input");
+          if (!input) return;
+          e.preventDefault();
+          var val = input.value.trim();
+          if (!val) return;
+          var id = input.getAttribute("data-comment-for");
+          var replyTo = input.getAttribute("data-reply-to");
+          var list = threads();
+          var t = list.find(function (x) { return x.id === id; });
+          if (!t) return;
+          t.repliesList = t.repliesList || [];
+          var newReply = { id: t.id + "-r" + Date.now(), person: ME_PERSON, author: activeAccount, body: val, when: "just now", reactions: { like: 0 }, myReactions: [] };
+          if (replyTo) newReply.replyTo = replyTo;
+          t.repliesList.push(newReply);
+          var st3 = api.getOpenState(id);
+          st3.showAllReplies = true;
+          if (replyTo) st3.replyBoxFor = null;
+          api.setThreads(list);
+          persistAndRefresh();
+        });
+      }
+
+      return {
+        esc: esc, initials: initials, withMentions: withMentions, MENTIONABLE: MENTIONABLE, ME_PERSON: ME_PERSON,
+        loadThreads: loadThreads, saveThreads: saveThreads,
+        cardHtml: cardHtml, wire: wire
+      };
+    })();
+
+    // ---- Thread popout: expands a discussion thread into the shared info
+    // modal, using the exact same ThreadUI card renderer as the main
+    // Discussions feed — so it always looks the same, wherever it's opened
+    // from (Connect's expand icon, or an Active/Subscribed widget row).
+    // The modal body is a single persistent DOM node reused across every
+    // popout open, so it's wired to ThreadUI.wire() exactly ONCE (here, at
+    // load) rather than per render/per open — otherwise each reopen would
+    // stack another delegated listener on top of stale ones from whichever
+    // thread was open before, and clicks would fire against dead state. ----
+    var popoutState = null;
+    function renderPopout() {
+      if (!popoutState) return;
+      var t = popoutState.threads.find(function (x) { return x.id === popoutState.threadId; });
+      if (!t) return;
+      window.openInfoPopupHtml('<div class="thread-post" style="border:none;padding:0">' + window.ThreadUI.cardHtml(t, { showExpand: false, openState: popoutState.openState }) + "</div>");
+    }
+    window.ThreadUI.wire(document.getElementById("infoModalBody"), {
+      getThreads: function () { return popoutState ? popoutState.threads : []; },
+      setThreads: function (list) { if (popoutState) popoutState.threads = list; },
+      getOpenState: function () { return popoutState ? popoutState.openState : {}; },
+      onChange: function () {
+        if (!popoutState) return;
+        window.ThreadUI.saveThreads(popoutState.threads);
+        if (popoutState.onUpdate) popoutState.onUpdate();
+        renderPopout();
+      }
+    });
+    window.openThreadPopout = function (threadId, opts) {
+      opts = opts || {};
+      popoutState = { threadId: threadId, threads: window.ThreadUI.loadThreads(), openState: {}, onUpdate: opts.onUpdate };
+      renderPopout();
+    };
+
     window.openInfoPopup = function (trigger) {
       var tpl = trigger.querySelector("template.popup-content");
       if (!tpl) return;
@@ -612,6 +1566,7 @@
           placeholder: trigger.getAttribute("data-comment-placeholder") || "Add a comment"
         });
       }
+      setModalExpanded(false);
       modal.classList.remove("hide");
     };
     function closeModal() { modal.classList.add("hide"); }
@@ -679,6 +1634,7 @@
   // link that lands on #slug — then actually shows just that category's
   // content instead of merely scrolling past the others. Falls back to the
   // first tab (typically "Overview") when the hash doesn't match anything.
+  var catActivate = null;
   document.querySelectorAll("[data-cat-tabs]").forEach(function (tabWrap) {
     var tabs = [].slice.call(tabWrap.querySelectorAll(".tab[data-cat]"));
     var sections = [].slice.call(document.querySelectorAll("[data-cat-section]"));
@@ -702,7 +1658,11 @@
         e.preventDefault();
         var slug = t.getAttribute("data-cat");
         history.replaceState(null, "", "#" + slug);
-        activate(slug, true);
+        // Top tab-bar clicks never scroll (the tabs are already in view, and
+        // jumping is jarring) — but other same-page `[data-cat]` links, like
+        // an Overview card's "View all X" pointing at a tab further down,
+        // still scroll so the activated content is actually visible.
+        activate(slug, tabs.indexOf(t) === -1);
       });
     });
 
@@ -710,6 +1670,37 @@
       activate((window.location.hash || "").replace("#", ""), true);
     });
 
-    activate((window.location.hash || "").replace("#", ""), !!window.location.hash);
+    // No scroll on initial load: hidden categories are removed from flow, so
+    // the active one already sits right under the tabs — no jump needed,
+    // whether that's a fresh deep link or landing here from another page.
+    // The hash itself comes from window.__initialHash, stashed and stripped
+    // from the URL by an inline script in <head> before the browser gets far
+    // enough into parsing <body> to find the matching id and jump to it
+    // natively — activate(..., false) alone can't stop that native jump,
+    // since it happens during HTML parsing, before this script ever runs.
+    activate((window.__initialHash || window.location.hash || "").replace("#", ""), false);
+    catActivate = activate;
+  });
+
+  // ---- Mega-menu links into a same-page tab: switch tabs without any
+  // scroll/jump. A plain <a href="updates.html#mownews"> triggers the
+  // browser's native anchor-jump when already on that page, and the tab
+  // system's own hashchange handler then smooth-scrolls on top of that —
+  // both pointless since the target category is already positioned right
+  // under the tabs. Intercept and just flip categories instead. Links to a
+  // *different* page are left alone (real navigation, landing there already
+  // skips the scroll per the initial activate() call above).
+  document.addEventListener("click", function (e) {
+    var link = e.target.closest && e.target.closest(".nav-drop-menu a");
+    if (!link || !catActivate) return;
+    var href = link.getAttribute("href") || "";
+    var hashIdx = href.indexOf("#");
+    if (hashIdx === -1) return;
+    var pagePart = href.slice(0, hashIdx);
+    if (pagePart && pagePart !== active) return;
+    e.preventDefault();
+    var slug = href.slice(hashIdx + 1);
+    history.replaceState(null, "", "#" + slug);
+    catActivate(slug, false);
   });
 })();

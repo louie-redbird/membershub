@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>if (location.hash) { window.__initialHash = location.hash; history.replaceState(null, "", location.pathname + location.search); }</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="mow-favicon.svg" type="image/svg+xml">
+<title>News &amp; Advocacy — MOW NSW Members Portal (reference build)</title>
+<link rel="stylesheet" href="styles.css?v=49">
+</head>
+<body data-active="updates.html" data-title="News &amp; Advocacy" data-crumb="News &amp; Advocacy"
+      data-sub="Meals on Wheels news and the local media relevant to your service, in one place."
+      data-search="Search news and updates">
+
+<div class="shell">
+
+  <div class="tabs" data-cat-tabs>
+    <a class="tab active" href="#updates" data-cat="updates">All updates</a>
+    <a class="tab" href="#mownews" data-cat="mownews">Meals on Wheels news</a>
+    <a class="tab" href="#localnews" data-cat="localnews">Sector News</a>
+    <a class="tab" href="#windup" data-cat="windup">Weekly Windup</a>
+    <a class="tab" href="#reforms" data-cat="reforms">Reform updates</a>
+  </div>
+
+  <div class="sidebar-layout">
+    <aside class="sidebar-filters">
+      <div class="field"><label>Search</label><input type="text" id="updatesFilterSearch" placeholder="Title or summary"></div>
+      <div class="field"><label>Category</label><select id="updatesFilterCategory"><option value="">All categories</option><option>MOW news</option><option>Sector News</option><option>Weekly Windup</option><option>Reform update</option><option>Submission</option></select></div>
+      <div class="field"><label>Date range</label><select id="updatesFilterDateRange"><option value="">Any time</option><option value="week">This week</option><option value="month">This month</option><option value="older">Older</option></select></div>
+      <div class="field"><label>Source</label><select id="updatesFilterSource"><option value="">Any source</option><option value="mow">MOW NSW</option><option value="local">Local media</option><option value="sector">Sector press</option></select></div>
+      <div class="field"><label>Tags</label><div class="sidebar-tag-list" id="updatesFilterTags"></div></div>
+      <button type="button" class="btn-secondary" id="updatesFilterClear" style="width:100%;justify-content:center">Clear filters</button>
+    </aside>
+
+    <div class="sidebar-main">
+  <div class="im-note hide" id="updatesFilterNoResults" style="margin-bottom:16px">No updates match those filters. <a href="#" id="updatesFilterClearInline">Clear filters</a></div>
+
+  <div data-cat-section="updates" id="updates">
+    <div class="section-title"><h2>All updates</h2><span class="desc">Every change across News, Resources and Advocacy — newest first</span></div>
+    <div id="updatesHero"></div>
+    <div class="res-grid" id="updatesList"></div>
+    <div id="updatesLoadMoreWrap" style="display:flex;justify-content:center;margin-top:14px">
+      <button class="btn-secondary" type="button" data-loadmore="updates">Load more</button>
+    </div>
+  </div>
+
+  <div data-cat-section="mownews" id="mownews">
+  <div class="res-section">
+  <div class="section-title"><h2>Meals on Wheels news</h2><span class="desc">Official updates and announcements from MOW NSW</span></div>
+
+  <div class="res-card res-card-hero" data-article data-title="CHSP retained separately from Support at Home, Senate committee recommends" data-source="Meals on Wheels NSW" data-fav="#00877C" data-favtext="MW" data-date="3 Jul 2026" data-author="Advocacy team" data-url="https://nswmealsonwheels.org.au" data-category="MOW news" data-date-iso="2026-07-03" data-tags="chsp supportathome reform" data-source-type="mow">
+    <div class="n-thumb"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 22h16"/><path d="M2 10l10-7 10 7"/><path d="M4 10v12M20 10v12M9 22v-6h6v6"/></svg></div>
+    <div class="rhead"><span class="favicon" style="background:#00877C">MW</span><span class="tag neutral">MOW news</span></div>
+    <p class="rtitle">CHSP retained separately from Support at Home, Senate committee recommends</p>
+    <p class="rdesc">The Senate Community Affairs Committee has recommended CHSP be kept separate from Support at Home, with funding extended three years. MOW NSW's submission is quoted four times.</p>
+    <div class="rmeta"><span>3 Jul 2026</span><span>Advocacy team</span></div>
+    <template class="article-full">
+      <p>The Senate Community Affairs Committee has handed down its report into the aged care reform transition, recommending that the Commonwealth Home Support Programme (CHSP) be retained as a distinct programme rather than folded into Support at Home, and that current funding arrangements be extended by three years to give smaller providers time to adjust.</p>
+      <p>Meals on Wheels NSW made a detailed submission to the inquiry, and is quoted four times in the final report — particularly on the risk that a rushed transition poses to volunteer-run services in regional areas.</p>
+      <p>"This is a strong outcome for members," the advocacy team said. "It reflects exactly what services told us during our consultation earlier this year." The recommendations are not binding, and the Government is expected to respond later in the year.</p>
+    </template>
+  </div>
+
+  <div class="res-grid">
+
+    <div class="res-card" data-article data-title="New Support at Home reporting fields start next quarter" data-source="Meals on Wheels NSW" data-fav="#00877C" data-favtext="MW" data-date="2 Jul 2026" data-author="Compliance team" data-url="https://nswmealsonwheels.org.au" data-category="MOW news" data-date-iso="2026-07-02" data-tags="supportathome chsp reform reporting" data-source-type="mow">
+      <div class="rhead"><span class="favicon" style="background:#00877C">MW</span><span class="tag neutral">MOW news</span></div>
+      <p class="rtitle">New Support at Home reporting fields start next quarter</p>
+      <p class="rdesc">From 1 August, client co-contribution data is reported as a separate line item. A step-by-step guide is in Resources under Comply.</p>
+      <div class="rmeta"><span>2 Jul 2026</span><span>Compliance team</span></div>
+      <template class="article-full">
+        <p>From 1 August, member services will need to report client co-contribution data as a separate line item rather than bundled into the total. The change affects your monthly CHSP report, not your annual acquittal.</p>
+        <p>A step-by-step walkthrough of each new field is available in Resources under the Comply category. If your reporting is handled by a third-party system, check with your provider that the new field is supported before the first affected report on 18 July.</p>
+      </template>
+    </div>
+
+    <div class="res-card" data-article data-title="National Meals on Wheels Day: save the date, 27 August" data-source="Meals on Wheels NSW" data-fav="#00877C" data-favtext="MW" data-date="28 Jun 2026" data-author="Comms team" data-url="https://nswmealsonwheels.org.au" data-category="MOW news" data-date-iso="2026-06-28" data-tags="events volunteers" data-source-type="mow">
+      <div class="rhead"><span class="favicon" style="background:#00877C">MW</span><span class="tag neutral">MOW news</span></div>
+      <p class="rtitle">National Meals on Wheels Day: save the date, 27 August</p>
+      <p class="rdesc">Planning is underway for this year's national day. A campaign kit for local services will be in Resources shortly.</p>
+      <div class="rmeta"><span>28 Jun 2026</span><span>Comms team</span></div>
+      <template class="article-full">
+        <p>Planning is underway for National Meals on Wheels Day on 27 August, a chance to celebrate volunteers and raise the profile of the service in your community.</p>
+        <p>A ready-to-run campaign kit — posters, social tiles and a short host guide — will be available in Resources under Promote closer to the date. Register your local activity with your Network Support Officer so we can help promote it.</p>
+      </template>
+    </div>
+
+  </div>
+  <div style="display:flex;justify-content:center;margin-top:14px">
+    <button class="btn-secondary hide" type="button" data-loadmore="mownews">Load more</button>
+  </div>
+  </div>
+  </div>
+
+  <div data-cat-section="windup" id="windup">
+  <div class="res-section">
+    <div class="section-title"><h2>Weekly Windup archive</h2><span class="desc">Every edition, in one place</span></div>
+
+    <div class="res-card res-card-hero" data-article data-title="Weekly Windup — 21 July 2026" data-source="Meals on Wheels NSW" data-fav="#00877C" data-favtext="MW" data-date="21 Jul 2026" data-author="Comms team" data-url="https://nswmealsonwheels.org.au" data-category="Weekly Windup" data-date-iso="2026-07-21" data-tags="supportathome volunteers windup" data-source-type="mow">
+      <div class="n-thumb"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></div>
+      <div class="rhead"><span class="favicon" style="background:#00877C">MW</span><span class="tag neutral">Weekly Windup</span></div>
+      <p class="rtitle">Weekly Windup — 21 July 2026</p>
+      <p class="rdesc">Funding, training dates and a volunteer shout-out.</p>
+      <div class="rmeta"><span>21 Jul 2026</span><span>Comms team</span></div>
+      <template class="article-full"><p>This edition covers the Support at Home reporting change, two upcoming webinars, and a volunteer milestone from Coffs Harbour. (Reference build — placeholder edition.)</p></template>
+    </div>
+
+    <div class="res-grid">
+
+      <div class="res-card" data-article data-title="Weekly Windup — 14 July 2026" data-source="Meals on Wheels NSW" data-fav="#00877C" data-favtext="MW" data-date="14 Jul 2026" data-author="Comms team" data-url="https://nswmealsonwheels.org.au" data-category="Weekly Windup" data-date-iso="2026-07-14" data-tags="events windup" data-source-type="mow">
+        <div class="rhead"><span class="favicon" style="background:#00877C">MW</span><span class="tag neutral">Weekly Windup</span></div>
+        <p class="rtitle">Weekly Windup — 14 July 2026</p>
+        <p class="rdesc">National Meals on Wheels Day planning update.</p>
+        <div class="rmeta"><span>14 Jul 2026</span><span>Comms team</span></div>
+        <template class="article-full"><p>Planning details for National Meals on Wheels Day, plus a reminder that AGM templates have been refreshed. (Reference build — placeholder edition.)</p></template>
+      </div>
+
+      <div class="res-card" data-article data-title="Weekly Windup — 7 July 2026" data-source="Meals on Wheels NSW" data-fav="#00877C" data-favtext="MW" data-date="7 Jul 2026" data-author="Comms team" data-url="https://nswmealsonwheels.org.au" data-category="Weekly Windup" data-date-iso="2026-07-07" data-tags="campaigns grants windup" data-source-type="mow">
+        <div class="rhead"><span class="favicon" style="background:#00877C">MW</span><span class="tag neutral">Weekly Windup</span></div>
+        <p class="rtitle">Weekly Windup — 7 July 2026</p>
+        <p class="rdesc">Cuppa for a Cause campaign kit launch.</p>
+        <div class="rmeta"><span>7 Jul 2026</span><span>Comms team</span></div>
+        <template class="article-full"><p>The Cuppa for a Cause campaign kit is now live in Resources, plus this fortnight's grant deadlines. (Reference build — placeholder edition.)</p></template>
+      </div>
+
+      <div class="res-card" data-article data-title="Weekly Windup — 30 June 2026" data-source="Meals on Wheels NSW" data-fav="#00877C" data-favtext="MW" data-date="30 Jun 2026" data-author="Comms team" data-url="https://nswmealsonwheels.org.au" data-category="Weekly Windup" data-date-iso="2026-06-30" data-tags="reporting windup" data-source-type="mow">
+        <div class="rhead"><span class="favicon" style="background:#00877C">MW</span><span class="tag neutral">Weekly Windup</span></div>
+        <p class="rtitle">Weekly Windup — 30 June 2026</p>
+        <p class="rdesc">End-of-financial-year reminders.</p>
+        <div class="rmeta"><span>30 Jun 2026</span><span>Comms team</span></div>
+        <template class="article-full"><p>EOFY reporting reminders and a recap of the quarter's advocacy wins. (Reference build — placeholder edition.)</p></template>
+      </div>
+
+      <div class="res-card" data-article data-title="Weekly Windup — 23 June 2026" data-source="Meals on Wheels NSW" data-fav="#00877C" data-favtext="MW" data-date="23 Jun 2026" data-author="Comms team" data-url="https://nswmealsonwheels.org.au" data-category="Weekly Windup" data-date-iso="2026-06-23" data-tags="grants volunteers windup" data-source-type="mow">
+        <div class="rhead"><span class="favicon" style="background:#00877C">MW</span><span class="tag neutral">Weekly Windup</span></div>
+        <p class="rtitle">Weekly Windup — 23 June 2026</p>
+        <p class="rdesc">Grant round reminders and a shout-out to Coffs Harbour's volunteer of the year.</p>
+        <div class="rmeta"><span>23 Jun 2026</span><span>Comms team</span></div>
+        <template class="article-full"><p>This edition covers an open grant round closing soon, and a shout-out to Coffs Harbour's volunteer of the year. (Reference build — placeholder edition.)</p></template>
+      </div>
+
+    </div>
+  </div>
+  </div>
+
+  <div data-cat-section="reforms" id="reforms">
+  <div class="res-section">
+    <div class="section-title"><h2>Reform updates</h2><span class="desc">Aged Care Act 2024, Support at Home and CHSP transition</span></div>
+
+    <div class="res-card res-card-hero" data-article data-title="CHSP retained separately from Support at Home, Senate committee recommends" data-category="Reform update" data-date-iso="2026-07-03" data-tags="chsp supportathome reform" data-source-type="mow">
+      <div class="n-thumb"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+      <div class="rhead"><span class="favicon" style="background:#00877C">MW</span><span class="tag neutral">Reform update</span></div>
+      <p class="rtitle">CHSP retained separately from Support at Home, Senate committee recommends</p>
+      <p class="rdesc">The Senate Community Affairs Committee has recommended CHSP be kept separate from Support at Home, with funding extended three years.</p>
+      <div class="rmeta"><span>3 Jul 2026</span></div>
+    </div>
+
+    <div class="res-grid">
+      <a class="res-card res-card-link" href="resources.html#comply" data-title="Strengthened Quality Standards self-assessment tool now available" data-category="Reform update" data-date-iso="2026-06-20" data-tags="quality reform" data-source-type="mow">
+        <div class="rhead"><span class="ri"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span><span class="tag neutral">Reform update</span></div>
+        <p class="rtitle">Strengthened Quality Standards — self-assessment tool now available</p>
+        <p class="rdesc">Covers all seven strengthened Quality Standards. Available now in Resources under Compliance.</p>
+        <div class="rmeta"><span>Resources · Compliance</span></div>
+      </a>
+      <a class="res-card res-card-link" href="resources.html?open=sah-reporting" data-title="Support at Home co-contribution reporting starts 1 August" data-category="Reform update" data-date-iso="2026-07-18" data-tags="supportathome reform chsp reporting" data-source-type="mow">
+        <div class="rhead"><span class="ri"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span><span class="tag neutral">Reform update</span></div>
+        <p class="rtitle">Support at Home co-contribution reporting starts 1 August</p>
+        <p class="rdesc">Client co-contribution data becomes a separate reporting line item — walkthrough in Resources under Compliance.</p>
+        <div class="rmeta"><span>Due 18 Jul 2026</span></div>
+      </a>
+    </div>
+  </div>
+  </div>
+
+  <div data-cat-section="localnews" id="localnews">
+  <div class="res-section">
+    <div class="section-title"><h2>Sector News</h2><span class="desc">Sector and local media coverage relevant to your service</span></div>
+
+    <div class="res-card res-card-hero" data-article data-title="Liverpool volunteers mark 40 years of meal deliveries" data-source="Liverpool City Champion" data-fav="#D2491A" data-favtext="LC" data-date="20 Jul 2026" data-author="Liverpool City Champion" data-url="#" data-category="Sector News" data-date-iso="2026-07-20" data-tags="volunteers" data-source-type="local">
+      <div class="n-thumb"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+      <div class="rhead"><span class="favicon" style="background:#D2491A">LC</span><span class="tag neutral">Sector News</span></div>
+      <p class="rtitle">Liverpool volunteers mark 40 years of meal deliveries</p>
+      <p class="rdesc">A local paper profiles a long-serving Liverpool Meals on Wheels volunteer.</p>
+      <div class="rmeta"><span>20 Jul 2026</span><span>Local media</span></div>
+      <template class="article-full">
+        <p>The Liverpool City Champion has profiled a volunteer who has delivered meals in the area for four decades, marking 40 years of local service.</p>
+        <p>The piece highlights the social connection deliveries provide beyond the meal itself. (Reference build — placeholder local coverage.)</p>
+      </template>
+    </div>
+
+    <div class="res-grid">
+
+      <div class="res-card" data-article data-title="&quot;More than just a meal&quot; featured on Sydney metro radio" data-source="ABC Radio Sydney" data-fav="#2C8B88" data-favtext="AB" data-date="15 Jul 2026" data-author="ABC Radio Sydney" data-url="#" data-category="Sector News" data-date-iso="2026-07-15" data-tags="volunteers" data-source-type="local">
+        <div class="rhead"><span class="favicon" style="background:#2C8B88">AB</span><span class="tag neutral">Sector News</span></div>
+        <p class="rtitle">"More than just a meal" featured on Sydney metro radio</p>
+        <p class="rdesc">A morning segment covered the social-check role of meal deliveries.</p>
+        <div class="rmeta"><span>15 Jul 2026</span><span>Local media</span></div>
+        <template class="article-full">
+          <p>A Sydney metro radio morning segment featured the "More than just a meal" message, with a coordinator explaining the welfare-check role volunteers play on every delivery.</p>
+          <p>(Reference build — placeholder local coverage.)</p>
+        </template>
+      </div>
+
+      <div class="res-card" data-article data-title="Minister references Meals on Wheels in Support at Home statement" data-source="Community Care Review" data-fav="#031F73" data-favtext="CC" data-date="10 Jul 2026" data-author="Community Care Review" data-url="#" data-category="Sector News" data-date-iso="2026-07-10" data-tags="supportathome" data-source-type="local">
+        <div class="rhead"><span class="favicon" style="background:#031F73">CC</span><span class="tag neutral">Sector News</span></div>
+        <p class="rtitle">Minister references Meals on Wheels in Support at Home statement</p>
+        <p class="rdesc">A ministerial press release named community meal providers as central to ageing in place.</p>
+        <div class="rmeta"><span>10 Jul 2026</span><span>Government alert</span></div>
+        <template class="article-full">
+          <p>A ministerial statement on the Support at Home rollout named community meal providers, including Meals on Wheels, as central to supporting older people to age at home.</p>
+          <p>(Reference build — placeholder government coverage.)</p>
+        </template>
+      </div>
+
+      <div class="res-card" data-article data-title="Rural delivery costs draw regional media attention" data-source="Western Advocate" data-fav="#6B4226" data-favtext="WA" data-date="6 Jul 2026" data-author="Western Advocate" data-url="#" data-category="Sector News" data-date-iso="2026-07-06" data-tags="volunteers reform" data-source-type="local">
+        <div class="rhead"><span class="favicon" style="background:#6B4226">WA</span><span class="tag neutral">Sector News</span></div>
+        <p class="rtitle">Rural delivery costs draw regional media attention</p>
+        <p class="rdesc">A regional paper covers rising fuel costs squeezing rural delivery routes.</p>
+        <div class="rmeta"><span>6 Jul 2026</span><span>Local media</span></div>
+        <template class="article-full">
+          <p>The Western Advocate reports on rising fuel and vehicle costs squeezing rural Meals on Wheels delivery routes, echoing concerns already raised by services through Connect's Escalated Issues.</p>
+          <p>(Reference build — placeholder local coverage.)</p>
+        </template>
+      </div>
+
+      <div class="res-card" data-article data-title="Aged care nutrition standards: what the sector is watching" data-source="Aged Care Insite" data-fav="#236B8A" data-favtext="AC" data-date="26 Jun 2026" data-author="Aged Care Insite" data-url="#" data-category="Sector News" data-date-iso="2026-06-26" data-tags="nutrition" data-source-type="sector">
+        <div class="rhead"><span class="favicon" style="background:#236B8A">AC</span><span class="tag neutral">Sector News</span></div>
+        <p class="rtitle">Aged care nutrition standards: what the sector is watching</p>
+        <p class="rdesc">Sector coverage of the strengthened nutrition requirements and how community food providers are preparing.</p>
+        <div class="rmeta"><span>26 Jun 2026</span><span>Aged Care Insite</span></div>
+        <template class="article-full">
+          <p>Sector publication Aged Care Insite reports on how community food providers are preparing for strengthened nutrition standards under the Aged Care Act 2024, including the mandatory Accredited Practising Dietitian menu review.</p>
+          <p>The article notes Meals on Wheels services as well-placed given existing menu-planning practices, while flagging capacity pressure on smaller services. (Reference build — this is placeholder coverage, not a real article.)</p>
+        </template>
+      </div>
+
+    </div>
+  </div>
+  </div>
+
+    </div>
+
+    <aside class="sidebar-side">
+      <a class="mcard" href="advocacy.html" style="display:block;text-decoration:none;background:linear-gradient(135deg, var(--gradient), var(--teal));color:#fff">
+        <div class="mcard-head" style="margin-bottom:8px"><span class="mi" style="background:rgba(255,255,255,0.18);color:#fff"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span><h2 style="color:#fff">Advocacy priorities</h2></div>
+        <p style="font-size:13px;margin:0 0 12px;color:rgba(255,255,255,0.9)">See what MOW NSW is pushing for on your behalf, and have your say.</p>
+        <span style="font-weight:700;font-size:13px">View Advocacy Priorities &rarr;</span>
+      </a>
+      <div class="mcard">
+        <p style="font-size:13.5px;margin:0 0 12px">Got Meals on Wheels news or an announcement to share with other services?</p>
+        <button class="btn-primary announce-btn" id="announceBtn" type="button" style="width:100%;justify-content:center">+ Post News</button>
+      </div>
+      <div class="mcard">
+        <p style="font-size:13.5px;margin:0 0 12px">Got a question, an idea, or something worth sharing with the network?</p>
+        <button class="btn-primary" id="newThreadBtn" type="button" style="width:100%;justify-content:center">+ Start a discussion</button>
+      </div>
+      <div class="mcard">
+        <p style="font-size:13.5px;margin:0 0 12px">Something affecting your service that MOW NSW should know about?</p>
+        <button class="btn-primary" id="escalateBtn" type="button" style="width:100%;justify-content:center">Escalate an issue</button>
+      </div>
+    </aside>
+  </div>
+
+</div>
+
+<script src="portal.js?v=49"></script>
+<script>
+  (function () {
+    function esc(s) { return (s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+
+    function shareBar(title, url, emailOnly) {
+      var t = encodeURIComponent(title);
+      var u = encodeURIComponent(url && url !== "#" ? url : window.location.href);
+      var emailBtn = '<a class="share-btn" title="Share by email" href="mailto:?subject=' + t + '&body=' + t + '%0A%0A' + u + '"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 6L2 7"/></svg></a>';
+      if (emailOnly) {
+        return '<div class="drawer-actions"><span class="share-label">Share</span>' + emailBtn + "</div>";
+      }
+      return '<div class="drawer-actions">' +
+        '<span class="share-label">Share</span>' +
+        '<a class="share-btn" title="Share on Facebook" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=' + u + '"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M14 9h3V6h-3c-2 0-3 1-3 3v2H8v3h3v7h3v-7h3l1-3h-4V9c0-.6.4-1 1-1z"/></svg></a>' +
+        '<a class="share-btn" title="Share on X" target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?text=' + t + '&url=' + u + '"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17 3h3l-7 8 8 10h-6l-5-6-5 6H2l8-9L2 3h6l4 5 5-5z"/></svg></a>' +
+        '<a class="share-btn" title="Share on LinkedIn" target="_blank" rel="noopener" href="https://www.linkedin.com/sharing/share-offsite/?url=' + u + '"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6 9v9H3V9h3zM4.5 3.5A1.5 1.5 0 114.5 6.5 1.5 1.5 0 014.5 3.5zM9 9h3v1.3c.5-.8 1.5-1.5 3-1.5 3 0 3.5 2 3.5 4.4V18h-3v-4.2c0-1-.3-1.8-1.4-1.8-1 0-1.6.7-1.6 1.8V18H9V9z"/></svg></a>' +
+        emailBtn +
+        "</div>";
+    }
+
+    // Articles open as a popup (shared info modal) — same content (source,
+    // share bar, source link) whether triggered from a hero, a grid card, or
+    // an "All updates" card that resolves back to the real one.
+    function openArticle(el) {
+      var title = el.getAttribute("data-title");
+      var tpl = el.querySelector("template.article-full");
+      var full = tpl ? tpl.innerHTML : "<p>" + esc(title) + "</p>";
+      var url = el.getAttribute("data-url") || "#";
+      var srcName = el.getAttribute("data-source") || "";
+      var fav = el.getAttribute("data-fav") || "#00877C";
+      var favText = el.getAttribute("data-favtext") || "•";
+      var sourceLink = url && url !== "#"
+        ? '<a class="drawer-source-link" target="_blank" rel="noopener" href="' + url + '">Read at ' + esc(srcName) + ' &nearr;</a>'
+        : '<span class="drawer-source-link" style="color:var(--muted)">Source link not set (reference build)</span>';
+      var category = el.getAttribute("data-category") || "";
+      var emailOnly = category === "Reform update" || category === "Weekly Windup";
+      window.openInfoPopupHtml(
+        '<div class="drawer-src"><span class="favicon" style="background:' + fav + '">' + esc(favText) + '</span><div><div class="src">' + esc(srcName) + '</div><div class="n-meta">' + esc(el.getAttribute("data-date") || "") + " · " + esc(el.getAttribute("data-author") || "") + "</div></div></div>" +
+        "<h2>" + esc(title) + "</h2>" +
+        full +
+        shareBar(title, url, emailOnly) +
+        sourceLink
+      );
+    }
+
+    // "All updates" cards aggregate content that already lives on this same
+    // page (or on Resources/Submissions) — clicking one should show that
+    // content directly rather than just jumping to the tab it came from.
+    function findPageMatch(title) {
+      var sel = "[data-title='" + title.replace(/'/g, "\\'") + "']";
+      return document.querySelector("#mownews " + sel) ||
+        document.querySelector("#windup " + sel) ||
+        document.querySelector("#reforms " + sel) ||
+        document.querySelector("#localnews " + sel);
+    }
+
+    document.addEventListener("click", function (e) {
+      var el = e.target.closest("[data-article]");
+      if (el) { e.preventDefault(); openArticle(el); return; }
+
+      var aggCard = e.target.closest("#updatesHero .res-card, #updatesList .res-card");
+      if (aggCard) {
+        e.preventDefault();
+        var match = findPageMatch(aggCard.getAttribute("data-title"));
+        if (match && match.hasAttribute("data-article")) { openArticle(match); }
+        else if (match && match.tagName === "A" && match.getAttribute("href")) { window.location.href = match.getAttribute("href"); }
+        else { window.location.href = aggCard.getAttribute("data-fallback-href"); }
+      }
+    });
+
+    document.getElementById("announceBtn").addEventListener("click", function () {
+      window.openAnnouncePopup();
+    });
+    document.getElementById("newThreadBtn").addEventListener("click", function () {
+      window.openStartConversationPopup();
+    });
+    document.getElementById("escalateBtn").addEventListener("click", function () {
+      window.openEscalateIssuePopup();
+    });
+
+    // Load more: same pattern as Resources — each section hides its extra
+    // cards behind a right-aligned button; clicking reveals them and removes
+    // the button. Scoped generically via the enclosing tab section rather
+    // than hardcoded ids, so it works for both static and JS-rendered grids.
+    document.querySelectorAll("[data-loadmore]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var section = btn.closest(".res-section") || btn.closest("[data-cat-section]");
+        if (section) section.querySelectorAll(".res-more").forEach(function (el) { el.classList.remove("hide"); });
+        btn.parentElement.remove();
+      });
+    });
+
+    // ---- All updates: every change across News, Resources and Advocacy,
+    // newest first. Feeds the "See what's changed" dashboard popup's CTA. ----
+    var UPDATES = [
+      { title: "Weekly Windup — 21 July 2026", tag: "Weekly Windup", date: "2026-07-21", dateLabel: "21 Jul 2026", href: "#windup", desc: "Funding, training dates and a volunteer shout-out.", tags: "supportathome volunteers windup", source: "mow" },
+      { title: "Liverpool volunteers mark 40 years of meal deliveries", tag: "Sector News", date: "2026-07-20", dateLabel: "20 Jul 2026", href: "#localnews", desc: "A local paper profiles a long-serving Liverpool Meals on Wheels volunteer.", tags: "volunteers", source: "local" },
+      { title: "Support at Home co-contribution reporting starts 1 August", tag: "Reform update", date: "2026-07-18", dateLabel: "18 Jul 2026", href: "#reforms", desc: "Client co-contribution data becomes a separate reporting line item from 1 August.", tags: "supportathome reform chsp reporting", source: "mow" },
+      { title: "\"More than just a meal\" featured on Sydney metro radio", tag: "Sector News", date: "2026-07-15", dateLabel: "15 Jul 2026", href: "#localnews", desc: "A morning segment covered the social-check role of meal deliveries.", tags: "volunteers", source: "local" },
+      { title: "Minister references Meals on Wheels in Support at Home statement", tag: "Sector News", date: "2026-07-10", dateLabel: "10 Jul 2026", href: "#localnews", desc: "A ministerial press release named community meal providers as central to ageing in place.", tags: "supportathome", source: "local" },
+      { title: "Rural delivery costs draw regional media attention", tag: "Sector News", date: "2026-07-06", dateLabel: "6 Jul 2026", href: "#localnews", desc: "A regional paper covers rising fuel costs squeezing rural delivery routes.", tags: "volunteers reform", source: "local" },
+      { title: "Submission: National Minimum Data Set consultation", tag: "Submission", date: "2026-07-05", dateLabel: "5 Jul 2026", href: "submissions.html?open=sub-nmds", desc: "MOW NSW's draft submission on the proposed NMDS, open for member input.", tags: "reporting submission", source: "mow" },
+      { title: "CHSP retained separately from Support at Home, Senate committee recommends", tag: "MOW news", date: "2026-07-03", dateLabel: "3 Jul 2026", href: "#mownews", desc: "The Senate Community Affairs Committee recommends CHSP stay distinct, with funding extended three years.", tags: "chsp supportathome reform", source: "mow" },
+      { title: "New Support at Home reporting fields start next quarter", tag: "MOW news", date: "2026-07-02", dateLabel: "2 Jul 2026", href: "#mownews", desc: "Client co-contribution data is reported as a separate line item from 1 August.", tags: "supportathome chsp reform reporting", source: "mow" },
+      { title: "National Meals on Wheels Day: save the date, 27 August", tag: "MOW news", date: "2026-06-28", dateLabel: "28 Jun 2026", href: "#mownews", desc: "Planning is underway for this year's national day, with a campaign kit coming to Resources.", tags: "events volunteers", source: "mow" },
+      { title: "Aged care nutrition standards: what the sector is watching", tag: "Sector News", date: "2026-06-26", dateLabel: "26 Jun 2026", href: "#localnews", desc: "Sector coverage of strengthened nutrition requirements and how providers are preparing.", tags: "nutrition", source: "sector" },
+      { title: "Weekly Windup — 23 June 2026", tag: "Weekly Windup", date: "2026-06-23", dateLabel: "23 Jun 2026", href: "#windup", desc: "Grant round reminders and a shout-out to Coffs Harbour's volunteer of the year.", tags: "grants volunteers windup", source: "mow" },
+      { title: "Strengthened Quality Standards self-assessment tool now available", tag: "Reform update", date: "2026-06-20", dateLabel: "20 Jun 2026", href: "#reforms", desc: "A self-rating tool covering all seven strengthened Quality Standards, now in Resources.", tags: "quality reform", source: "mow" },
+      { title: "Submission: Aged care reform transition inquiry", tag: "Submission", date: "2026-06-01", dateLabel: "Jun 2026", href: "submissions.html?open=sub-aged-care-transition", desc: "MOW NSW's submission argued for CHSP to remain distinct, quoted four times in the final Senate report.", tags: "chsp reform submission", source: "mow" }
+    ];
+    var sortedUpdates = UPDATES.slice().sort(function (a, b) { return b.date.localeCompare(a.date); });
+    var updatesIcon = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>';
+    var updatesHeroIcon = '<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>';
+    function cardAttrs(u) { return 'data-category="' + esc(u.tag) + '" data-date-iso="' + u.date + '" data-tags="' + u.tags + '" data-source-type="' + u.source + '" data-fallback-href="' + esc(u.href) + '"'; }
+    var updatesHero = document.getElementById("updatesHero");
+    var updatesList = document.getElementById("updatesList");
+    if (updatesList && updatesHero && sortedUpdates.length) {
+      var hero = sortedUpdates[0];
+      updatesHero.innerHTML =
+        '<div class="res-card res-card-hero res-card-link" data-title="' + esc(hero.title) + '" ' + cardAttrs(hero) + '>' +
+          '<div class="n-thumb">' + updatesHeroIcon + '</div>' +
+          '<div class="rhead"><span class="ri">' + updatesIcon + '</span><span class="tag neutral">' + esc(hero.tag) + '</span></div>' +
+          '<p class="rtitle">' + esc(hero.title) + '</p>' +
+          '<p class="rdesc">' + esc(hero.desc) + '</p>' +
+          '<div class="rmeta"><span>' + esc(hero.dateLabel) + '</span></div>' +
+        '</div>';
+      // Exactly 4 grid cards stay visible by default (a clean 2x2 below the
+      // hero, no lonely odd card) — the rest sit behind Load More.
+      updatesList.innerHTML = sortedUpdates.slice(1).map(function (u, i) {
+        return '<div class="res-card res-card-link' + (i >= 4 ? " res-more hide" : "") + '" data-title="' + esc(u.title) + '" ' + cardAttrs(u) + '>' +
+          '<div class="rhead"><span class="ri">' + updatesIcon + '</span><span class="tag neutral">' + esc(u.tag) + '</span></div>' +
+          '<p class="rtitle">' + esc(u.title) + '</p>' +
+          '<p class="rdesc">' + esc(u.desc) + '</p>' +
+          '<div class="rmeta"><span>' + esc(u.dateLabel) + '</span></div>' +
+        '</div>';
+      }).join("");
+      document.getElementById("updatesLoadMoreWrap").style.display = sortedUpdates.length > 5 ? "flex" : "none";
+    }
+
+    // ---- Left filter rail: Search, Category, Date range, Source and a set
+    // of tag chips built from every tag actually in use across the cards.
+    // Filtering temporarily shows every tab section (like the Resources
+    // filters do) so a match is never hidden behind an inactive tab;
+    // clearing filters restores whichever tab was active. ----
+    (function () {
+      var TAG_LABELS = { chsp: "CHSP", supportathome: "SupportAtHome", reform: "Reform", quality: "Quality", nutrition: "Nutrition", volunteers: "Volunteers", events: "Events", campaigns: "Campaigns", grants: "Grants", reporting: "Reporting", windup: "WeeklyWindup", submission: "Submission" };
+      // "Today" for This week / This month / Older is pinned to the reference
+      // build's own timeline (matches the "last checked" dates used elsewhere
+      // on this page), not the real calendar date.
+      var TODAY = new Date("2026-07-24T00:00:00");
+
+      var searchInput = document.getElementById("updatesFilterSearch");
+      var catSel = document.getElementById("updatesFilterCategory");
+      var dateSel = document.getElementById("updatesFilterDateRange");
+      var sourceSel = document.getElementById("updatesFilterSource");
+      var tagWrap = document.getElementById("updatesFilterTags");
+      var clearBtn = document.getElementById("updatesFilterClear");
+      var clearInline = document.getElementById("updatesFilterClearInline");
+      var noResults = document.getElementById("updatesFilterNoResults");
+      function norm(s) { return (s || "").trim().toLowerCase(); }
+
+      function populateTagChips() {
+        var activeTags = [].slice.call(tagWrap.querySelectorAll(".sidebar-tag-chip.active")).map(function (b) { return b.getAttribute("data-tag"); });
+        var tags = [];
+        document.querySelectorAll(".res-card[data-tags]").forEach(function (card) {
+          (card.getAttribute("data-tags") || "").split(/\s+/).filter(Boolean).forEach(function (t) { if (tags.indexOf(t) === -1) tags.push(t); });
+        });
+        tags.sort();
+        tagWrap.innerHTML = tags.map(function (tag) {
+          return '<button type="button" class="sidebar-tag-chip' + (activeTags.indexOf(tag) !== -1 ? " active" : "") + '" data-tag="' + tag + '">#' + esc(TAG_LABELS[tag] || tag) + "</button>";
+        }).join("") || '<p class="im-note" style="margin:0">No tags yet</p>';
+      }
+      populateTagChips();
+      tagWrap.addEventListener("click", function (e) {
+        var chip = e.target.closest(".sidebar-tag-chip");
+        if (!chip) return;
+        chip.classList.toggle("active");
+        apply();
+      });
+
+      function apply() {
+        var search = norm(searchInput.value);
+        var cat = norm(catSel.value);
+        var dateRange = dateSel.value;
+        var source = sourceSel.value;
+        var activeTags = [].slice.call(tagWrap.querySelectorAll(".sidebar-tag-chip.active")).map(function (b) { return b.getAttribute("data-tag"); });
+        var anyActive = !!(search || cat || dateRange || source || activeTags.length);
+        if (anyActive) {
+          document.querySelectorAll("[data-cat-section]").forEach(function (s) { s.classList.remove("cat-hidden"); });
+          document.querySelectorAll(".res-more.hide").forEach(function (el) { el.classList.remove("hide"); });
+        }
+        var shown = 0;
+        document.querySelectorAll(".res-card[data-category]").forEach(function (card) {
+          var cardCat = norm(card.getAttribute("data-category"));
+          var text = norm(card.textContent);
+          var cardTags = (card.getAttribute("data-tags") || "").split(/\s+/);
+          var cardSource = card.getAttribute("data-source-type") || "";
+          var iso = card.getAttribute("data-date-iso");
+          var daysAgo = iso ? Math.round((TODAY - new Date(iso + "T00:00:00")) / 86400000) : null;
+          var dateMatch = true;
+          if (dateRange === "week") dateMatch = daysAgo !== null && daysAgo >= 0 && daysAgo <= 7;
+          else if (dateRange === "month") dateMatch = daysAgo !== null && daysAgo > 7 && daysAgo <= 30;
+          else if (dateRange === "older") dateMatch = daysAgo !== null && daysAgo > 30;
+          var match = (!search || text.indexOf(search) !== -1) &&
+            (!cat || cardCat === cat) &&
+            dateMatch &&
+            (!source || cardSource === source) &&
+            (!activeTags.length || activeTags.some(function (t) { return cardTags.indexOf(t) !== -1; }));
+          card.style.display = match ? "" : "none";
+          if (match) shown++;
+        });
+        noResults.classList.toggle("hide", !anyActive || shown > 0);
+        if (!anyActive) {
+          document.querySelectorAll(".res-card[data-category]").forEach(function (card) { card.style.display = ""; });
+          var activeTab = document.querySelector(".tabs .tab.active") || document.querySelector(".tabs .tab");
+          if (activeTab) activeTab.click();
+        }
+      }
+
+      searchInput.addEventListener("input", apply);
+      catSel.addEventListener("change", apply);
+      dateSel.addEventListener("change", apply);
+      sourceSel.addEventListener("change", apply);
+      clearBtn.addEventListener("click", function () {
+        searchInput.value = ""; catSel.value = ""; dateSel.value = ""; sourceSel.value = "";
+        tagWrap.querySelectorAll(".sidebar-tag-chip.active").forEach(function (b) { b.classList.remove("active"); });
+        apply();
+      });
+      clearInline.addEventListener("click", function (e) { e.preventDefault(); clearBtn.click(); });
+    })();
+  })();
+</script>
+</body>
+</html>

@@ -1,20 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>if (location.hash) { window.__initialHash = location.hash; history.replaceState(null, "", location.pathname + location.search); }</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="mow-favicon.svg" type="image/svg+xml">
 <title>Connect — MOW NSW Members Portal (reference build)</title>
-<link rel="stylesheet" href="styles.css?v=26">
+<link rel="stylesheet" href="styles.css?v=49">
 </head>
 <body data-active="connect.html" data-title="Connect" data-crumb="Connect"
       data-sub="Two-way engagement: find other services, have your say on what MOW NSW advocates for, and join the conversation."
       data-search="Search consultations, services, threads">
 
 <div class="modal-overlay hide" id="consultModal">
-  <div class="modal modal-wide">
+  <div class="modal modal-wide" id="consultModalInner">
     <button class="close" data-modal-close aria-label="Close">&times;</button>
-    <div class="consult-layout">
+    <button class="modal-expand-btn" id="consultExpandBtn" type="button" aria-label="Expand" title="Expand"></button>
+    <div class="consult-layout" id="consultLayout">
       <div class="consult-pane-left" id="consultPaperPane"></div>
       <div class="consult-pane-right">
         <div class="consult-fields-head">Your response</div>
@@ -26,8 +28,9 @@
 </div>
 
 <div class="modal-overlay hide" id="discussionModal">
-  <div class="modal">
+  <div class="modal" id="discussionModalInner">
     <button class="close" data-modal-close aria-label="Close">&times;</button>
+    <button class="modal-expand-btn" id="discussionExpandBtn" type="button" aria-label="Expand" title="Expand"></button>
     <div class="info-modal-body" id="discussionModalBody"></div>
   </div>
 </div>
@@ -166,9 +169,28 @@
   </div>
 
   <div data-cat-section="discussion">
-  <div class="section-title" id="discussion"><h2>Discussions</h2><span class="desc">Ask peers, share ideas — click a thread to open it. Type @ to tag a member or MOW NSW staff member</span></div>
-  <div style="margin-bottom:14px"><button class="btn-primary" id="newThreadBtn" type="button">+ Start a discussion</button></div>
-  <div class="thread-list" id="threadList"></div>
+  <div class="section-title" id="discussion"><h2>Discussions</h2><span class="desc">Ask peers, share ideas — type @ to tag a member or MOW NSW staff member</span></div>
+  <div class="sidebar-layout">
+    <aside class="sidebar-filters">
+      <div class="field"><label>Search</label><input type="text" id="discFilterSearch" placeholder="Name, facility, title or body"></div>
+      <div class="field"><label>Facility</label><select id="discFilterFacility"><option value="">All facilities</option></select></div>
+      <div class="field"><label>Topic</label><select id="discFilterTopic"><option value="">All topics</option><option>Operate</option><option>Comply</option><option>Deliver</option><option>Promote</option><option>General</option></select></div>
+      <div class="field"><label>Tags</label><div class="sidebar-tag-list" id="discFilterTags"></div></div>
+      <button type="button" class="btn-secondary" id="discFilterClear" style="width:100%;justify-content:center">Clear filters</button>
+    </aside>
+    <div class="sidebar-main">
+      <div class="thread-list" id="threadList"></div>
+      <p class="im-note hide" id="discussionNoResults">No discussions match those filters. <a href="#" id="discussionClearInline">Clear filters</a></p>
+    </div>
+    <div class="sidebar-side">
+      <div class="mcard">
+        <p style="font-size:13.5px;margin:0 0 12px">Got a question, an idea, or something worth sharing with the network?</p>
+        <button class="btn-primary" id="newThreadBtn" type="button" style="width:100%;justify-content:center">+ Start a discussion</button>
+      </div>
+      <div id="discussionsWidgetConnectSubscribed"></div>
+      <div id="discussionsWidgetConnectActive"></div>
+    </div>
+  </div>
   </div>
 
   <div data-cat-section="escalated">
@@ -283,7 +305,7 @@
 
 </div>
 
-<script src="portal.js?v=26"></script>
+<script src="portal.js?v=49"></script>
 <script>
   /* ---------- Consultations (two-pane popup) ---------- */
   (function () {
@@ -291,76 +313,16 @@
     var paperPane = document.getElementById("consultPaperPane");
     var form = document.getElementById("consultForm");
     var thanks = document.getElementById("consultThanks");
-    var ME = "Liverpool Meals on Wheels";
-    var CKEY = "mow_paper_comments_v1";
-
-    function esc(s) { return (s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
-    function loadComments() { try { var s = JSON.parse(localStorage.getItem(CKEY)); if (s) return s; } catch (e) {} return {}; }
-    function saveComments(all) { try { localStorage.setItem(CKEY, JSON.stringify(all)); } catch (e) {} }
-
-    // Word-review-style inline commenting: every paragraph in the paper (bar
-    // the meta/note lines) gets a hoverable "add comment" affordance, backed
-    // by a localStorage thread keyed on the consultation id + paragraph index.
-    function wireComments(consultId) {
-      if (!consultId) return;
-      var allComments = loadComments();
-      var mine = allComments[consultId] || {};
-      var paras = paperPane.querySelectorAll("p:not(.im-meta):not(.im-note)");
-      paras.forEach(function (p, idx) {
-        p.classList.add("consult-para");
-        var thread = mine[idx] || [];
-        var addBtn = document.createElement("button");
-        addBtn.type = "button"; addBtn.className = "cp-add"; addBtn.title = "Add a comment on this paragraph";
-        addBtn.innerHTML = "&#128172;";
-        if (thread.length) {
-          p.classList.add("has-comments");
-          var count = document.createElement("span");
-          count.className = "cp-count"; count.textContent = thread.length;
-          addBtn.appendChild(count);
-        }
-        p.appendChild(addBtn);
-
-        var box = document.createElement("div");
-        box.className = "consult-comments hide";
-        function renderThread() {
-          box.innerHTML = thread.map(function (c) {
-            return '<div class="cc-item"><span class="cc-who">' + esc(c.who) + '</span><span class="cc-when">' + esc(c.when) + '</span><div class="cc-text">' + esc(c.text) + "</div></div>";
-          }).join("") +
-            '<div class="consult-comment-form"><input type="text" placeholder="Add a comment on this paragraph"><button type="button">Comment</button></div>';
-        }
-        renderThread();
-        p.insertAdjacentElement("afterend", box);
-
-        addBtn.addEventListener("click", function () {
-          box.classList.toggle("hide");
-        });
-        box.addEventListener("click", function (e) {
-          var btn = e.target.closest("button");
-          if (!btn) return;
-          var input = box.querySelector("input");
-          var val = input.value.trim();
-          if (!val) return;
-          thread.push({ who: ME, when: "just now", text: val });
-          mine[idx] = thread;
-          allComments[consultId] = mine;
-          saveComments(allComments);
-          p.classList.add("has-comments");
-          var existingCount = addBtn.querySelector(".cp-count");
-          if (existingCount) existingCount.textContent = thread.length;
-          else { var c2 = document.createElement("span"); c2.className = "cp-count"; c2.textContent = thread.length; addBtn.appendChild(c2); }
-          renderThread();
-          box.classList.remove("hide");
-        });
-      });
-    }
+    var setExpanded = window.wireModalExpand(document.getElementById("consultModalInner"), document.getElementById("consultExpandBtn"), document.getElementById("consultLayout"));
 
     function openConsult(trigger) {
       var paperTpl = trigger.querySelector("template.consult-paper");
       var fieldsTpl = trigger.querySelector("template.consult-fields");
       if (!paperTpl || !fieldsTpl) return;
+      setExpanded(false);
       paperPane.innerHTML = "";
       paperPane.appendChild(paperTpl.content.cloneNode(true));
-      wireComments(trigger.getAttribute("data-consult-id"));
+      window.wireParagraphComments(paperPane, trigger.getAttribute("data-consult-id"));
       form.innerHTML = "";
       form.appendChild(fieldsTpl.content.cloneNode(true));
       form.classList.remove("hide");
@@ -404,151 +366,63 @@
     });
   })();
 
-  /* ---------- Functional discussion thread (localStorage-backed demo) ---------- */
+  /* ---------- Functional discussion thread (localStorage-backed demo) ----------
+     Card rendering/interaction is shared with the thread popout via
+     window.ThreadUI (portal.js) — this file owns filtering, composing,
+     editing/deleting/messaging, and the two widget mounts. ---- */
   (function () {
-    var ME = "Liverpool Meals on Wheels";
-    var KEY = "mow_threads_v2";
+    var TU = window.ThreadUI;
     var listEl = document.getElementById("threadList");
     var modal = document.getElementById("discussionModal");
     var modalBody = document.getElementById("discussionModalBody");
+    var esc = TU.esc;
 
-    // Members and MOW NSW staff you can @mention across the discussion.
-    var MENTIONABLE = [
-      "Sarah Nguyen (NSO)", "Leesa Carter (MOW NSW)", "Simone Ho (MOW NSW)", "Rezwan Lasker (MOW NSW)",
-      "Wagga Wagga Meals on Wheels", "Coffs Harbour Meals on Wheels", "Parramatta Meals on Wheels", "Penrith Meals on Wheels"
-    ];
-    var REACTIONS = [
-      { key: "like", icon: "👍", label: "Like" },
-      { key: "helpful", icon: "⭐", label: "Helpful" }
-    ];
+    var threads = TU.loadThreads();
+    var openStates = {};
+    function getOpenState(id) { if (!openStates[id]) openStates[id] = {}; return openStates[id]; }
 
-    var ME_PERSON = "Jane Smith";
-    var seed = [
-      { id: "t1", person: "Priya Nair", author: "Wagga Wagga Meals on Wheels", mine: false,
-        title: "Anyone else seen delays with My Aged Care referrals this month?",
-        body: "We've had three referrals sit for over a fortnight. Wondering if it's just us or a wider system issue.",
-        when: "2 days ago", reactions: { like: 4, helpful: 2 }, myReactions: [],
-        repliesList: [
-          { person: "Tom Baxter", author: "Coffs Harbour Meals on Wheels", body: "Same here — about 10 days on average this month.", when: "2 days ago" },
-          { person: "Sarah Nguyen", author: "MOW NSW (NSO)", body: "Flagging this to the My Aged Care liaison team — will update the thread.", when: "1 day ago" }
-        ] },
-      { id: "t2", person: "Tom Baxter", author: "Coffs Harbour Meals on Wheels", mine: false,
-        title: "Sharing our new volunteer thank-you event idea",
-        body: "We ran a small morning tea with certificates and it went down really well. Happy to share the run sheet.",
-        when: "5 days ago", reactions: { like: 6, helpful: 1 }, myReactions: [],
-        repliesList: [
-          { person: "Anh Le", author: "Parramatta Meals on Wheels", body: "Love this idea, mind sharing the run sheet? Cc @Sarah Nguyen (NSO) so she's aware too — might suit the newsletter.", when: "4 days ago" }
-        ] },
-      { id: "t3", person: ME_PERSON, author: ME, mine: true,
-        title: "Tips for rostering around school holidays?",
-        body: "Half our drivers have grandkids to mind over the holidays. How does everyone keep runs covered?",
-        when: "1 week ago", reactions: { like: 2, helpful: 0 }, myReactions: [],
-        repliesList: [
-          { person: "Priya Nair", author: "Wagga Wagga Meals on Wheels", body: "We stagger shifts and lean on retirees who don't have school pickups.", when: "6 days ago" }
-        ] }
-    ];
-
-    function load() {
-      try { var s = JSON.parse(localStorage.getItem(KEY)); if (Array.isArray(s)) return s; } catch (e) {}
-      return seed.slice();
+    function isFilterActive() {
+      return !!(document.getElementById("discFilterSearch").value.trim() ||
+        document.getElementById("discFilterFacility").value ||
+        document.getElementById("discFilterTopic").value ||
+        document.querySelector(".sidebar-tag-chip.active"));
     }
-    function save(list) { try { localStorage.setItem(KEY, JSON.stringify(list)); } catch (e) {} }
-    var threads = load();
-    var openReplies = {};
 
-    function esc(s) { return (s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
-    function initials(name) { return name.split(" ").filter(Boolean).slice(0, 2).map(function (w) { return w[0]; }).join("").toUpperCase(); }
-    function withMentions(text) {
-      var out = esc(text);
-      MENTIONABLE.forEach(function (m) {
-        var re = new RegExp("@" + m.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "g");
-        out = out.replace(re, '<span class="mention">@' + esc(m) + "</span>");
+    function getFiltered() {
+      var search = document.getElementById("discFilterSearch").value.trim().toLowerCase();
+      var facility = document.getElementById("discFilterFacility").value;
+      var topic = document.getElementById("discFilterTopic").value;
+      var activeTags = [].slice.call(document.querySelectorAll(".sidebar-tag-chip.active")).map(function (b) { return b.getAttribute("data-tag"); });
+      return threads.filter(function (t) {
+        if (search) {
+          var hay = ((t.person || "") + " " + (t.author || "") + " " + (t.category || "") + " " + (t.title || "") + " " + (t.body || "")).toLowerCase();
+          if (hay.indexOf(search) === -1) return false;
+        }
+        if (facility && t.author !== facility) return false;
+        if (topic && t.category !== topic) return false;
+        if (activeTags.length) {
+          var ttags = t.tags || [];
+          if (!activeTags.some(function (tag) { return ttags.indexOf(tag) !== -1; })) return false;
+        }
+        return true;
       });
-      return out;
-    }
-
-    function reactionBar(t) {
-      return '<div class="tp-reactions">' + REACTIONS.map(function (r) {
-        var on = (t.myReactions || []).indexOf(r.key) !== -1;
-        var count = (t.reactions && t.reactions[r.key]) || 0;
-        return '<button type="button" class="reaction-btn' + (on ? " on" : "") + '" data-react="' + t.id + '" data-rkey="' + r.key + '">' + r.icon + " " + r.label + (count ? ' <span class="rc-count">' + count + "</span>" : "") + "</button>";
-      }).join("") + "</div>";
-    }
-
-    function replyBlock(t) {
-      var list = t.repliesList || [];
-      var open = !!openReplies[t.id];
-      var itemsHtml = list.map(function (r) {
-        return '<div class="thread-reply"><div class="tr-head"><span class="tr-avatar">' + initials(r.author) + '</span><span class="tr-author">' + esc(r.author) + '</span><span class="tr-when">' + esc(r.when) + '</span></div><div class="tr-body">' + withMentions(r.body) + "</div></div>";
-      }).join("");
-      var toggleLabel = list.length ? (open ? "Hide replies" : "Show " + list.length + " repl" + (list.length === 1 ? "y" : "ies")) : "";
-      return (list.length ? '<button type="button" class="tp-toggle-replies" data-toggle="' + t.id + '">' + toggleLabel + "</button>" : "") +
-        '<div class="thread-reply-list' + (open ? "" : " hide") + '" data-replylist="' + t.id + '">' + itemsHtml + "</div>";
-    }
-
-    function personLine(p, a, mine) {
-      return esc(p) + ' <span class="tp-org">from ' + esc(a) + "</span>" + (mine ? ' <span class="tp-mine-flag">You</span>' : "");
     }
 
     function render() {
+      var filtered = getFiltered();
       listEl.innerHTML = "";
-      threads.forEach(function (t) {
+      document.getElementById("discussionNoResults").classList.toggle("hide", filtered.length > 0 || !isFilterActive());
+      filtered.forEach(function (t) {
         var el = document.createElement("div");
         el.className = "thread-post";
-        var actions = t.mine
-          ? '<button class="tp-btn" data-edit="' + t.id + '">Edit</button><button class="tp-btn danger" data-del="' + t.id + '">Delete</button>'
-          : '<button class="tp-btn" data-msg="' + esc(t.author) + '">Message ' + esc(t.author.split(" ")[0]) + '</button>';
-        el.innerHTML =
-          '<div class="tp-head">' +
-            '<span class="tp-avatar">' + initials(t.person || t.author) + "</span>" +
-            '<div class="tp-who"><div class="tp-author">' + personLine(t.person || t.author, t.author, t.mine) + "</div>" +
-            '<div class="tp-meta">' + esc(t.when) + " · " + (t.repliesList || []).length + " repl" + ((t.repliesList || []).length === 1 ? "y" : "ies") + "</div></div>" +
-          "</div>" +
-          '<div class="tp-title">' + esc(t.title) + "</div>" +
-          '<div class="tp-body">' + withMentions(t.body) + "</div>" +
-          reactionBar(t) +
-          '<div class="tp-actions">' + actions + '<button class="tp-btn" data-reply="' + t.id + '">Reply</button><button class="tp-btn" data-open="' + t.id + '">Open thread</button></div>' +
-          replyBlock(t);
-        el.addEventListener("click", function (e) {
-          if (e.target.closest("button")) return;
-          openThreadView(t.id);
-        });
+        el.innerHTML = TU.cardHtml(t, { openState: getOpenState(t.id) });
         listEl.appendChild(el);
       });
     }
 
-    function openModal(html) { modalBody.innerHTML = html; modal.classList.remove("hide"); }
+    var setDiscussionExpanded = window.wireModalExpand(document.getElementById("discussionModalInner"), document.getElementById("discussionExpandBtn"));
+    function openModal(html) { modalBody.innerHTML = html; setDiscussionExpanded(false); modal.classList.remove("hide"); }
     function closeModal() { modal.classList.add("hide"); }
-
-    // Full thread popup: title, person/facility, body, reactions, every
-    // reply, and a reply box — opened by clicking anywhere on a thread card
-    // (bar its action buttons) or its "Open thread" button.
-    function openThreadView(id) {
-      var t = threads.find(function (x) { return x.id === id; });
-      if (!t) return;
-      var replies = (t.repliesList || []).map(function (r) {
-        return '<div class="thread-reply"><div class="tr-head"><span class="tr-avatar">' + initials(r.person || r.author) + '</span><span class="tr-author">' + esc(r.person || r.author) + ' <span class="tp-org">from ' + esc(r.author) + '</span></span><span class="tr-when">' + esc(r.when) + '</span></div><div class="tr-body">' + withMentions(r.body) + "</div></div>";
-      }).join("") || '<p class="im-note" style="margin-top:10px">No replies yet.</p>';
-      openModal(
-        "<h2>" + esc(t.title) + "</h2>" +
-        '<p class="im-meta">' + personLine(t.person || t.author, t.author, t.mine) + " · " + esc(t.when) + "</p>" +
-        '<div class="tp-body" style="margin:10px 0">' + withMentions(t.body) + "</div>" +
-        reactionBar(t) +
-        '<div class="ts-suggest-label" style="margin-top:16px">Replies</div>' +
-        '<div class="thread-reply-list" style="margin-left:0;padding-left:0;border-left:none">' + replies + "</div>" +
-        '<form id="threadViewReplyForm" style="margin-top:16px"><div class="field"><label>Add a reply</label><textarea id="threadViewReplyBody" style="min-height:80px" placeholder="Type @ to tag someone" required></textarea></div><button class="btn-primary" type="submit">Post reply</button></form>'
-      );
-      wireMentions(document.getElementById("threadViewReplyBody"));
-      document.getElementById("threadViewReplyForm").addEventListener("submit", function (e) {
-        e.preventDefault();
-        t.repliesList = t.repliesList || [];
-        t.repliesList.push({ person: ME_PERSON, author: ME, body: document.getElementById("threadViewReplyBody").value, when: "just now" });
-        openReplies[t.id] = true;
-        save(threads);
-        render();
-        openThreadView(id);
-      });
-    }
 
     // Lightweight @mention autocomplete: attach to any textarea, shows a
     // dropdown of MENTIONABLE names when the user types "@".
@@ -569,10 +443,10 @@
       function update() {
         var token = currentToken();
         if (token === null) { box.classList.remove("show"); return; }
-        var matches = MENTIONABLE.filter(function (m) { return m.toLowerCase().indexOf(token.toLowerCase()) !== -1; });
+        var matches = TU.MENTIONABLE.filter(function (m) { return m.toLowerCase().indexOf(token.toLowerCase()) !== -1; });
         if (!matches.length) { box.classList.remove("show"); return; }
         box.innerHTML = matches.map(function (m) {
-          return '<div class="ms-item" data-name="' + esc(m) + '"><span class="ms-avatar">' + initials(m) + "</span>" + esc(m) + "</div>";
+          return '<div class="ms-item" data-name="' + esc(m) + '"><span class="ms-avatar">' + TU.initials(m) + "</span>" + esc(m) + "</div>";
         }).join("");
         box.style.top = "-4px"; box.style.left = "0"; box.style.transform = "translateY(-100%)";
         box.classList.add("show");
@@ -603,59 +477,75 @@
     }
 
     document.getElementById("newThreadBtn").addEventListener("click", function () {
-      openModal(composeForm({ heading: "Start a discussion", submit: "Post" }));
-      wireMentions(document.getElementById("tfBody"));
-      document.getElementById("threadForm").addEventListener("submit", function (e) {
-        e.preventDefault();
-        threads.unshift({
-          id: "t" + Date.now(), person: ME_PERSON, author: ME, mine: true,
-          title: document.getElementById("tfTitle").value,
-          body: document.getElementById("tfBody").value,
-          when: "just now", reactions: { like: 0, helpful: 0 }, myReactions: [], repliesList: []
-        });
-        save(threads); render(); closeModal();
+      window.openStartConversationPopup({
+        onPosted: function (thread) {
+          threads.unshift(thread);
+          TU.saveThreads(threads);
+          populateFilterOptions();
+          render();
+        }
       });
     });
 
-    function handleReaction(rid, rkey) {
-      var rt = threads.find(function (x) { return x.id === rid; });
-      if (!rt) return;
-      rt.reactions = rt.reactions || {};
-      rt.myReactions = rt.myReactions || [];
-      var idx = rt.myReactions.indexOf(rkey);
-      if (idx === -1) { rt.myReactions.push(rkey); rt.reactions[rkey] = (rt.reactions[rkey] || 0) + 1; }
-      else { rt.myReactions.splice(idx, 1); rt.reactions[rkey] = Math.max(0, (rt.reactions[rkey] || 0) - 1); }
-      save(threads); render();
+    // ---- Left filter rail: search, facility and topic selects, and a set
+    // of tag chips built from every tag currently in use across threads. ----
+    function populateFilterOptions() {
+      var facilitySel = document.getElementById("discFilterFacility");
+      var currentFacility = facilitySel.value;
+      var facilities = [];
+      threads.forEach(function (t) { if (facilities.indexOf(t.author) === -1) facilities.push(t.author); });
+      facilities.sort();
+      facilitySel.innerHTML = '<option value="">All facilities</option>' + facilities.map(function (f) { return "<option" + (f === currentFacility ? " selected" : "") + ">" + esc(f) + "</option>"; }).join("");
+
+      var tagWrap = document.getElementById("discFilterTags");
+      var activeTags = [].slice.call(tagWrap.querySelectorAll(".sidebar-tag-chip.active")).map(function (b) { return b.getAttribute("data-tag"); });
+      var tags = [];
+      threads.forEach(function (t) { (t.tags || []).forEach(function (tag) { if (tags.indexOf(tag) === -1) tags.push(tag); }); });
+      tags.sort();
+      tagWrap.innerHTML = tags.map(function (tag) {
+        return '<button type="button" class="sidebar-tag-chip' + (activeTags.indexOf(tag) !== -1 ? " active" : "") + '" data-tag="' + esc(tag) + '">#' + esc(tag.replace(/\s+/g, "")) + "</button>";
+      }).join("") || '<p class="im-note" style="margin:0">No tags yet</p>';
     }
-    // Reactions inside the thread-view popup use the same handler, then
-    // refresh the popup itself so the count updates in place.
-    modal.addEventListener("click", function (e) {
-      var reactBtn = e.target.closest("[data-react]");
-      if (!reactBtn || !modalBody.contains(reactBtn)) return;
-      handleReaction(reactBtn.getAttribute("data-react"), reactBtn.getAttribute("data-rkey"));
-      var openId = modalBody.querySelector("[data-react]") ? modalBody.querySelector("[data-react]").getAttribute("data-react") : null;
-      if (openId) openThreadView(openId);
+
+    ["discFilterSearch", "discFilterFacility", "discFilterTopic"].forEach(function (id) {
+      var el = document.getElementById(id);
+      el.addEventListener(el.tagName === "SELECT" ? "change" : "input", render);
     });
+    document.getElementById("discFilterTags").addEventListener("click", function (e) {
+      var chip = e.target.closest(".sidebar-tag-chip");
+      if (!chip) return;
+      chip.classList.toggle("active");
+      render();
+    });
+    function clearFilters() {
+      document.getElementById("discFilterSearch").value = "";
+      document.getElementById("discFilterFacility").value = "";
+      document.getElementById("discFilterTopic").value = "";
+      document.querySelectorAll(".sidebar-tag-chip.active").forEach(function (b) { b.classList.remove("active"); });
+      render();
+    }
+    document.getElementById("discFilterClear").addEventListener("click", clearFilters);
+    document.getElementById("discussionClearInline").addEventListener("click", function (e) { e.preventDefault(); clearFilters(); });
 
-    listEl.addEventListener("click", function (e) {
-      var toggleId = e.target.closest("[data-toggle]") ? e.target.closest("[data-toggle]").getAttribute("data-toggle") : null;
-      if (toggleId) {
-        openReplies[toggleId] = !openReplies[toggleId];
-        render();
-        return;
-      }
-      var reactBtn = e.target.closest("[data-react]");
-      if (reactBtn) { handleReaction(reactBtn.getAttribute("data-react"), reactBtn.getAttribute("data-rkey")); return; }
-      var btn = e.target.closest("button");
-      if (!btn) return;
-      var openId = btn.getAttribute("data-open");
-      if (openId) { openThreadView(openId); return; }
-      var editId = btn.getAttribute("data-edit");
-      var delId = btn.getAttribute("data-del");
-      var msgWho = btn.getAttribute("data-msg");
-      var replyId = btn.getAttribute("data-reply");
-
-      if (editId) {
+    TU.wire(listEl, {
+      getThreads: function () { return threads; },
+      setThreads: function (list) { threads = list; },
+      getOpenState: getOpenState,
+      onChange: render,
+      onTagFilter: function (tag) {
+        var tagChip = document.querySelector('.sidebar-tag-chip[data-tag="' + tag.replace(/"/g, "") + '"]');
+        if (tagChip) { tagChip.classList.add("active"); render(); }
+      },
+      onExpand: function (id) {
+        window.openThreadPopout(id, {
+          onUpdate: function () {
+            threads = TU.loadThreads();
+            populateFilterOptions();
+            render();
+          }
+        });
+      },
+      onEdit: function (editId) {
         var t = threads.find(function (x) { return x.id === editId; });
         openModal(composeForm({ heading: "Edit your post", title: t.title, body: t.body, submit: "Save changes" }));
         wireMentions(document.getElementById("tfBody"));
@@ -663,37 +553,23 @@
           ev.preventDefault();
           t.title = document.getElementById("tfTitle").value;
           t.body = document.getElementById("tfBody").value;
-          save(threads); render(); closeModal();
+          TU.saveThreads(threads); render(); closeModal();
         });
-      } else if (delId) {
+      },
+      onDelete: function (delId) {
         openModal('<h2>Delete this post?</h2><p>This removes your discussion thread for everyone. This can\'t be undone.</p><div style="display:flex;gap:10px"><button class="btn-primary" id="delConfirm" style="background:var(--danger-text)">Delete</button><button class="btn-secondary" data-modal-close type="button">Cancel</button></div>');
         modalBody.querySelector('[data-modal-close]').addEventListener("click", closeModal);
         document.getElementById("delConfirm").addEventListener("click", function () {
           threads = threads.filter(function (x) { return x.id !== delId; });
-          save(threads); render(); closeModal();
+          TU.saveThreads(threads); populateFilterOptions(); render(); closeModal();
         });
-      } else if (msgWho) {
+      },
+      onMessage: function (msgWho) {
         openModal('<h2>Message ' + esc(msgWho) + '</h2><p class="im-meta" style="font-size:12px;color:var(--muted);margin:0 0 12px">Direct message through the portal. In this reference build nothing is actually sent.</p><form id="dmForm"><div class="field"><label>To</label><input type="text" value="' + esc(msgWho) + '" readonly></div><div class="field"><label>Message</label><textarea style="min-height:100px" placeholder="Say hello, ask a question, share a contact" required></textarea></div><button class="btn-primary" type="submit">Send message</button></form><div class="announce-thanks hide" id="dmThanks">Sent — ' + esc(msgWho) + " will get your message in their portal inbox.</div>");
         document.getElementById("dmForm").addEventListener("submit", function (ev) {
           ev.preventDefault();
           document.getElementById("dmForm").classList.add("hide");
           document.getElementById("dmThanks").classList.remove("hide");
-        });
-      } else if (replyId) {
-        openModal('<h2>Reply</h2><p class="im-meta" style="font-size:12px;color:var(--muted);margin:0 0 12px">Type @ to tag a member or MOW NSW staff member.</p><form id="replyForm"><div class="field"><label>Your reply</label><textarea id="replyBody" style="min-height:100px" placeholder="Add to the thread — type @ to tag someone" required></textarea></div><button class="btn-primary" type="submit">Post reply</button></form><div class="announce-thanks hide" id="replyThanks">Reply posted to the thread.</div>');
-        wireMentions(document.getElementById("replyBody"));
-        document.getElementById("replyForm").addEventListener("submit", function (ev) {
-          ev.preventDefault();
-          var t = threads.find(function (x) { return x.id === replyId; });
-          if (t) {
-            t.repliesList = t.repliesList || [];
-            t.repliesList.push({ author: ME, body: document.getElementById("replyBody").value, when: "just now" });
-            openReplies[replyId] = true;
-            save(threads);
-          }
-          document.getElementById("replyForm").classList.add("hide");
-          document.getElementById("replyThanks").classList.remove("hide");
-          render();
         });
       }
     });
@@ -701,9 +577,16 @@
     modal.querySelectorAll("[data-modal-close]").forEach(function (btn) { btn.addEventListener("click", closeModal); });
     modal.addEventListener("click", function (e) { if (e.target === modal) closeModal(); });
     document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeModal(); });
+    document.addEventListener("click", function (e) {
+      if (!e.target.closest(".tp-kebab-wrap")) listEl.querySelectorAll(".tp-kebab-menu.open").forEach(function (m) { m.classList.remove("open"); });
+    });
 
+    populateFilterOptions();
     render();
   })();
+
+  window.initDiscussionsWidget(document.getElementById("discussionsWidgetConnectSubscribed"), { mode: "subscribed", hideLink: true });
+  window.initDiscussionsWidget(document.getElementById("discussionsWidgetConnectActive"), { mode: "active", hideLink: true });
 </script>
 </body>
 </html>

@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>if (location.hash) { window.__initialHash = location.hash; history.replaceState(null, "", location.pathname + location.search); }</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="mow-favicon.svg" type="image/svg+xml">
 <title>Learning — MOW NSW Members Portal (reference build)</title>
-<link rel="stylesheet" href="styles.css?v=26">
+<link rel="stylesheet" href="styles.css?v=49">
 </head>
 <body data-active="learning.html" data-title="Learning" data-crumb="Learning"
       data-sub="Upcoming and on-demand learning in one place: webinars, recordings, training modules, blogs, podcasts and handbooks."
@@ -20,6 +21,18 @@
     <a class="tab" href="#reading" data-cat="reading">Reading</a>
     <a class="tab" href="#handbooks" data-cat="handbooks">Handbooks</a>
   </div>
+
+  <div class="sidebar-layout">
+    <aside class="sidebar-filters">
+      <div class="field"><label>Search</label><input type="text" id="learnFilterSearch" placeholder="Title or description"></div>
+      <div class="field"><label>Format</label><select id="learnFilterFormat"><option value="">All formats</option><option>Webinar</option><option>In-person</option><option>Recording</option><option>Module</option><option>Blog</option><option>Podcast</option><option>Handbook</option><option>Toolkit</option></select></div>
+      <div class="field"><label>Category</label><select id="learnFilterCategory"><option value="">All categories</option><option>Compliance</option><option>Governance</option><option>Finance</option><option>HR</option></select></div>
+      <div class="field"><label>Tags</label><div class="sidebar-tag-list" id="learnFilterTags"></div></div>
+      <button type="button" class="btn-secondary" id="learnFilterClear" style="width:100%;justify-content:center">Clear filters</button>
+    </aside>
+
+    <div class="sidebar-main">
+  <div class="im-note hide" id="learnFilterNoResults" style="margin-bottom:16px">No results match those filters. <a href="#" id="learnFilterClearInline">Clear filters</a></div>
 
   <div data-cat-section="overview">
     <!-- Featured next session: compact horizontal banner -->
@@ -51,147 +64,122 @@
   </div>
 
   <div data-cat-section="webinars">
-  <div class="section-title" id="upcoming"><h2>Upcoming</h2><span class="desc">Scroll for more — register straight from the card</span></div>
-  <div class="carousel">
-    <div class="carousel-card">
-      <div class="mcard training-card" style="margin-bottom:0">
-        <div class="thumb"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
-        <div class="tdate">Wed 22 July, 2:00pm <span class="tag neutral">Webinar</span></div>
-        <div class="ttitle">APD annual meal review: what's required</div>
-        <div class="tdesc">A 40-minute walkthrough of the new mandatory review under the Aged Care Act 2024.</div>
-        <button class="tcta registered reg-toggle" type="button">&#10003; Registered</button>
-      </div>
+  <div class="res-section">
+    <div class="section-title" id="upcoming" style="margin-top:0"><h2>Upcoming</h2><span class="desc">Register straight from the card</span></div>
+
+    <div class="res-card res-card-hero learn-item" data-format="Webinar" data-tags="nutrition dietitian">
+      <div class="n-thumb"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
+      <div class="rhead"><span class="ri"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></span><span class="tag neutral">Webinar</span></div>
+      <p class="rtitle">APD annual meal review: what's required</p>
+      <p class="rdesc">A walkthrough of the new mandatory dietitian review under the Aged Care Act 2024, and what to have ready before yours.</p>
+      <div class="rmeta"><span>Wed 22 July, 2:00pm</span><span>40 min</span></div>
+      <button class="tcta registered reg-toggle" type="button" style="margin-top:12px">&#10003; Registered</button>
     </div>
-    <div class="carousel-card">
-      <div class="mcard training-card" style="margin-bottom:0">
-        <div class="thumb"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
-        <div class="tdate">Tue 12 August, 10:00am <span class="tag neutral">Webinar</span></div>
-        <div class="ttitle">Volunteer induction: setting your team up right</div>
-        <div class="tdesc">Best-practice induction, police checks and retention tips from three peer services.</div>
-        <button class="tcta reg-toggle" type="button">Register</button>
+
+    <div class="res-grid">
+      <div class="res-card learn-item" data-format="Webinar" data-tags="volunteers induction">
+        <div class="rhead"><span class="ri"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></span><span class="tag neutral">Webinar</span></div>
+        <p class="rtitle">Volunteer induction: setting your team up right</p>
+        <p class="rdesc">Best-practice induction, police checks and retention tips from three peer services.</p>
+        <div class="rmeta"><span>Tue 12 August, 10:00am</span></div>
+        <button class="tcta reg-toggle" type="button" style="margin-top:12px">Register</button>
       </div>
-    </div>
-    <div class="carousel-card">
-      <div class="mcard training-card" style="margin-bottom:0">
-        <div class="thumb"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
-        <div class="tdate">Wed 12–14 August <span class="tag ok">In-person</span></div>
-        <div class="ttitle">Ageing Australia NSW/ACT State Conference</div>
-        <div class="tdesc">Sector conference. MOW NSW will have a delegation attending.</div>
-        <button class="tcta reg-toggle" type="button">Register</button>
+      <div class="res-card learn-item" data-format="In-person" data-tags="conference sector">
+        <div class="rhead"><span class="ri"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></span><span class="tag ok">In-person</span></div>
+        <p class="rtitle">Ageing Australia NSW/ACT State Conference</p>
+        <p class="rdesc">Sector conference. MOW NSW will have a delegation attending.</p>
+        <div class="rmeta"><span>Wed 12–14 August</span></div>
+        <button class="tcta reg-toggle" type="button" style="margin-top:12px">Register</button>
       </div>
-    </div>
-    <div class="carousel-card">
-      <div class="mcard training-card" style="margin-bottom:0">
-        <div class="thumb"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
-        <div class="tdate">Thu 3 September, 11:00am <span class="tag neutral">Webinar</span></div>
-        <div class="ttitle">Financially Disadvantaged Fund: how to apply</div>
-        <div class="tdesc">Eligibility, common mistakes, and what a strong application includes.</div>
-        <button class="tcta reg-toggle" type="button">Register</button>
+      <div class="res-card learn-item" data-format="Webinar" data-tags="funding fdf">
+        <div class="rhead"><span class="ri"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></span><span class="tag neutral">Webinar</span></div>
+        <p class="rtitle">Financially Disadvantaged Fund: how to apply</p>
+        <p class="rdesc">Eligibility, common mistakes, and what a strong application includes.</p>
+        <div class="rmeta"><span>Thu 3 September, 11:00am</span></div>
+        <button class="tcta reg-toggle" type="button" style="margin-top:12px">Register</button>
       </div>
-    </div>
-    <div class="carousel-card">
       <button class="suggest-session-card" type="button" id="suggestSessionCard">
         <span class="ssc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></span>
         <span class="ssc-title">Don't see what you need?</span>
-        <span class="ssc-desc">Suggest a session — we'll pre-fill it as a webinar for you below.</span>
+        <span class="ssc-desc">Suggest a session — we'll pre-fill it as a webinar for you.</span>
       </button>
     </div>
   </div>
 
-  <div class="section-title" id="recordings" style="margin-top:28px"><h2>Recordings</h2><span class="desc">Search or filter by category</span></div>
-  <div class="rec-controls">
-    <div class="search">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <input type="text" id="recSearch" placeholder="Search recordings">
+  <div class="res-section" style="margin-top:24px">
+    <div class="section-title" id="recordings" style="margin-top:0"><h2>Recordings</h2><span class="desc">Use the filters on the left to search or narrow by category</span></div>
+
+    <div class="res-card res-card-hero learn-item" data-format="Recording" data-category="compliance" data-tags="chsp compliance">
+      <div class="n-thumb"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
+      <div class="rhead"><span class="ri"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></span><span class="tag neutral">Compliance</span></div>
+      <p class="rtitle">CHSP Unlocked virtual forum</p>
+      <p class="rdesc">Recorded session covering the CHSP transition and what it means day to day.</p>
+      <div class="rmeta"><span>Recorded 22 Jul 2026</span><span>58 min</span></div>
+      <a class="tcta" href="#" style="margin-top:12px">Watch recording</a>
     </div>
-    <div class="tabs" id="recFilters">
-      <span class="tab active" data-filter="all">All</span>
-      <span class="tab" data-filter="compliance">Compliance</span>
-      <span class="tab" data-filter="governance">Governance</span>
-      <span class="tab" data-filter="finance">Finance</span>
-      <span class="tab" data-filter="hr">HR</span>
+
+    <div class="res-grid" id="recGrid">
+      <div class="res-card learn-item" data-format="Recording" data-category="compliance" data-tags="compliance reform">
+        <div class="rhead"><span class="ri"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></span><span class="tag neutral">Compliance</span></div>
+        <p class="rtitle">Understanding the Aged Care Act 2024</p>
+        <p class="rdesc">A grounding in the new Act's key obligations for community aged care providers.</p>
+        <div class="rmeta"><span>Recorded Feb 2026</span><span>45 min</span></div>
+        <a class="tcta" href="#" style="margin-top:12px">Watch recording</a>
+      </div>
+      <div class="res-card learn-item" data-format="Recording" data-category="finance" data-tags="grants finance">
+        <div class="rhead"><span class="ri"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></span><span class="tag neutral">Finance</span></div>
+        <p class="rtitle">Grant writing basics for small services</p>
+        <p class="rdesc">Practical tips for services without a dedicated grants writer.</p>
+        <div class="rmeta"><span>Recorded Nov 2025</span><span>50 min</span></div>
+        <a class="tcta" href="#" style="margin-top:12px">Watch recording</a>
+      </div>
+      <div class="res-card learn-item" data-format="Recording" data-category="governance" data-tags="governance">
+        <div class="rhead"><span class="ri"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></span><span class="tag neutral">Governance</span></div>
+        <p class="rtitle">Board governance essentials refresher</p>
+        <p class="rdesc">A refresher on committee roles, meeting procedure and reporting basics.</p>
+        <div class="rmeta"><span>Recorded Apr 2026</span><span>38 min</span></div>
+        <a class="tcta" href="#" style="margin-top:12px">Watch recording</a>
+      </div>
+      <div class="res-card learn-item" data-format="Recording" data-category="hr" data-tags="volunteers regional">
+        <div class="rhead"><span class="ri"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></span><span class="tag neutral">HR</span></div>
+        <p class="rtitle">Volunteer recruitment in regional areas</p>
+        <p class="rdesc">What's worked for regional services attracting and keeping volunteers.</p>
+        <div class="rmeta"><span>Recorded Jan 2026</span><span>42 min</span></div>
+        <a class="tcta" href="#" style="margin-top:12px">Watch recording</a>
+      </div>
+      <div class="res-card learn-item res-more hide" data-format="Recording" data-category="governance" data-tags="quality governance">
+        <div class="rhead"><span class="ri"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></span><span class="tag neutral">Governance</span></div>
+        <p class="rtitle">Quality Standards self-assessment walkthrough</p>
+        <p class="rdesc">A walkthrough of the self-assessment tool against all seven strengthened standards.</p>
+        <div class="rmeta"><span>Recorded Dec 2025</span><span>33 min</span></div>
+        <a class="tcta" href="#" style="margin-top:12px">Watch recording</a>
+      </div>
+      <div class="res-card learn-item res-more hide" data-format="Recording" data-category="finance" data-tags="chsp finance">
+        <div class="rhead"><span class="ri"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></span><span class="tag neutral">Finance</span></div>
+        <p class="rtitle">CHSP acquittal: common mistakes</p>
+        <p class="rdesc">The most common acquittal errors, and how to avoid them.</p>
+        <div class="rmeta"><span>Recorded Sep 2025</span><span>40 min</span></div>
+        <a class="tcta" href="#" style="margin-top:12px">Watch recording</a>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:center;margin-top:14px" id="loadMoreWrap">
+      <button class="btn-secondary" type="button" id="loadMoreBtn">Load more</button>
     </div>
   </div>
-  <div class="carousel" id="recCarousel">
-    <div class="carousel-card rec-card" data-category="compliance" data-title="chsp unlocked virtual forum">
-      <div class="mcard training-card" style="margin-bottom:0">
-        <div class="thumb"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
-        <div class="tdate">Recorded 22 Jul 2026 · 58 min <span class="tag neutral">Compliance</span></div>
-        <div class="ttitle">CHSP Unlocked virtual forum</div>
-        <a class="tcta" href="#">Watch recording</a>
-      </div>
-    </div>
-    <div class="carousel-card rec-card" data-category="compliance" data-title="understanding the aged care act 2024">
-      <div class="mcard training-card" style="margin-bottom:0">
-        <div class="thumb"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
-        <div class="tdate">Recorded Feb 2026 · 45 min <span class="tag neutral">Compliance</span></div>
-        <div class="ttitle">Understanding the Aged Care Act 2024</div>
-        <a class="tcta" href="#">Watch recording</a>
-      </div>
-    </div>
-    <div class="carousel-card rec-card" data-category="finance" data-title="grant writing basics for small services">
-      <div class="mcard training-card" style="margin-bottom:0">
-        <div class="thumb"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
-        <div class="tdate">Recorded Nov 2025 · 50 min <span class="tag neutral">Finance</span></div>
-        <div class="ttitle">Grant writing basics for small services</div>
-        <a class="tcta" href="#">Watch recording</a>
-      </div>
-    </div>
-    <div class="carousel-card rec-card" data-category="governance" data-title="board governance essentials refresher">
-      <div class="mcard training-card" style="margin-bottom:0">
-        <div class="thumb"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
-        <div class="tdate">Recorded Apr 2026 · 38 min <span class="tag neutral">Governance</span></div>
-        <div class="ttitle">Board governance essentials refresher</div>
-        <a class="tcta" href="#">Watch recording</a>
-      </div>
-    </div>
-    <div class="carousel-card rec-card" data-category="hr" data-title="volunteer recruitment in regional areas">
-      <div class="mcard training-card" style="margin-bottom:0">
-        <div class="thumb"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
-        <div class="tdate">Recorded Jan 2026 · 42 min <span class="tag neutral">HR</span></div>
-        <div class="ttitle">Volunteer recruitment in regional areas</div>
-        <a class="tcta" href="#">Watch recording</a>
-      </div>
-    </div>
-    <div class="carousel-card rec-card rec-more hide" data-category="governance" data-title="quality standards self assessment walkthrough">
-      <div class="mcard training-card" style="margin-bottom:0">
-        <div class="thumb"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
-        <div class="tdate">Recorded Dec 2025 · 33 min <span class="tag neutral">Governance</span></div>
-        <div class="ttitle">Quality Standards self-assessment walkthrough</div>
-        <a class="tcta" href="#">Watch recording</a>
-      </div>
-    </div>
-    <div class="carousel-card rec-card rec-more hide" data-category="finance" data-title="chsp acquittal common mistakes">
-      <div class="mcard training-card" style="margin-bottom:0">
-        <div class="thumb"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
-        <div class="tdate">Recorded Sep 2025 · 40 min <span class="tag neutral">Finance</span></div>
-        <div class="ttitle">CHSP acquittal: common mistakes</div>
-        <a class="tcta" href="#">Watch recording</a>
-      </div>
-    </div>
-    <div class="carousel-card" id="loadMoreCard">
-      <button class="suggest-session-card" type="button" id="loadMoreBtn">
-        <span class="ssc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></span>
-        <span class="ssc-title">Load more</span>
-        <span class="ssc-desc">See older recordings</span>
-      </button>
-    </div>
-  </div>
-  <p class="im-note" id="recEmpty" style="display:none; font-size:12.5px; color:var(--muted)">No recordings match that search or filter.</p>
   </div>
 
   <div data-cat-section="modules">
     <div class="section-title" id="modules"><h2>Training modules</h2><span class="desc">Self-paced and short courses</span></div>
     <div class="mcard" style="max-width:none">
-      <a class="row" href="#"><span class="rt">New member service onboarding<div class="meta">Self-paced · Onboarding</div></span></a>
-      <a class="row" href="#"><span class="rt">Board governance essentials<div class="meta">Short course · Governance</div></span></a>
+      <a class="row learn-item" href="#" data-format="Module" data-tags="onboarding"><span class="rt">New member service onboarding<div class="meta">Self-paced · Onboarding</div></span></a>
+      <a class="row learn-item" href="#" data-format="Module" data-tags="governance"><span class="rt">Board governance essentials<div class="meta">Short course · Governance</div></span></a>
     </div>
   </div>
 
   <div data-cat-section="reading">
     <div class="section-title" id="reading"><h2>Blogs and podcasts</h2></div>
     <div class="mcard" style="max-width:none">
-      <a class="row" data-popup="five-ways-shifts"><span class="rt">Five ways to make volunteer shifts easier to fill<div class="meta">Blog · 5 min read</div></span>
+      <a class="row learn-item" data-format="Blog" data-tags="volunteers rostering" data-popup="five-ways-shifts"><span class="rt">Five ways to make volunteer shifts easier to fill<div class="meta">Blog · 5 min read</div></span>
         <template class="popup-content">
           <h2>Five ways to make volunteer shifts easier to fill</h2>
           <p class="im-meta">Blog · 5 min read</p>
@@ -205,7 +193,7 @@
           <p class="im-note">Reference build placeholder — illustrative example content only.</p>
         </template>
       </a>
-      <a class="row" data-popup="loneliness-line"><span class="rt">The Loneliness Line: our advocacy team<div class="meta">Podcast · 22 min</div></span>
+      <a class="row learn-item" data-format="Podcast" data-tags="advocacy" data-popup="loneliness-line"><span class="rt">The Loneliness Line: our advocacy team<div class="meta">Podcast · 22 min</div></span>
         <template class="popup-content">
           <h2>The Loneliness Line: our advocacy team</h2>
           <p class="im-meta">Podcast · 22 min</p>
@@ -219,7 +207,7 @@
   <div data-cat-section="handbooks">
     <div class="section-title" id="handbooks"><h2>Handbooks and toolkits</h2></div>
     <div class="mcard" style="max-width:none">
-      <a class="row" data-popup="vol-handbook"><span class="rt">Volunteer coordinator handbook<div class="meta">Handbook</div></span>
+      <a class="row learn-item" data-format="Handbook" data-tags="volunteers hr" data-popup="vol-handbook"><span class="rt">Volunteer coordinator handbook<div class="meta">Handbook</div></span>
         <template class="popup-content">
           <h2>Volunteer coordinator handbook</h2>
           <p class="im-meta">Handbook</p>
@@ -227,7 +215,7 @@
           <p class="im-note">Reference build placeholder — download isn't attached in this demo.</p>
         </template>
       </a>
-      <a class="row" data-popup="wc-toolkit"><span class="rt">Welfare check &amp; incident reporting toolkit<div class="meta">Toolkit</div></span>
+      <a class="row learn-item" data-format="Toolkit" data-tags="safety volunteers" data-popup="wc-toolkit"><span class="rt">Welfare check &amp; incident reporting toolkit<div class="meta">Toolkit</div></span>
         <template class="popup-content">
           <h2>Welfare check &amp; incident reporting toolkit</h2>
           <p class="im-meta">Toolkit</p>
@@ -238,42 +226,22 @@
     </div>
   </div>
 
-  <div class="section-title"><h2>Suggest a topic</h2><span class="desc">Not tied to a category — always here when an idea strikes</span></div>
-  <div class="mcard suggest-box" style="max-width:560px">
-    <form id="suggestForm">
-      <div class="field"><label>Topic</label><input type="text" placeholder="e.g. Dementia-friendly volunteering" required></div>
-      <div class="field"><label>Format</label>
-        <select id="suggestFormat">
-          <option value="">Choose a format</option>
-          <option value="Webinar">Webinar</option>
-          <option value="In-person workshop">In-person workshop</option>
-          <option value="Self-paced module">Self-paced module</option>
-          <option value="Blog / written guide">Blog / written guide</option>
-          <option value="Podcast episode">Podcast episode</option>
-        </select>
+    </div>
+
+    <aside class="sidebar-side">
+      <div class="mcard">
+        <p style="font-size:13.5px;margin:0 0 12px">Got an idea for a webinar, module or resource? Not tied to a category — always here when an idea strikes.</p>
+        <button class="btn-primary" id="suggestTopicBtn" type="button" style="width:100%;justify-content:center">Suggest a topic</button>
       </div>
-      <div class="field"><label>Learning outcomes <span style="font-weight:400">(optional)</span></label><textarea placeholder="What should someone be able to do after this?"></textarea></div>
-      <div class="field"><label>Suggested speakers <span style="font-weight:400">(optional)</span></label><input type="text" placeholder="A peer, an expert, your own team — anyone in mind?"></div>
-      <div class="field"><label>Who's it for <span style="font-weight:400">(optional)</span></label><input type="text" placeholder="e.g. volunteer coordinators, treasurers, new services"></div>
-      <div class="field"><label>Why this would help <span style="font-weight:400">(optional)</span></label><textarea placeholder="A sentence or two"></textarea></div>
-      <button class="btn-primary" type="submit">Submit</button>
-    </form>
-    <div class="suggest-thanks hide" id="suggestThanks">Thanks — your suggestion has been noted. In the finished build this routes to the Learning &amp; Events team.</div>
+    </aside>
   </div>
 
 </div>
 
 <script>
   document.getElementById("loadMoreBtn").addEventListener("click", function () {
-    document.querySelectorAll(".rec-more").forEach(function (el) { el.classList.remove("hide"); });
-    document.getElementById("loadMoreCard").remove();
-  });
-  document.getElementById("suggestSessionCard").addEventListener("click", function () {
-    var formatSelect = document.getElementById("suggestFormat");
-    formatSelect.value = "Webinar";
-    document.querySelector(".suggest-box").scrollIntoView({ behavior: "smooth", block: "center" });
-    var topicInput = document.querySelector("#suggestForm input[type=text]");
-    if (topicInput) topicInput.focus();
+    document.querySelectorAll(".res-more").forEach(function (el) { el.classList.remove("hide"); });
+    document.getElementById("loadMoreWrap").remove();
   });
   document.querySelectorAll(".reg-toggle").forEach(function (btn) {
     btn.addEventListener("click", function () {
@@ -281,40 +249,126 @@
       btn.innerHTML = isReg ? "&#10003; Registered" : "Register";
     });
   });
-  document.getElementById("suggestForm").addEventListener("submit", function (e) {
-    e.preventDefault();
-    this.classList.add("hide");
-    document.getElementById("suggestThanks").classList.remove("hide");
-  });
-  (function () {
-    var search = document.getElementById("recSearch");
-    var filters = document.querySelectorAll("#recFilters .tab");
-    var cards = document.querySelectorAll("#recCarousel .rec-card");
-    var empty = document.getElementById("recEmpty");
-    var activeCategory = "all";
-    function apply() {
-      var term = search.value.trim().toLowerCase();
-      var visible = 0;
-      cards.forEach(function (card) {
-        var matchesCategory = activeCategory === "all" || card.getAttribute("data-category") === activeCategory;
-        var matchesSearch = !term || card.getAttribute("data-title").indexOf(term) !== -1;
-        var show = matchesCategory && matchesSearch;
-        card.classList.toggle("rec-hidden", !show);
-        if (show) visible++;
-      });
-      empty.style.display = visible === 0 ? "block" : "none";
-    }
-    filters.forEach(function (btn) {
-      btn.addEventListener("click", function () {
-        filters.forEach(function (b) { b.classList.remove("active"); });
-        btn.classList.add("active");
-        activeCategory = btn.getAttribute("data-filter");
-        apply();
-      });
+
+  // ---- "Suggest a topic" — a small teaser card in the right rail opens
+  // the full form as a popup; the Upcoming carousel's "suggest a session"
+  // prompt opens the same popup pre-filled to Webinar. ----
+  function openSuggestTopicPopup(prefillFormat) {
+    window.openInfoPopupHtml(
+      "<h2>Suggest a topic</h2>" +
+      '<p class="im-meta" style="font-size:12px;color:var(--muted);margin:0 0 14px">Not tied to a category — always here when an idea strikes. Routes to the Learning &amp; Events team.</p>' +
+      '<form id="suggestForm">' +
+        '<div class="field"><label>Topic</label><input type="text" id="suggestTopicInput" placeholder="e.g. Dementia-friendly volunteering" required></div>' +
+        '<div class="field"><label>Format</label>' +
+          '<select id="suggestFormat">' +
+            '<option value="">Choose a format</option>' +
+            '<option value="Webinar">Webinar</option>' +
+            '<option value="In-person workshop">In-person workshop</option>' +
+            '<option value="Self-paced module">Self-paced module</option>' +
+            '<option value="Blog / written guide">Blog / written guide</option>' +
+            '<option value="Podcast episode">Podcast episode</option>' +
+          "</select>" +
+        "</div>" +
+        '<div class="field"><label>Learning outcomes <span style="font-weight:400">(optional)</span></label><textarea placeholder="What should someone be able to do after this?"></textarea></div>' +
+        '<div class="field"><label>Suggested speakers <span style="font-weight:400">(optional)</span></label><input type="text" placeholder="A peer, an expert, your own team — anyone in mind?"></div>' +
+        '<div class="field"><label>Who\'s it for <span style="font-weight:400">(optional)</span></label><input type="text" placeholder="e.g. volunteer coordinators, treasurers, new services"></div>' +
+        '<div class="field"><label>Why this would help <span style="font-weight:400">(optional)</span></label><textarea placeholder="A sentence or two"></textarea></div>' +
+        '<button class="btn-primary" type="submit">Submit</button>' +
+      "</form>" +
+      '<div class="suggest-thanks hide" id="suggestThanks">Thanks — your suggestion has been noted. In the finished build this routes to the Learning &amp; Events team.</div>'
+    );
+    if (prefillFormat) document.getElementById("suggestFormat").value = prefillFormat;
+    document.getElementById("suggestTopicInput").focus();
+    document.getElementById("suggestForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      this.classList.add("hide");
+      document.getElementById("suggestThanks").classList.remove("hide");
     });
-    search.addEventListener("input", apply);
+  }
+  document.getElementById("suggestTopicBtn").addEventListener("click", function () { openSuggestTopicPopup(); });
+  document.getElementById("suggestSessionCard").addEventListener("click", function () { openSuggestTopicPopup("Webinar"); });
+
+  // ---- Left filter rail: Search, Format, Category and Tags across every
+  // tab (webinars, recordings, modules, reading, handbooks). Filtering
+  // temporarily shows every tab section — like the Resources/Updates
+  // filters do — so a match is never hidden behind an inactive tab;
+  // clearing filters restores whichever tab was active. ----
+  (function () {
+    var TAG_LABELS = { nutrition: "Nutrition", dietitian: "Dietitian", volunteers: "Volunteers", induction: "Induction", conference: "Conference", sector: "Sector", funding: "Funding", fdf: "FDF", chsp: "CHSP", compliance: "Compliance", reform: "Reform", grants: "Grants", finance: "Finance", governance: "Governance", regional: "Regional", quality: "Quality", onboarding: "Onboarding", rostering: "Rostering", advocacy: "Advocacy", hr: "HR", safety: "Safety" };
+    var searchInput = document.getElementById("learnFilterSearch");
+    var formatSel = document.getElementById("learnFilterFormat");
+    var catSel = document.getElementById("learnFilterCategory");
+    var tagWrap = document.getElementById("learnFilterTags");
+    var clearBtn = document.getElementById("learnFilterClear");
+    var clearInline = document.getElementById("learnFilterClearInline");
+    var noResults = document.getElementById("learnFilterNoResults");
+    function norm(s) { return (s || "").trim().toLowerCase(); }
+    function esc(s) { return (s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+
+    function populateTagChips() {
+      var activeTags = [].slice.call(tagWrap.querySelectorAll(".sidebar-tag-chip.active")).map(function (b) { return b.getAttribute("data-tag"); });
+      var tags = [];
+      document.querySelectorAll(".learn-item[data-tags]").forEach(function (item) {
+        (item.getAttribute("data-tags") || "").split(/\s+/).filter(Boolean).forEach(function (t) { if (tags.indexOf(t) === -1) tags.push(t); });
+      });
+      tags.sort();
+      tagWrap.innerHTML = tags.map(function (tag) {
+        return '<button type="button" class="sidebar-tag-chip' + (activeTags.indexOf(tag) !== -1 ? " active" : "") + '" data-tag="' + tag + '">#' + esc(TAG_LABELS[tag] || tag) + "</button>";
+      }).join("") || '<p class="im-note" style="margin:0">No tags yet</p>';
+    }
+    populateTagChips();
+    tagWrap.addEventListener("click", function (e) {
+      var chip = e.target.closest(".sidebar-tag-chip");
+      if (!chip) return;
+      chip.classList.toggle("active");
+      apply();
+    });
+
+    function apply() {
+      var search = norm(searchInput.value);
+      var format = norm(formatSel.value);
+      var cat = norm(catSel.value);
+      var activeTags = [].slice.call(tagWrap.querySelectorAll(".sidebar-tag-chip.active")).map(function (b) { return b.getAttribute("data-tag"); });
+      var anyActive = !!(search || format || cat || activeTags.length);
+      if (anyActive) {
+        document.querySelectorAll("[data-cat-section]").forEach(function (s) { s.classList.remove("cat-hidden"); });
+        document.querySelectorAll(".res-more.hide").forEach(function (el) { el.classList.remove("hide"); });
+      }
+      var loadMoreWrap = document.getElementById("loadMoreWrap");
+      if (loadMoreWrap) loadMoreWrap.style.display = anyActive ? "none" : "";
+
+      var shown = 0;
+      document.querySelectorAll(".learn-item").forEach(function (item) {
+        var itemFormat = norm(item.getAttribute("data-format"));
+        var itemCat = norm(item.getAttribute("data-category"));
+        var itemTags = (item.getAttribute("data-tags") || "").split(/\s+/);
+        var text = norm(item.textContent);
+        var match = (!search || text.indexOf(search) !== -1) &&
+          (!format || itemFormat === format) &&
+          (!cat || itemCat === cat) &&
+          (!activeTags.length || activeTags.some(function (t) { return itemTags.indexOf(t) !== -1; }));
+        item.style.display = match ? "" : "none";
+        if (match) shown++;
+      });
+      noResults.classList.toggle("hide", !anyActive || shown > 0);
+      if (!anyActive) {
+        document.querySelectorAll(".learn-item").forEach(function (item) { item.style.display = ""; });
+        var activeTab = document.querySelector(".tabs .tab.active") || document.querySelector(".tabs .tab");
+        if (activeTab) activeTab.click();
+      }
+    }
+
+    searchInput.addEventListener("input", apply);
+    formatSel.addEventListener("change", apply);
+    catSel.addEventListener("change", apply);
+    clearBtn.addEventListener("click", function () {
+      searchInput.value = ""; formatSel.value = ""; catSel.value = "";
+      tagWrap.querySelectorAll(".sidebar-tag-chip.active").forEach(function (b) { b.classList.remove("active"); });
+      apply();
+    });
+    clearInline.addEventListener("click", function (e) { e.preventDefault(); clearBtn.click(); });
   })();
 </script>
-<script src="portal.js?v=26"></script>
+<script src="portal.js?v=49"></script>
 </body>
 </html>
