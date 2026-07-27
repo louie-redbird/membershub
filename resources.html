@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="mow-favicon.svg" type="image/svg+xml">
 <title>Resources — MOW NSW Members Portal</title>
-<link rel="stylesheet" href="styles.css?v=67">
+<link rel="stylesheet" href="styles.css?v=84">
 </head>
 <body data-active="resources.html" data-title="Resources" data-crumb="Resources"
       data-sub="Searchable library for practical downloads and tools, organised the way you actually use them: to operate, comply and deliver."
@@ -24,14 +24,23 @@
     <aside class="sidebar-filters">
       <div class="field"><label>Search</label><input type="text" id="filterSearch" placeholder="Title, description or tag"></div>
       <div class="field"><label>Topic</label><select id="filterTopic"><option value="">All topics</option><option>Governance</option><option>Finance</option><option>Funding</option><option>HR</option><option>Volunteers</option><option>CHSP</option><option>Reform</option><option>Aged care</option><option>Quality</option><option>Reporting</option><option>SIRS</option><option>Clients</option><option>Referrals</option><option>Safety</option><option>Delivery</option><option>Nutrition</option><option>Risk</option><option>Brand</option></select></div>
-      <div class="field"><label>Resource type</label><select id="filterType"><option value="">All types</option><option>Template</option><option>Policy</option><option>Checklist</option><option>Guide</option><option>Form</option></select></div>
-      <div class="field"><label>Audience</label><select id="filterAudience"><option value="">Anyone</option><option>Managers</option><option>Board / committee</option><option>Admin / finance</option><option>New member service</option></select></div>
-      <div class="field"><label>Status</label><select id="filterStatus"><option value="">Any status</option><option>Information only</option><option>Action required</option><option>Deadline approaching</option><option>Template available</option></select></div>
+      <button type="button" class="more-filters-toggle" id="moreFiltersToggle" aria-expanded="false">More filters <span class="mf-count hide" id="moreFiltersCount">0</span><svg class="chev" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="more-filters-panel hide" id="moreFiltersPanel">
+        <div class="field"><label>Resource type</label><select id="filterType"><option value="">All types</option><option>Template</option><option>Policy</option><option>Checklist</option><option>Guide</option><option>Form</option></select></div>
+        <div class="field"><label>Audience</label><select id="filterAudience"><option value="">Anyone</option><option>Managers</option><option>Board / committee</option><option>Admin / finance</option><option>New member service</option></select></div>
+        <div class="field"><label>Status</label><select id="filterStatus"><option value="">Any status</option><option>Information only</option><option>Action required</option><option>Deadline approaching</option><option>Template available</option></select></div>
+      </div>
       <button type="button" class="btn-secondary" id="filterClear" style="width:100%;justify-content:center">Clear filters</button>
     </aside>
 
     <div class="sidebar-main">
-  <div class="im-note hide" id="filterNoResults" style="margin-bottom:16px">No resources match those filters. <a href="resources.html">Clear filters</a></div>
+  <div class="empty-state hide" id="filterNoResults">
+    <p class="es-msg">No resources match those filters.</p>
+    <div class="es-actions">
+      <a class="btn-secondary" href="resources.html">Clear filters</a>
+      <button class="btn-primary" type="button" id="filterNoResultsSuggest">+ Suggest a resource</button>
+    </div>
+  </div>
 
   <div class="tag-filter-banner hide" id="tagFilterBanner"></div>
 
@@ -157,7 +166,7 @@
     </div>
   </div>
   <div style="display:flex;justify-content:center;margin-top:14px">
-    <button class="btn-secondary" type="button" data-loadmore="operate">Load more</button>
+    <button class="btn-secondary" type="button" data-loadmore="operate">Show all resources</button>
   </div>
   </div>
 
@@ -276,7 +285,7 @@
     </div>
   </div>
   <div style="display:flex;justify-content:center;margin-top:14px">
-    <button class="btn-secondary" type="button" data-loadmore="comply">Load more</button>
+    <button class="btn-secondary" type="button" data-loadmore="comply">Show all resources</button>
   </div>
   </div>
 
@@ -391,7 +400,7 @@
     </div>
   </div>
   <div style="display:flex;justify-content:center;margin-top:14px">
-    <button class="btn-secondary" type="button" data-loadmore="deliver">Load more</button>
+    <button class="btn-secondary" type="button" data-loadmore="deliver">Show all resources</button>
   </div>
   </div>
 
@@ -412,15 +421,27 @@
   </div>
 </div>
 
-<script src="portal.js?v=67"></script>
+<script src="portal.js?v=84"></script>
 <script>
-  // Load more: each of Operate/Comply/Deliver hides its extra cards behind a
-  // right-aligned button; clicking reveals them and removes the button.
+  window.initMoreFilters({
+    toggleId: "moreFiltersToggle", panelId: "moreFiltersPanel", countId: "moreFiltersCount",
+    fieldIds: ["filterType", "filterAudience", "filterStatus"]
+  });
+</script>
+<script>
+  // Show all: each of Operate/Comply/Deliver hides its extra cards behind a
+  // single "Show all N" button that reveals everything at once (never a
+  // partial batch), and toggles to "Show fewer" to collapse back down.
   document.querySelectorAll("[data-loadmore]").forEach(function (btn) {
+    var section = btn.closest("#operate, #comply, #deliver");
+    var total = section ? section.querySelectorAll(".res-card").length : 0;
+    var label = "Show all " + total + " resources";
+    btn.textContent = label;
     btn.addEventListener("click", function () {
-      var section = btn.closest("#operate, #comply, #deliver");
-      if (section) section.querySelectorAll(".res-more").forEach(function (el) { el.classList.remove("hide"); });
-      btn.parentElement.remove();
+      var expanded = btn.getAttribute("data-expanded") === "true";
+      if (section) section.querySelectorAll(".res-more").forEach(function (el) { el.classList.toggle("hide", expanded); });
+      btn.setAttribute("data-expanded", expanded ? "false" : "true");
+      btn.textContent = expanded ? label : "Show fewer";
     });
   });
 </script>
@@ -430,6 +451,8 @@
   (function () {
     var btn = document.getElementById("suggestResourceBtn");
     if (!btn) return;
+    var emptyStateBtn = document.getElementById("filterNoResultsSuggest");
+    if (emptyStateBtn) emptyStateBtn.addEventListener("click", function () { btn.click(); });
     btn.addEventListener("click", function () {
       window.openInfoPopupHtml(
         "<h2>Suggest a resource</h2>" +
@@ -464,7 +487,7 @@
 <script>
   // Topic / Resource type / Audience / Status filters: apply instantly on
   // change, across all three sections (no page reload). Filtering also
-  // reveals anything sitting behind a "Load more" button so a match is
+  // reveals anything sitting behind a "Show all" button so a match is
   // never hidden from the member.
   (function () {
     var searchInput = document.getElementById("filterSearch");
@@ -500,7 +523,7 @@
       noResults.classList.toggle("hide", shown > 0);
 
       // A filter can auto-reveal every .res-more card in a section (see
-      // above); once nothing's left behind it, its Load more button is a
+      // above); once nothing's left behind it, its Show all button is a
       // dead click, so hide it too.
       document.querySelectorAll("[data-loadmore]").forEach(function (btn) {
         var section = document.getElementById(btn.getAttribute("data-loadmore"));

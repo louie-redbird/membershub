@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="mow-favicon.svg" type="image/svg+xml">
 <title>Training &amp; Events — MOW NSW Members Portal</title>
-<link rel="stylesheet" href="styles.css?v=67">
+<link rel="stylesheet" href="styles.css?v=84">
 </head>
 <body data-active="learning.html" data-title="Training &amp; Events" data-crumb="Training &amp; Events"
       data-sub="Upcoming and on-demand learning in one place: webinars, recordings, training modules, blogs, podcasts and handbooks."
@@ -27,13 +27,22 @@
     <aside class="sidebar-filters">
       <div class="field"><label>Search</label><input type="text" id="learnFilterSearch" placeholder="Title or description"></div>
       <div class="field"><label>Format</label><select id="learnFilterFormat"><option value="">All formats</option><option>Webinar</option><option>In-person</option><option>Recording</option><option>Module</option><option>Blog</option><option>Podcast</option><option>Handbook</option><option>Toolkit</option></select></div>
-      <div class="field"><label>Category</label><select id="learnFilterCategory"><option value="">All categories</option><option>Compliance</option><option>Governance</option><option>Finance</option><option>HR</option></select></div>
-      <div class="field"><label>Tags</label><div class="sidebar-tag-list" id="learnFilterTags"></div></div>
+      <button type="button" class="more-filters-toggle" id="learnMoreFiltersToggle" aria-expanded="false">More filters <span class="mf-count hide" id="learnMoreFiltersCount">0</span><svg class="chev" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="more-filters-panel hide" id="learnMoreFiltersPanel">
+        <div class="field"><label>Category</label><select id="learnFilterCategory"><option value="">All categories</option><option>Compliance</option><option>Governance</option><option>Finance</option><option>HR</option></select></div>
+        <div class="field"><label>Tags</label><div class="sidebar-tag-list" id="learnFilterTags"></div></div>
+      </div>
       <button type="button" class="btn-secondary" id="learnFilterClear" style="width:100%;justify-content:center">Clear filters</button>
     </aside>
 
     <div class="sidebar-main">
-  <div class="im-note hide" id="learnFilterNoResults" style="margin-bottom:16px">No results match those filters. <a href="#" id="learnFilterClearInline">Clear filters</a></div>
+  <div class="empty-state hide" id="learnFilterNoResults">
+    <p class="es-msg">No results match those filters.</p>
+    <div class="es-actions">
+      <a class="btn-secondary" href="#" id="learnFilterClearInline">Clear filters</a>
+      <button class="btn-primary" type="button" id="learnFilterNoResultsSuggest">+ Suggest a topic</button>
+    </div>
+  </div>
 
   <div data-cat-section="overview">
     <!-- Featured next session: compact horizontal banner -->
@@ -306,7 +315,7 @@
       </div>
     </div>
     <div style="display:flex;justify-content:center;margin-top:14px" id="loadMoreWrap">
-      <button class="btn-secondary" type="button" id="loadMoreBtn">Load more</button>
+      <button class="btn-secondary" type="button" id="loadMoreBtn">Show all 7 recordings</button>
     </div>
   </div>
   </div>
@@ -600,10 +609,16 @@
 </div>
 
 <script>
-  document.getElementById("loadMoreBtn").addEventListener("click", function () {
-    document.querySelectorAll(".res-more").forEach(function (el) { el.classList.remove("hide"); });
-    document.getElementById("loadMoreWrap").remove();
-  });
+  (function () {
+    var btn = document.getElementById("loadMoreBtn");
+    var label = "Show all 7 recordings";
+    btn.addEventListener("click", function () {
+      var expanded = btn.getAttribute("data-expanded") === "true";
+      document.querySelectorAll(".res-more").forEach(function (el) { el.classList.toggle("hide", expanded); });
+      btn.setAttribute("data-expanded", expanded ? "false" : "true");
+      btn.textContent = expanded ? label : "Show fewer";
+    });
+  })();
   // Delegated (not forEach) so it still works on a reg-toggle button
   // cloned into a card's popup. Capture phase (the `true` third arg): a
   // card's own [data-popup] click handler is attached directly to the
@@ -660,6 +675,7 @@
   }
   document.getElementById("suggestTopicBtn").addEventListener("click", function () { openSuggestTopicPopup(); });
   document.getElementById("suggestSessionCard").addEventListener("click", function () { openSuggestTopicPopup("Webinar"); });
+  document.getElementById("learnFilterNoResultsSuggest").addEventListener("click", function () { openSuggestTopicPopup(); });
 
   // ---- Left filter rail: Search, Format, Category and Tags across every
   // tab (webinars, recordings, modules, reading, handbooks). Filtering
@@ -742,6 +758,12 @@
     clearInline.addEventListener("click", function (e) { e.preventDefault(); clearBtn.click(); });
   })();
 </script>
-<script src="portal.js?v=67"></script>
+<script src="portal.js?v=84"></script>
+<script>
+  window.initMoreFilters({
+    toggleId: "learnMoreFiltersToggle", panelId: "learnMoreFiltersPanel", countId: "learnMoreFiltersCount",
+    fieldIds: ["learnFilterCategory"], tagContainerId: "learnFilterTags"
+  });
+</script>
 </body>
 </html>

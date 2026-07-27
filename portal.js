@@ -18,11 +18,34 @@
   // `items` render as a dropdown. `pages` drives which top-level item lights
   // up as active for a given data-active value. ----
   var NAV = [
+    { label: "Home", href: "index.html", pages: ["index.html"] },
     { label: "Resources", pages: ["resources.html"], items: [
         ["resources.html#overview", "Overview"],
         ["resources.html#operate", "Operations"],
         ["resources.html#comply", "Compliance"],
         ["resources.html#deliver", "Delivery"]
+    ]},
+    { label: "Promote", pages: ["marketing.html"], items: [
+        ["marketing.html#overview", "Overview"],
+        ["marketing.html#calendar", "Calendar"],
+        ["marketing.html#campaigns", "Campaigns"],
+        ["marketing.html#brand", "Branded Assets"]
+    ]},
+    { label: "Training & Events", pages: ["learning.html"], items: [
+        ["learning.html#overview", "Overview"],
+        ["learning.html#webinars", "Webinars and Events"],
+        ["learning.html#modules", "Training modules"],
+        ["learning.html#blogs", "Blogs"],
+        ["learning.html#podcasts", "Podcasts"],
+        ["learning.html#handbooks", "Handbooks and toolkits"]
+    ]},
+    { label: "Community", pages: ["connect.html", "engagement.html"], items: [
+        ["connect.html#overview", "Overview"],
+        ["engagement.html", "Get involved"],
+        ["connect.html#haveyoursay", "Consultations and surveys"],
+        ["connect.html#discussion", "Discussions"],
+        ["connect.html#communities", "Communities of practice"],
+        ["connect.html#escalated", "Escalated Issues"]
     ]},
     { label: "News & Advocacy", pages: ["updates.html", "advocacy.html", "submissions.html"], items: [
         ["updates.html#updates", "All updates"],
@@ -33,29 +56,7 @@
         ["advocacy.html", "Advocacy priorities"],
         ["submissions.html", "Submissions and policy positions"]
     ]},
-    { label: "Training & Events", pages: ["learning.html"], items: [
-        ["learning.html#overview", "Overview"],
-        ["learning.html#webinars", "Webinars and Events"],
-        ["learning.html#modules", "Training modules"],
-        ["learning.html#blogs", "Blogs"],
-        ["learning.html#podcasts", "Podcasts"],
-        ["learning.html#handbooks", "Handbooks and toolkits"]
-    ]},
-    { label: "Marketing", pages: ["marketing.html"], items: [
-        ["marketing.html#overview", "Overview"],
-        ["marketing.html#calendar", "Calendar"],
-        ["marketing.html#campaigns", "Campaigns"],
-        ["marketing.html#brand", "Branded Assets"]
-    ]},
-    { label: "Community", pages: ["connect.html", "directory.html", "engagement.html"], items: [
-        ["connect.html#overview", "Overview"],
-        ["engagement.html", "Get involved"],
-        ["directory.html", "Member directory"],
-        ["connect.html#haveyoursay", "Consultations and surveys"],
-        ["connect.html#discussion", "Discussions"],
-        ["connect.html#communities", "Communities of practice"],
-        ["connect.html#escalated", "Escalated Issues"]
-    ]}
+    { label: "Directory", href: "directory.html", pages: ["directory.html"] }
   ];
 
   // ---- Sample content index, shared by the topbar search's autosuggest AND
@@ -104,7 +105,7 @@
     { title: "Cuppa for a Cause", url: "marketing.html?open=mkt-campaign-cuppa", type: "Campaign", tags: ["campaign", "fundraising"] },
     { title: "Brand guidelines and logo pack", url: "marketing.html?open=brand-logos", type: "Brand asset", tags: ["brand", "logo", "print", "digital"] },
     { title: "Campaign kits", url: "marketing.html?open=campaign-kits", type: "Brand asset", tags: ["campaign", "brand", "social", "print"] },
-    { title: "Media releases", url: "marketing.html?open=media-releases", type: "Template", tags: ["brand", "media", "approval"] },
+    { title: "Media releases", url: "marketing.html?open=media-releases", type: "Template", tags: ["brand", "media"] },
     { title: "Social media templates", url: "marketing.html?open=social-templates", type: "Brand asset", tags: ["social", "brand", "canva"] },
     { title: "Fundraising tools", url: "marketing.html?open=fundraising-tools", type: "Template", tags: ["fundraising", "brand"] },
     { title: "Storytelling guide", url: "marketing.html?open=storytelling-guide", type: "Guide", tags: ["brand", "storytelling", "media"] },
@@ -388,30 +389,44 @@
         "</div>" +
       "</div>";
 
-    // ---- Mobile account panel: the same "switch service / profile links /
-    // log out" menu as the desktop topbar user button, but inlined into the
-    // drawer body so the avatar+name control can be dropped from the mobile
-    // topbar entirely (there's no room for it next to search/notifications). ----
-    var mobileAcctHtml =
-      '<div class="mnav-acct">' +
-        '<div class="mnav-acct-head">' +
-          '<span class="acct-avatar">' + acctInitials(activeAccount) + "</span>" +
-          '<div><div class="n um-acct-headname">' + activeAccount + '</div><div class="r">Active account</div></div>' +
-        "</div>" +
-        '<a href="myservice.html#profile">Service profile</a>' +
-        '<a href="myservice.html#profile">Update contact details</a>' +
-        '<a href="myservice.html#benefits">Membership benefits</a>' +
-        '<a href="myservice.html#renewal">Membership renewal</a>' +
-        '<div class="um-sep"></div>' +
-        '<div class="um-label">Switch account</div>' +
-        switchHtml +
-        '<div class="um-sep"></div>' +
-        '<a href="login.html" class="um-item danger">Log out</a>' +
+    // ---- Mobile drawer, top to bottom: a static service-identity block
+    // (avatar + name, tap jumps to Service profile), a single search input
+    // (routes to the cross-site archive.html results page, not a per-section
+    // filter), the same NAV data as the desktop mega-menu rendered as an
+    // accordion, and — pinned at the bottom, collapsible, expanding upward —
+    // Account Settings with the same links as the desktop user-menu dropdown.
+    // Only one accordion (a nav group, or Account Settings) stays open at a
+    // time; see the wiring below. ----
+    var mobileIdentityHtml =
+      '<a class="mnav-identity" href="myservice.html#profile">' +
+        '<span class="acct-avatar">' + acctInitials(activeAccount) + "</span>" +
+        '<div><div class="n um-acct-headname">' + activeAccount + '</div><div class="r">Active account</div></div>' +
+      "</a>";
+
+    var mobileSearchHtml = searchPh
+      ? '<div class="mnav-search"><form class="mnav-search-inner" id="mnavSearchForm">' + searchIcon +
+          '<input type="search" id="mnavSearchInput" placeholder="Search the Member Hub" aria-label="Search the Member Hub">' +
+        "</form></div>"
+      : "";
+
+    var mobileAccountLinksHtml =
+      '<a href="myservice.html#profile">Service profile</a>' +
+      '<a href="myservice.html#profile">Update contact details</a>' +
+      '<a href="myservice.html#benefits">Membership benefits</a>' +
+      '<a href="myservice.html#renewal">Membership renewal</a>' +
+      '<div class="um-sep"></div>' +
+      '<div class="um-label">Switch account</div>' +
+      switchHtml +
+      '<div class="um-sep"></div>' +
+      '<a href="login.html" class="um-item danger">Log out</a>';
+
+    var mobileAccountHtml =
+      '<div class="mnav-account" id="mnavAccountGroup">' +
+        '<div class="mnav-account-panel mnav-acct" id="mnavAccountPanel">' + mobileAccountLinksHtml + "</div>" +
+        '<button type="button" class="mnav-account-head" id="mnavAccountToggle" aria-expanded="false">Account Settings' + chev + "</button>" +
       "</div>";
 
-    // ---- Mobile nav drawer (hamburger menu): the same NAV data as the
-    // desktop mega-menu, rendered as a slide-in accordion, plus the account
-    // panel above at the top since the topbar hides the user button here. ----
+    // ---- Mobile nav drawer (hamburger menu) ----
     var mobileNav =
       '<div class="mnav-overlay" id="mnavOverlay"></div>' +
       '<nav class="mnav-drawer" id="mnavDrawer" aria-hidden="true">' +
@@ -419,7 +434,11 @@
           '<a class="brand" href="index.html"><span class="mark"><img src="mow-favicon.svg" width="18" height="18" alt="MOW NSW"></span><span class="brand-text"><span class="brand-title">Members Hub</span><span class="brand-sub">Dashboard</span></span></a>' +
           '<button type="button" class="mnav-close" id="mnavClose" aria-label="Close menu">&times;</button>' +
         "</div>" +
-        '<div class="mnav-body">' + mobileAcctHtml + mobileNavHtml + "</div>" +
+        '<div class="mnav-body">' +
+          mobileIdentityHtml + mobileSearchHtml +
+          '<div class="mnav-nav-scroll">' + mobileNavHtml + "</div>" +
+          mobileAccountHtml +
+        "</div>" +
       "</nav>";
 
     body.insertAdjacentHTML("afterbegin", header + baseModal + mobileNav);
@@ -933,12 +952,43 @@
     drawer.querySelectorAll(".mnav-group-menu a, .mnav-link, .mnav-acct a").forEach(function (a) {
       a.addEventListener("click", closeDrawer);
     });
-    // Accordion: tapping a group's heading expands/collapses just that group.
+
+    // Accordion: tapping a group's heading expands/collapses just that
+    // group, and — since only one accordion (a nav group, or Account
+    // Settings below) can be open at a time — collapses every other one.
+    var accountGroup = document.getElementById("mnavAccountGroup");
+    var accountToggle = document.getElementById("mnavAccountToggle");
+    function closeAllGroups(except) {
+      drawer.querySelectorAll(".mnav-group.open").forEach(function (g) { if (g !== except) g.classList.remove("open"); });
+      if (accountGroup !== except) { accountGroup.classList.remove("open"); accountToggle.setAttribute("aria-expanded", "false"); }
+    }
     drawer.querySelectorAll("[data-mnav-toggle]").forEach(function (btn) {
       btn.addEventListener("click", function () {
-        btn.closest(".mnav-group").classList.toggle("open");
+        var group = btn.closest(".mnav-group");
+        var willOpen = !group.classList.contains("open");
+        closeAllGroups(willOpen ? group : null);
+        group.classList.toggle("open", willOpen);
       });
     });
+    if (accountToggle) {
+      accountToggle.addEventListener("click", function () {
+        var willOpen = !accountGroup.classList.contains("open");
+        closeAllGroups(willOpen ? accountGroup : null);
+        accountGroup.classList.toggle("open", willOpen);
+        accountToggle.setAttribute("aria-expanded", willOpen ? "true" : "false");
+      });
+    }
+
+    // Search: a single input that routes to the cross-site results page,
+    // deliberately simpler than the desktop's per-section filter controls.
+    var mnavSearchForm = document.getElementById("mnavSearchForm");
+    if (mnavSearchForm) {
+      mnavSearchForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var term = document.getElementById("mnavSearchInput").value.trim();
+        if (term) window.location.href = "archive.html?q=" + encodeURIComponent(term);
+      });
+    }
   })();
 
   // ---- Switch account (updates the active service label live) ----
@@ -1223,6 +1273,39 @@
     }
 
     render();
+  };
+
+  // ---- Reusable "More filters" disclosure: wires a toggle button to show/
+  // hide a panel of secondary filter controls, and keeps a count badge on
+  // the toggle in sync with how many of those controls currently have a
+  // non-default value. Keeps every filtered list down to search + one
+  // always-visible primary control, per the site's simplified-filters
+  // pattern. `fieldIds` may include selects, text inputs, or a container
+  // holding active `.sidebar-tag-chip.active` tag chips (tagContainerId). ----
+  window.initMoreFilters = function (opts) {
+    var toggle = document.getElementById(opts.toggleId);
+    var panel = document.getElementById(opts.panelId);
+    var countEl = opts.countId ? document.getElementById(opts.countId) : null;
+    if (!toggle || !panel) return;
+    var fields = (opts.fieldIds || []).map(function (id) { return document.getElementById(id); }).filter(Boolean);
+    var tagContainer = opts.tagContainerId ? document.getElementById(opts.tagContainerId) : null;
+
+    function updateCount() {
+      if (!countEl) return;
+      var n = fields.filter(function (f) { return f.value && f.value.trim(); }).length;
+      if (tagContainer) n += tagContainer.querySelectorAll(".sidebar-tag-chip.active, .active[data-tag]").length;
+      countEl.textContent = n;
+      countEl.classList.toggle("hide", !n);
+    }
+    fields.forEach(function (f) { f.addEventListener("input", updateCount); f.addEventListener("change", updateCount); });
+    if (tagContainer) tagContainer.addEventListener("click", function () { setTimeout(updateCount, 0); });
+
+    toggle.addEventListener("click", function () {
+      var willOpen = panel.classList.contains("hide");
+      panel.classList.toggle("hide", !willOpen);
+      toggle.setAttribute("aria-expanded", willOpen ? "true" : "false");
+    });
+    updateCount();
   };
 
   window.renderCommentThread = function (container, key, opts) {

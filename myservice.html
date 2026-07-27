@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>if (location.hash) { window.__initialHash = location.hash; history.replaceState(null, "", location.pathname + location.search); }</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="mow-favicon.svg" type="image/svg+xml">
-<title>Service — MOW NSW Members Portal</title>
-<link rel="stylesheet" href="styles.css?v=67">
+<title>My Service — MOW NSW Members Portal</title>
+<link rel="stylesheet" href="styles.css?v=84">
 </head>
-<body data-active="myservice.html" data-title="Service" data-crumb="Service"
+<body data-active="myservice.html" data-title="My Service" data-crumb="My Service"
       data-sub="Self-service area for your service details, contacts, and membership information."
       data-search="Search your service &amp; membership">
 
@@ -54,6 +55,14 @@
 
 <div class="shell">
 
+  <div class="tabs" data-cat-tabs>
+    <a class="tab" href="#profile" data-cat="profile">Service profile</a>
+    <a class="tab" href="#benefits" data-cat="benefits">Membership benefits</a>
+    <a class="tab" href="#renewal" data-cat="renewal">Membership renewal</a>
+    <a class="tab" href="#people" data-cat="people">Our People</a>
+  </div>
+
+  <div data-cat-section="profile">
   <div class="form-card" style="margin-bottom:20px" id="profile">
     <div class="mcard-head" style="margin-bottom:20px"><h2 style="margin:0">Service profile</h2></div>
     <div class="profile-grid" id="profileGrid">
@@ -129,7 +138,9 @@
       <button class="btn-secondary" type="button" id="profileCancelBtn">Cancel</button>
     </div>
   </div>
+  </div>
 
+  <div data-cat-section="benefits">
   <div class="mcard" style="max-width:none; margin-bottom:20px" id="benefits">
     <div class="mcard-head"><h2>Membership benefits</h2></div>
     <div class="benefit-row"><span class="bname">Community Underwriting insurance access</span><span class="tag ok">Included</span></div>
@@ -149,12 +160,94 @@
       <button class="btn-secondary badd" type="button">Add</button>
     </div>
   </div>
+  </div>
 
+  <div data-cat-section="renewal">
   <div class="mcard" style="max-width:none" id="renewal">
     <div class="mcard-head"><h2>Membership renewal</h2></div>
     <div class="deadline-row"><span class="dt">Current membership year</span><span class="dd ok">Jul 2025 – Jun 2026</span></div>
     <div class="deadline-row"><span class="dt">Renewal due</span><span class="dd due">30 Sep 2026</span></div>
     <button class="btn-primary" style="margin-top:14px" type="button" id="startRenewalBtn">Start renewal</button>
+  </div>
+  </div>
+
+  <div data-cat-section="people">
+  <div class="mcard" style="max-width:none" id="people">
+    <div class="mcard-head"><h2>Our People</h2></div>
+    <p class="im-note" id="peopleAccessNote">Only authorised users for Liverpool Meals on Wheels can edit this list. Reference build placeholder — roster data is stored in your browser only, not shared with other members or MOW NSW yet.</p>
+
+    <div class="field" style="max-width:280px">
+      <label>Viewing as <span style="font-weight:400">(demo only — no real login system yet)</span></label>
+      <select id="peopleRoleSwitch">
+        <option value="authorised" selected>Authorised user (Service Manager)</option>
+        <option value="member">Team member (view only)</option>
+      </select>
+    </div>
+
+    <div class="people-stats">
+      <div class="people-stat-card"><div class="n" id="statVolunteers">0</div><div class="l">Volunteers</div></div>
+      <div class="people-stat-card"><div class="n" id="statStaff">0</div><div class="l">Staff</div></div>
+      <div class="people-stat-card"><div class="n" id="statBoard">0</div><div class="l">Board members</div></div>
+    </div>
+
+    <div class="section-title" style="margin-top:0"><h2 style="font-size:15px">Volunteers by team</h2><span class="desc">Network-wide reporting on where volunteer capacity sits</span></div>
+    <div class="team-bar-chart" id="teamBarChart" style="margin-bottom:24px"></div>
+
+    <div class="list-filter-bar" style="margin-bottom:14px">
+      <div class="list-search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="peopleSearch" placeholder="Search by name or role">
+      </div>
+      <select id="peopleRoleTypeFilter"><option value="">All roles</option><option>Volunteer</option><option>Staff</option><option>Board member</option></select>
+    </div>
+
+    <div class="section-title" style="margin-top:0"><h2 style="font-size:15px">Hierarchy</h2><span class="desc">Grouped by who reports to whom — click a group to expand</span></div>
+    <div id="peopleHierarchy"></div>
+    <p class="im-note hide" id="peopleEmpty">No people match those filters.</p>
+
+    <div id="peopleEditControls">
+      <div class="section-title"><h2 style="font-size:15px">Add a person</h2></div>
+      <div class="mcard suggest-box" style="max-width:560px">
+        <form id="addPersonForm">
+          <div class="field"><label>Name</label><input type="text" id="apName" required></div>
+          <div class="field"><label>Role type</label>
+            <select id="apRoleType" required>
+              <option value="">Choose a type</option>
+              <option>Volunteer</option>
+              <option>Staff</option>
+              <option>Board member</option>
+            </select>
+          </div>
+          <div class="field"><label>Role / title</label><input type="text" id="apRole" placeholder="e.g. Delivery driver, Service Manager, Treasurer" required></div>
+          <div class="field"><label>Team / function <span style="font-weight:400">(optional)</span></label><input type="text" id="apTeam" placeholder="e.g. Delivery, Kitchen, Admin, Governance"></div>
+          <div class="field"><label>Reports to <span style="font-weight:400">(optional)</span></label><select id="apReportsTo"><option value="">No one — top of the chart</option></select></div>
+          <div class="field" id="apLocationField"><label>Location <span style="font-weight:400">(volunteers only — suburb or postcode)</span></label><input type="text" id="apLocation" placeholder="e.g. Liverpool NSW 2170"><div class="hint">Used to show coverage on future network maps, not shared publicly.</div></div>
+          <div class="field"><label>Contact <span style="font-weight:400">(optional)</span></label><input type="text" id="apContact" placeholder="Email or phone"></div>
+          <div class="field"><label>Status</label><select id="apStatus"><option>Active</option><option>Inactive</option></select></div>
+          <button class="btn-primary" type="submit">Add person</button>
+        </form>
+        <div class="suggest-thanks hide" id="addPersonThanks">Added — they now appear in the stat counts and hierarchy below.</div>
+      </div>
+
+      <div class="section-title"><h2 style="font-size:15px">Bulk import</h2><span class="desc">Add your whole roster at once from a spreadsheet</span></div>
+      <div class="mcard" style="max-width:560px">
+        <p style="font-size:13px;color:var(--muted);margin:0 0 14px">Download the template, fill it in, then upload it here. You'll see a summary before anything is added.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px">
+          <button class="btn-secondary" type="button" id="downloadTemplateBtn">Download CSV template</button>
+          <label class="btn-secondary" for="csvFileInput" style="cursor:pointer">Upload CSV<input type="file" id="csvFileInput" accept=".csv" style="display:none"></label>
+        </div>
+        <div class="im-note hide" id="csvPreview">
+          <p id="csvPreviewSummary" style="margin:0 0 12px"></p>
+          <div style="display:flex;gap:10px">
+            <button class="btn-primary" type="button" id="csvConfirmBtn">Confirm import</button>
+            <button class="btn-secondary" type="button" id="csvCancelBtn">Cancel</button>
+          </div>
+        </div>
+        <div class="suggest-thanks hide" id="csvImportThanks"></div>
+        <p class="im-note" style="margin-top:14px">Reference build placeholder — imported rows are held in this browser's local storage only, exactly like the calendar's "stored in your browser only" events.</p>
+      </div>
+    </div>
+  </div>
   </div>
 
 </div>
@@ -225,6 +318,236 @@
     renewalModal.addEventListener("click", function (e) { if (e.target === renewalModal) renewalModal.classList.add("hide"); });
   })();
 </script>
-<script src="portal.js?v=67"></script>
+<script>
+  // ---- Our People: roster, stats, team breakdown, and reports-to hierarchy.
+  // No backend — everything lives in localStorage, same pattern as the
+  // Promote calendar's browser-only events. ----
+  (function () {
+    var STORAGE_KEY = "mow_our_people_v1";
+    var SERVICE_NAME = "Liverpool Meals on Wheels";
+
+    var SEED = [
+      { id: "p1", name: "Jane Smith", roleType: "Board member", role: "Chair", team: "Governance", reportsTo: "", location: "", contact: "", status: "Active" },
+      { id: "p2", name: "Robert Klein", roleType: "Board member", role: "Treasurer", team: "Governance", reportsTo: "p1", location: "", contact: "", status: "Active" },
+      { id: "p3", name: "Priya Nair", roleType: "Board member", role: "Secretary", team: "Governance", reportsTo: "p1", location: "", contact: "", status: "Active" },
+      { id: "p4", name: "Mark Ho", roleType: "Staff", role: "Service Manager", team: "Admin", reportsTo: "p1", location: "", contact: "mark@liverpoolmow.org.au", status: "Active" },
+      { id: "p5", name: "Sue Dryden", roleType: "Staff", role: "Volunteer Coordinator", team: "HR & Volunteers", reportsTo: "p4", location: "", contact: "sue@liverpoolmow.org.au", status: "Active" },
+      { id: "p6", name: "Anh Le", roleType: "Staff", role: "Kitchen Supervisor", team: "Kitchen", reportsTo: "p4", location: "", contact: "", status: "Active" },
+      { id: "p7", name: "Tom Baxter", roleType: "Volunteer", role: "Delivery driver", team: "Delivery", reportsTo: "p5", location: "Liverpool NSW 2170", contact: "", status: "Active" },
+      { id: "p8", name: "Grace Wilson", roleType: "Volunteer", role: "Delivery driver", team: "Delivery", reportsTo: "p5", location: "Casula NSW 2170", contact: "", status: "Active" },
+      { id: "p9", name: "David Chen", roleType: "Volunteer", role: "Kitchen assistant", team: "Kitchen", reportsTo: "p6", location: "Liverpool NSW 2170", contact: "", status: "Active" },
+      { id: "p10", name: "Linda Park", roleType: "Volunteer", role: "Delivery driver", team: "Delivery", reportsTo: "p5", location: "Moorebank NSW 2170", contact: "", status: "Inactive" },
+      { id: "p11", name: "Fatima Ahmed", roleType: "Volunteer", role: "Client welfare checker", team: "Delivery", reportsTo: "p5", location: "Chipping Norton NSW 2170", contact: "", status: "Active" },
+      { id: "p12", name: "James O'Brien", roleType: "Volunteer", role: "Admin support", team: "Admin", reportsTo: "p4", location: "Liverpool NSW 2170", contact: "", status: "Active" }
+    ];
+
+    function esc(s) { return (s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+    function initials(n) { return (n || "").split(" ").filter(Boolean).slice(0, 2).map(function (w) { return w[0]; }).join("").toUpperCase(); }
+
+    function load() {
+      try { var s = JSON.parse(localStorage.getItem(STORAGE_KEY)); if (Array.isArray(s) && s.length) return s; } catch (e) {}
+      return SEED.slice();
+    }
+    function save() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(people)); } catch (e) {} }
+
+    var people = load();
+    var idCounter = people.length + 1;
+    function nextId() { return "p" + Date.now() + "-" + (idCounter++); }
+
+    var roleSwitch = document.getElementById("peopleRoleSwitch");
+    var editControls = document.getElementById("peopleEditControls");
+    var accessNote = document.getElementById("peopleAccessNote");
+    function applyAccess() {
+      var authorised = roleSwitch.value === "authorised";
+      editControls.classList.toggle("hide", !authorised);
+      accessNote.textContent = authorised
+        ? "You're an authorised user for " + SERVICE_NAME + " — you can add, import and edit this list. Reference build placeholder — roster data is stored in your browser only, not shared with other members or MOW NSW yet."
+        : "Only authorised users for " + SERVICE_NAME + " can edit this list. You can still view the summary and hierarchy below.";
+    }
+    roleSwitch.addEventListener("change", applyAccess);
+
+    function renderStats() {
+      document.getElementById("statVolunteers").textContent = people.filter(function (p) { return p.roleType === "Volunteer"; }).length;
+      document.getElementById("statStaff").textContent = people.filter(function (p) { return p.roleType === "Staff"; }).length;
+      document.getElementById("statBoard").textContent = people.filter(function (p) { return p.roleType === "Board member"; }).length;
+    }
+
+    function renderTeamChart() {
+      var counts = {};
+      people.forEach(function (p) { if (p.roleType === "Volunteer" && p.team) counts[p.team] = (counts[p.team] || 0) + 1; });
+      var teams = Object.keys(counts).sort(function (a, b) { return counts[b] - counts[a]; });
+      var wrap = document.getElementById("teamBarChart");
+      if (!teams.length) { wrap.innerHTML = '<p class="im-note" style="margin:0">No team data yet — add a team when you add or import volunteers.</p>'; return; }
+      var max = counts[teams[0]];
+      wrap.innerHTML = teams.map(function (t) {
+        var pct = max ? Math.round((counts[t] / max) * 100) : 0;
+        return '<div class="team-bar-row"><span>' + esc(t) + '</span><div class="team-bar-track"><div class="team-bar-fill" style="width:' + pct + '%"></div></div><span class="n">' + counts[t] + "</span></div>";
+      }).join("");
+    }
+
+    function populateReportsTo() {
+      var sel = document.getElementById("apReportsTo");
+      var current = sel.value;
+      sel.innerHTML = '<option value="">No one — top of the chart</option>' +
+        people.map(function (p) { return '<option value="' + p.id + '">' + esc(p.name) + " (" + esc(p.role) + ")</option>"; }).join("");
+      sel.value = current;
+    }
+
+    var openGroups = {};
+    function renderHierarchy() {
+      var term = (document.getElementById("peopleSearch").value || "").trim().toLowerCase();
+      var roleFilter = document.getElementById("peopleRoleTypeFilter").value;
+      function matches(p) {
+        var okTerm = !term || p.name.toLowerCase().indexOf(term) !== -1 || p.role.toLowerCase().indexOf(term) !== -1 || (p.team || "").toLowerCase().indexOf(term) !== -1;
+        var okRole = !roleFilter || p.roleType === roleFilter;
+        return okTerm && okRole;
+      }
+      var childrenOf = {};
+      people.forEach(function (p) { var key = p.reportsTo || ""; (childrenOf[key] = childrenOf[key] || []).push(p); });
+
+      // A person survives filtering if they match, or any descendant does —
+      // keeps a matching volunteer's manager chain visible for context.
+      var survives = {};
+      function computeSurvives(p) {
+        if (survives.hasOwnProperty(p.id)) return survives[p.id];
+        var kids = childrenOf[p.id] || [];
+        var result = matches(p) || kids.some(computeSurvives);
+        survives[p.id] = result;
+        return result;
+      }
+      people.forEach(computeSurvives);
+
+      var roots = (childrenOf[""] || []).filter(function (p) { return survives[p.id]; });
+      var wrap = document.getElementById("peopleHierarchy");
+      var emptyNote = document.getElementById("peopleEmpty");
+
+      if (!roots.length) { wrap.innerHTML = ""; emptyNote.classList.remove("hide"); return; }
+      emptyNote.classList.add("hide");
+
+      function renderPerson(p) {
+        var kids = (childrenOf[p.id] || []).filter(function (c) { return survives[c.id]; });
+        var row = '<div class="people-row"><span class="pr-avatar">' + initials(p.name) + '</span><div class="pr-body"><div class="pr-name">' + esc(p.name) +
+          (p.status === "Inactive" ? ' <span class="tag neutral">Inactive</span>' : "") + '</div><div class="pr-meta"><span>' + esc(p.role) + "</span>" +
+          (p.team ? "<span>&middot; " + esc(p.team) + "</span>" : "") + (p.location ? '<span class="tag neutral">' + esc(p.location) + "</span>" : "") + "</div></div></div>";
+        var kidsHtml = kids.length ? '<div class="people-nested">' + kids.map(renderPerson).join("") + "</div>" : "";
+        return row + kidsHtml;
+      }
+
+      wrap.innerHTML = roots.map(function (r) {
+        var isOpen = openGroups[r.id] !== false;
+        var total = 0;
+        (function count(p) { total++; (childrenOf[p.id] || []).forEach(count); })(r);
+        var kids = (childrenOf[r.id] || []).filter(function (c) { return survives[c.id]; });
+        return '<div class="people-hier-group' + (isOpen ? " open" : "") + '" data-group="' + r.id + '">' +
+          '<div class="people-hier-head" data-toggle-group="' + r.id + '"><span>' + esc(r.name) + " &middot; " + esc(r.role) +
+          ' <span class="tag neutral" style="margin-left:6px">' + total + " people</span></span>" +
+          '<svg class="chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg></div>' +
+          '<div class="people-hier-body">' + kids.map(renderPerson).join("") + "</div></div>";
+      }).join("");
+
+      wrap.querySelectorAll("[data-toggle-group]").forEach(function (head) {
+        head.addEventListener("click", function () {
+          var id = head.getAttribute("data-toggle-group");
+          var group = head.closest(".people-hier-group");
+          var willOpen = !group.classList.contains("open");
+          openGroups[id] = willOpen;
+          group.classList.toggle("open", willOpen);
+        });
+      });
+    }
+
+    function renderAll() {
+      renderStats();
+      renderTeamChart();
+      populateReportsTo();
+      renderHierarchy();
+      save();
+    }
+
+    document.getElementById("peopleSearch").addEventListener("input", renderHierarchy);
+    document.getElementById("peopleRoleTypeFilter").addEventListener("change", renderHierarchy);
+
+    document.getElementById("addPersonForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      people.push({
+        id: nextId(),
+        name: document.getElementById("apName").value.trim(),
+        roleType: document.getElementById("apRoleType").value,
+        role: document.getElementById("apRole").value.trim(),
+        team: document.getElementById("apTeam").value.trim(),
+        reportsTo: document.getElementById("apReportsTo").value,
+        location: document.getElementById("apLocation").value.trim(),
+        contact: document.getElementById("apContact").value.trim(),
+        status: document.getElementById("apStatus").value
+      });
+      renderAll();
+      this.reset();
+      var thanks = document.getElementById("addPersonThanks");
+      thanks.classList.remove("hide");
+      setTimeout(function () { thanks.classList.add("hide"); }, 4000);
+    });
+
+    document.getElementById("downloadTemplateBtn").addEventListener("click", function () {
+      var csv = "Name,Role Type,Role/Title,Team,Reports To (name),Location,Contact,Status\n" +
+        "Alex Rivera,Volunteer,Delivery driver,Delivery,Sue Dryden,Liverpool NSW 2170,,Active\n";
+      var blob = new Blob([csv], { type: "text/csv" });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement("a");
+      a.href = url; a.download = "our-people-template.csv";
+      document.body.appendChild(a); a.click(); a.remove();
+      URL.revokeObjectURL(url);
+    });
+
+    var pendingImport = null;
+    document.getElementById("csvFileInput").addEventListener("change", function (e) {
+      var file = e.target.files[0];
+      if (!file) return;
+      var reader = new FileReader();
+      reader.onload = function () {
+        var lines = String(reader.result || "").split(/\r?\n/).filter(function (l) { return l.trim(); });
+        lines.shift();
+        var rows = lines.map(function (line) {
+          var c = line.split(",").map(function (x) { return x.trim(); });
+          return { name: c[0] || "", roleType: c[1] || "", role: c[2] || "", team: c[3] || "", reportsToName: c[4] || "", location: c[5] || "", contact: c[6] || "", status: c[7] || "Active" };
+        }).filter(function (r) { return r.name; });
+        pendingImport = rows;
+        var vol = rows.filter(function (r) { return r.roleType === "Volunteer"; }).length;
+        var staff = rows.filter(function (r) { return r.roleType === "Staff"; }).length;
+        var board = rows.filter(function (r) { return r.roleType === "Board member"; }).length;
+        document.getElementById("csvPreviewSummary").textContent =
+          rows.length + " people ready to import: " + vol + " volunteer" + (vol === 1 ? "" : "s") + ", " + staff + " staff, " + board + " board member" + (board === 1 ? "" : "s") + ".";
+        document.getElementById("csvPreview").classList.remove("hide");
+        document.getElementById("csvImportThanks").classList.add("hide");
+      };
+      reader.readAsText(file);
+    });
+    document.getElementById("csvCancelBtn").addEventListener("click", function () {
+      pendingImport = null;
+      document.getElementById("csvPreview").classList.add("hide");
+      document.getElementById("csvFileInput").value = "";
+    });
+    document.getElementById("csvConfirmBtn").addEventListener("click", function () {
+      if (!pendingImport) return;
+      var byName = {}; people.forEach(function (p) { byName[p.name.toLowerCase()] = p.id; });
+      pendingImport.forEach(function (r) {
+        var id = nextId();
+        people.push({ id: id, name: r.name, roleType: r.roleType, role: r.role, team: r.team, reportsTo: byName[r.reportsToName.toLowerCase()] || "", location: r.location, contact: r.contact, status: r.status || "Active" });
+        byName[r.name.toLowerCase()] = id;
+      });
+      var count = pendingImport.length;
+      pendingImport = null;
+      renderAll();
+      document.getElementById("csvPreview").classList.add("hide");
+      document.getElementById("csvFileInput").value = "";
+      var thanks = document.getElementById("csvImportThanks");
+      thanks.textContent = "Imported " + count + " people — they now appear in the stat counts and hierarchy above.";
+      thanks.classList.remove("hide");
+    });
+
+    applyAccess();
+    renderAll();
+  })();
+</script>
+<script src="portal.js?v=84"></script>
 </body>
 </html>

@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="mow-favicon.svg" type="image/svg+xml">
 <title>Community — MOW NSW Members Portal</title>
-<link rel="stylesheet" href="styles.css?v=67">
+<link rel="stylesheet" href="styles.css?v=84">
 </head>
 <body data-active="connect.html" data-title="Community" data-crumb="Community"
       data-sub="Two-way engagement: find other services, have your say on what MOW NSW advocates for, and join the conversation."
@@ -37,47 +37,54 @@
 
 <div class="shell">
 
-  <div class="cc-bar" id="ccBar" data-cat-tabs data-mode="overview">
-    <a class="tab" href="#overview" data-cat="overview" style="display:none" aria-hidden="true" tabindex="-1"></a>
+  <div class="cc-bar" id="ccBar" data-cat-tabs>
     <div class="cc-row">
-      <div class="dir-toggle cc-mode-toggle" role="tablist" aria-label="Overview or filter">
-        <button type="button" class="dir-toggle-btn active" id="ccOverviewBtn" role="tab" aria-selected="true">Overview</button>
-        <button type="button" class="dir-toggle-btn" id="ccFilterBtn" role="tab" aria-selected="false">Filter</button>
-      </div>
-
-      <div class="cc-pills" id="ccPills">
-        <a class="tab active" href="#haveyoursay" data-cat="haveyoursay">Consultations and surveys</a>
+      <div class="tabs cc-tabs-flex" id="ccPills">
+        <a class="tab active" href="#overview" data-cat="overview">Overview</a>
+        <a class="tab" href="#haveyoursay" data-cat="haveyoursay">Consultations and surveys</a>
         <a class="tab" href="#discussion" data-cat="discussion">Discussions</a>
         <a class="tab" href="#communities" data-cat="communities">Communities of practice</a>
         <a class="tab" href="#escalated" data-cat="escalated">Escalated Issues</a>
       </div>
 
-      <div class="cc-filters hide" id="ccFilters">
-        <div class="cc-filter-group" data-filter-for="haveyoursay">
-          <div class="cc-field"><input type="text" id="hysFilterSearch" placeholder="Search consultations and surveys"></div>
-        </div>
-        <div class="cc-filter-group hide" data-filter-for="communities">
-          <div class="cc-field"><input type="text" id="commFilterSearch" placeholder="Search communities of practice"></div>
-        </div>
-        <div class="cc-filter-group hide" data-filter-for="discussion">
-          <div class="cc-field"><input type="text" id="discFilterSearch" placeholder="Name, facility, title or body"></div>
-          <div class="cc-field"><select id="discFilterFacility"><option value="">All facilities</option></select></div>
-          <div class="cc-field"><select id="discFilterTopic"><option value="">All topics</option><option>Operate</option><option>Comply</option><option>Deliver</option><option>Promote</option><option>General</option></select></div>
-          <div class="cc-tag-dd">
-            <button type="button" class="cc-tag-dd-btn" data-tag-dd-toggle>Tags<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg></button>
-            <div class="cc-tag-dd-menu" id="discFilterTags"></div>
+      <div class="cc-filter-dd" id="ccFilterDd">
+        <button type="button" class="cc-filter-dd-btn" id="ccFilterBtn" aria-expanded="false" aria-haspopup="true">
+          Filter <span class="mf-count hide" id="ccFilterCount">0</span>
+          <svg class="chev" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="cc-filter-dd-menu" id="ccFilterMenu">
+          <div class="cc-filter-group" data-filter-for="haveyoursay">
+            <div class="cc-field"><input type="text" id="hysFilterSearch" placeholder="Search consultations and surveys"></div>
           </div>
-          <button type="button" class="btn-secondary cc-clear" id="discFilterClear">Clear filters</button>
-        </div>
-        <div class="cc-filter-group hide" data-filter-for="escalated">
-          <div class="cc-field"><input type="text" id="escFilterSearch" placeholder="Title or description"></div>
-          <div class="cc-field"><select id="escFilterStatus"><option value="">Any status</option><option>In progress</option><option>Monitoring</option><option>Resolved</option></select></div>
-          <div class="cc-field"><select id="escFilterCategory"><option value="">All categories</option><option>Service Delivery</option><option>Volunteers</option><option>Funding</option><option>Digital Systems</option></select></div>
-          <div class="cc-tag-dd">
-            <button type="button" class="cc-tag-dd-btn" data-tag-dd-toggle>Tags<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg></button>
-            <div class="cc-tag-dd-menu" id="escFilterTags"></div>
+          <div class="cc-filter-group hide" data-filter-for="communities">
+            <div class="cc-field"><input type="text" id="commFilterSearch" placeholder="Search communities of practice"></div>
           </div>
-          <button type="button" class="btn-secondary cc-clear" id="escFilterClear">Clear filters</button>
+          <div class="cc-filter-group hide" data-filter-for="discussion">
+            <div class="cc-field"><input type="text" id="discFilterSearch" placeholder="Name, facility, title or body"></div>
+            <div class="cc-field"><select id="discFilterTopic"><option value="">All topics</option><option>Operate</option><option>Comply</option><option>Deliver</option><option>Promote</option><option>General</option></select></div>
+            <button type="button" class="more-filters-toggle" id="discMoreFiltersToggle" aria-expanded="false">More filters <span class="mf-count hide" id="discMoreFiltersCount">0</span><svg class="chev" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg></button>
+            <div class="more-filters-panel hide" id="discMoreFiltersPanel">
+              <div class="cc-field"><select id="discFilterFacility"><option value="">All facilities</option></select></div>
+              <div class="cc-tag-dd">
+                <button type="button" class="cc-tag-dd-btn" data-tag-dd-toggle>Tags<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg></button>
+                <div class="cc-tag-dd-menu" id="discFilterTags"></div>
+              </div>
+            </div>
+            <button type="button" class="btn-secondary cc-clear" id="discFilterClear">Clear filters</button>
+          </div>
+          <div class="cc-filter-group hide" data-filter-for="escalated">
+            <div class="cc-field"><input type="text" id="escFilterSearch" placeholder="Title or description"></div>
+            <div class="cc-field"><select id="escFilterStatus"><option value="">Any status</option><option>In progress</option><option>Monitoring</option><option>Resolved</option></select></div>
+            <button type="button" class="more-filters-toggle" id="escMoreFiltersToggle" aria-expanded="false">More filters <span class="mf-count hide" id="escMoreFiltersCount">0</span><svg class="chev" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg></button>
+            <div class="more-filters-panel hide" id="escMoreFiltersPanel">
+              <div class="cc-field"><select id="escFilterCategory"><option value="">All categories</option><option>Service Delivery</option><option>Volunteers</option><option>Funding</option><option>Digital Systems</option></select></div>
+              <div class="cc-tag-dd">
+                <button type="button" class="cc-tag-dd-btn" data-tag-dd-toggle>Tags<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg></button>
+                <div class="cc-tag-dd-menu" id="escFilterTags"></div>
+              </div>
+            </div>
+            <button type="button" class="btn-secondary cc-clear" id="escFilterClear">Clear filters</button>
+          </div>
         </div>
       </div>
     </div>
@@ -224,7 +231,13 @@
   <div class="connect-main-side">
     <div class="sidebar-main">
       <div class="thread-list" id="threadList"></div>
-      <p class="im-note hide" id="discussionNoResults">No discussions match those filters. <a href="#" id="discussionClearInline">Clear filters</a></p>
+      <div class="empty-state hide" id="discussionNoResults">
+        <p class="es-msg">No discussions match those filters — be the first to start one.</p>
+        <div class="es-actions">
+          <a class="btn-secondary" href="#" id="discussionClearInline">Clear filters</a>
+          <button class="btn-primary" type="button" id="discussionNoResultsCta">+ Start a discussion</button>
+        </div>
+      </div>
     </div>
     <div class="sidebar-side">
       <button class="cal-add-card" id="newThreadBtn" type="button">
@@ -244,7 +257,13 @@
           <span class="cal-add-icon">+</span>
           <span class="cal-add-text"><span class="cal-add-title">Escalate an issue</span><span class="cal-add-sub">Something affecting your service that MOW NSW should know about?</span></span>
         </button>
-        <p class="im-note hide" id="escFilterNoResults" style="margin-bottom:16px">No issues match those filters. <a href="#" id="escFilterClearInline">Clear filters</a></p>
+        <div class="empty-state hide" id="escFilterNoResults">
+          <p class="es-msg">No issues match those filters.</p>
+          <div class="es-actions">
+            <a class="btn-secondary" href="#" id="escFilterClearInline">Clear filters</a>
+            <button class="btn-primary" type="button" id="escFilterNoResultsCta">+ Escalate an issue</button>
+          </div>
+        </div>
         <div class="res-grid">
           <div class="res-card esc-card" data-popup="issue-referral-delays" data-commentable data-comment-key="issue-referral-delays" data-comment-label="Member comments — has this affected your service too?" data-comment-placeholder="Share what you're seeing" data-status="In progress" data-category="Service Delivery" data-tags="referrals compliance">
             <div class="rhead"><span class="ri"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span><span class="tag warn">In progress</span></div>
@@ -328,49 +347,68 @@
 
 </div>
 
-<script src="portal.js?v=67"></script>
+<script src="portal.js?v=84"></script>
 <script>
-  /* ---------- Filter/Overview control bar ----------
-     A small toggle switches the sticky row between the section pills and
-     an inline filter row; the filter row itself shows only the field
-     group matching whichever section is currently active. Kept
-     self-contained from the generic data-cat-tabs mechanism (reads the
-     clicked pill / the URL hash directly) so it never depends on script
-     load order. ---- */
+  /* ---------- Overview + tabs, with Filter as a dropdown ----------
+     Overview and the four section tabs are normal, equally-selectable
+     tabs (the generic data-cat-tabs engine in portal.js handles showing
+     the matching [data-cat-section]). Filter sits to the right and opens
+     a dropdown panel with the fields for whichever tab is active — Overview
+     itself has nothing to filter, so the button hides while it's active.
+     Kept self-contained from the generic engine (reads the clicked tab /
+     the URL hash directly) so it never depends on script load order. ---- */
   (function () {
     var bar = document.getElementById("ccBar");
-    var overviewBtn = document.getElementById("ccOverviewBtn");
-    var filterBtn = document.getElementById("ccFilterBtn");
     var pillsRow = document.getElementById("ccPills");
-    var filtersRow = document.getElementById("ccFilters");
+    var filterDd = document.getElementById("ccFilterDd");
+    var filterBtn = document.getElementById("ccFilterBtn");
+    var filterMenu = document.getElementById("ccFilterMenu");
+    var filterCount = document.getElementById("ccFilterCount");
     if (!bar) return;
 
-    function setMode(mode) {
-      bar.setAttribute("data-mode", mode);
-      overviewBtn.classList.toggle("active", mode === "overview");
-      filterBtn.classList.toggle("active", mode === "filter");
-      overviewBtn.setAttribute("aria-selected", mode === "overview");
-      filterBtn.setAttribute("aria-selected", mode === "filter");
-      pillsRow.classList.toggle("hide", mode !== "overview");
-      filtersRow.classList.toggle("hide", mode !== "filter");
+    function closeFilterDd() {
+      filterDd.classList.remove("open");
+      filterBtn.setAttribute("aria-expanded", "false");
     }
-    overviewBtn.addEventListener("click", function () { setMode("overview"); });
-    filterBtn.addEventListener("click", function () { setMode("filter"); });
+    filterBtn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      filterDd.classList.toggle("open");
+      filterBtn.setAttribute("aria-expanded", filterDd.classList.contains("open") ? "true" : "false");
+    });
+    document.addEventListener("click", function (e) {
+      if (!filterDd.contains(e.target)) closeFilterDd();
+    });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeFilterDd(); });
 
     var VALID_CATS = ["haveyoursay", "discussion", "communities", "escalated"];
+    function updateFilterCount() {
+      var group = filterMenu.querySelector(".cc-filter-group[data-filter-for]:not(.hide)");
+      if (!group) { filterCount.classList.add("hide"); return; }
+      var n = [].slice.call(group.querySelectorAll("input[type=text], select")).filter(function (f) { return f.value && f.value.trim(); }).length;
+      n += group.querySelectorAll(".sidebar-tag-chip.active").length;
+      filterCount.textContent = n;
+      filterCount.classList.toggle("hide", !n);
+    }
+    // Filter is available on every tab, including Overview — Overview
+    // defaults to the Consultations and surveys field group (the closest
+    // thing Overview has to "its own" list) until a real section is picked.
     function syncFilterGroups(cat) {
       if (VALID_CATS.indexOf(cat) === -1) cat = "haveyoursay";
       document.querySelectorAll(".cc-filter-group").forEach(function (g) {
         g.classList.toggle("hide", g.getAttribute("data-filter-for") !== cat);
       });
+      updateFilterCount();
     }
     pillsRow.querySelectorAll(".tab[data-cat]").forEach(function (p) {
       p.addEventListener("click", function () { syncFilterGroups(p.getAttribute("data-cat")); });
     });
     function syncFromHash() {
-      syncFilterGroups((window.location.hash || "#haveyoursay").replace("#", ""));
+      syncFilterGroups((window.location.hash || "#overview").replace("#", ""));
     }
     window.addEventListener("hashchange", syncFromHash);
+    document.addEventListener("input", function (e) { if (filterMenu.contains(e.target)) updateFilterCount(); });
+    document.addEventListener("change", function (e) { if (filterMenu.contains(e.target)) updateFilterCount(); });
+    document.addEventListener("click", function (e) { if (e.target.closest(".sidebar-tag-chip")) setTimeout(updateFilterCount, 0); });
     syncFromHash();
 
     // Tags dropdown: one toggle handles both Discussions' and Escalated's
@@ -463,6 +501,8 @@
     if (btn && typeof window.openEscalateIssuePopup === "function") {
       btn.addEventListener("click", function () { window.openEscalateIssuePopup(); });
     }
+    var noResultsCta = document.getElementById("escFilterNoResultsCta");
+    if (noResultsCta && btn) noResultsCta.addEventListener("click", function () { btn.click(); });
 
     // Left filter rail (Search, Status, Category, Tags) over the issue cards,
     // matching the filter pattern on Resources / News / Marketing.
@@ -628,6 +668,9 @@
         "</form>";
     }
 
+    var discussionNoResultsCta = document.getElementById("discussionNoResultsCta");
+    if (discussionNoResultsCta) discussionNoResultsCta.addEventListener("click", function () { document.getElementById("newThreadBtn").click(); });
+
     document.getElementById("newThreadBtn").addEventListener("click", function () {
       window.openStartConversationPopup({
         onPosted: function (thread) {
@@ -739,6 +782,15 @@
 
   window.initDiscussionsWidget(document.getElementById("discussionsWidgetConnectSubscribed"), { mode: "subscribed", hideLink: true });
   window.initDiscussionsWidget(document.getElementById("discussionsWidgetConnectActive"), { mode: "active", hideLink: true });
+
+  window.initMoreFilters({
+    toggleId: "discMoreFiltersToggle", panelId: "discMoreFiltersPanel", countId: "discMoreFiltersCount",
+    fieldIds: ["discFilterFacility"], tagContainerId: "discFilterTags"
+  });
+  window.initMoreFilters({
+    toggleId: "escMoreFiltersToggle", panelId: "escMoreFiltersPanel", countId: "escMoreFiltersCount",
+    fieldIds: ["escFilterCategory"], tagContainerId: "escFilterTags"
+  });
 </script>
 </body>
 </html>

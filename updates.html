@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="mow-favicon.svg" type="image/svg+xml">
 <title>News &amp; Advocacy — MOW NSW Members Portal</title>
-<link rel="stylesheet" href="styles.css?v=67">
+<link rel="stylesheet" href="styles.css?v=84">
 </head>
 <body data-active="updates.html" data-title="News &amp; Advocacy" data-crumb="News &amp; Advocacy"
       data-sub="Meals on Wheels news and the local media relevant to your service, in one place."
@@ -40,7 +40,7 @@
     <div id="updatesHero"></div>
     <div class="res-grid" id="updatesList"></div>
     <div id="updatesLoadMoreWrap" style="display:flex;justify-content:center;margin-top:14px">
-      <button class="btn-secondary" type="button" data-loadmore="updates">Load more</button>
+      <button class="btn-secondary" type="button" data-loadmore="updates">Show all updates</button>
     </div>
   </div>
 
@@ -87,7 +87,7 @@
 
   </div>
   <div style="display:flex;justify-content:center;margin-top:14px">
-    <button class="btn-secondary hide" type="button" data-loadmore="mownews">Load more</button>
+    <button class="btn-secondary hide" type="button" data-loadmore="mownews">Show all</button>
   </div>
   </div>
   </div>
@@ -263,7 +263,7 @@
 
 </div>
 
-<script src="portal.js?v=67"></script>
+<script src="portal.js?v=84"></script>
 <script>
   (function () {
     function esc(s) { return (s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
@@ -344,15 +344,21 @@
       window.openEscalateIssuePopup();
     });
 
-    // Load more: same pattern as Resources — each section hides its extra
-    // cards behind a right-aligned button; clicking reveals them and removes
-    // the button. Scoped generically via the enclosing tab section rather
-    // than hardcoded ids, so it works for both static and JS-rendered grids.
+    // Show all: same pattern as Resources — each section hides its extra
+    // cards behind a single button that reveals everything at once (never a
+    // partial batch), toggling to "Show fewer" to collapse back down.
+    // Scoped generically via the enclosing tab section rather than hardcoded
+    // ids, so it works for both static and JS-rendered grids.
     document.querySelectorAll("[data-loadmore]").forEach(function (btn) {
       btn.addEventListener("click", function () {
         var section = btn.closest(".res-section") || btn.closest("[data-cat-section]");
-        if (section) section.querySelectorAll(".res-more").forEach(function (el) { el.classList.remove("hide"); });
-        btn.parentElement.remove();
+        var expanded = btn.getAttribute("data-expanded") === "true";
+        // Capture the label the first time it's clicked (by then any dynamic
+        // "Show all N" text has already been set), not at page load.
+        if (!btn.hasAttribute("data-label")) btn.setAttribute("data-label", btn.textContent);
+        if (section) section.querySelectorAll(".res-more").forEach(function (el) { el.classList.toggle("hide", expanded); });
+        btn.setAttribute("data-expanded", expanded ? "false" : "true");
+        btn.textContent = expanded ? btn.getAttribute("data-label") : "Show fewer";
       });
     });
 
@@ -400,6 +406,8 @@
           '<div class="rmeta"><span>' + esc(u.dateLabel) + '</span></div>' +
         '</div>';
       }).join("");
+      var updatesLoadMoreBtn = document.querySelector('[data-loadmore="updates"]');
+      if (updatesLoadMoreBtn) updatesLoadMoreBtn.textContent = "Show all " + sortedUpdates.length + " updates";
       document.getElementById("updatesLoadMoreWrap").style.display = sortedUpdates.length > 5 ? "flex" : "none";
     }
 
